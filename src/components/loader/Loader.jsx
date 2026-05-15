@@ -1,0 +1,171 @@
+import { useRef, useEffect, useState } from "react"
+import gsap from "gsap"
+import loaderLogo from "../../assets/images/Loader to logo.png"
+
+import art1 from "../../assets/images/Homepage/Art in Aus.png"
+import art2 from "../../assets/images/Homepage/Art in Aus-1.png"
+import art3 from "../../assets/images/Homepage/Art in Aus-2.png"
+import art4 from "../../assets/images/Homepage/Art in Aus-3.png"
+import art5 from "../../assets/images/Homepage/Art in Aus-4.png"
+
+const galleryImages = [art2, art1, art5, art3, art4, art1, art2, art5]
+
+export default function Loader({ onComplete }) {
+  const containerRef = useRef(null)
+  const [imagesLoaded, setImagesLoaded] = useState(false)
+
+  useEffect(() => {
+    let loaded = 0
+    const total = galleryImages.length + 1
+    const allSrcs = [...galleryImages.map((g) => g.src), loaderLogo]
+    allSrcs.forEach((src) => {
+      const img = new Image()
+      img.src = src
+      img.onload = img.onerror = () => {
+        loaded++
+        if (loaded >= total) setImagesLoaded(true)
+      }
+    })
+  }, [])
+
+  useEffect(() => {
+    if (!imagesLoaded || !containerRef.current) return
+    document.body.classList.add("loading")
+
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        onComplete: () => {
+          document.body.classList.remove("loading")
+          onComplete?.()
+        },
+      })
+
+      // === Scene 1: Gallery frames fade in with stagger ===
+      tl.fromTo(
+        ".loader-frame",
+        { opacity: 0, y: 12, scale: 0.85 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.3,
+          stagger: 0.06,
+          ease: "power2.out",
+        }
+      )
+
+      // === Scene 2: Logo color reveal — white sweeps left-to-right ===
+      tl.fromTo(
+        ".loader-logo-white",
+        { clipPath: "inset(0 100% 0 0)" },
+        {
+          clipPath: "inset(0 0% 0 0)",
+          duration: 2,
+          ease: "power3.inOut",
+        },
+        "+=0.3"
+      )
+
+      // === Scene 3: Gallery + subtitle fades out ===
+      tl.to(
+        ".loader-frame",
+        {
+          opacity: 0,
+          y: -20,
+          scale: 0.7,
+          duration: 0.35,
+          stagger: 0.03,
+          ease: "power2.in",
+        },
+        "+=0.7"
+      )
+      tl.to(
+        ".loader-ack",
+        { opacity: 0, duration: 0.25, ease: "power2.in" },
+        "<"
+      )
+
+      // === Scene 4: Logo scales up ===
+      tl.to(".loader-logo", {
+        scale: 1.3,
+        duration: 0.8,
+        ease: "power2.inOut",
+      })
+
+      tl.to({}, { duration: 0.3 })
+
+      // === Scene 5: Logo moves to top-left navbar position ===
+      tl.to(".loader-logo", {
+        scale: 0.12,
+        x: () => -(window.innerWidth / 2 - 70),
+        y: () => -(window.innerHeight / 2 - 44),
+        duration: 0.7,
+        ease: "power3.inOut",
+      })
+
+      // Fade out loader
+      tl.to(
+        containerRef.current,
+        { opacity: 0, duration: 0.4, ease: "power2.out" },
+        "-=0.2"
+      )
+    }, containerRef)
+
+    return () => ctx.revert()
+  }, [imagesLoaded, onComplete])
+
+  return (
+    <div
+      ref={containerRef}
+      className="fixed inset-0 z-[9999] flex flex-col items-center bg-bg-deep"
+    >
+      {/* Gallery strip - positioned 15% from top */}
+      <div className="flex items-center justify-between w-[80%] mx-auto mt-[8vh]">
+        {galleryImages.map((src, i) => (
+          <div
+            key={i}
+            className="loader-frame opacity-0 flex-shrink-0 border-[5px] border-[#C15C45] bg-[#C15C45] overflow-hidden"
+            style={{ lineHeight: 0, fontSize: 0 }}
+          >
+            <img
+              src={src}
+              alt=""
+              className="block w-[50px] h-[50px] md:w-[70px] md:h-[70px] object-cover scale-[1.15]"
+            />
+          </div>
+        ))}
+      </div>
+
+      {/* Center area: logo + text */}
+      <div className="flex-1 flex flex-col items-center justify-center">
+        {/* MIAA Logo - tinted layer + white layer revealed L→R */}
+        <div className="loader-logo w-[280px] md:w-[450px] lg:w-[550px] relative">
+          <img
+            src={loaderLogo}
+            alt=""
+            className="w-full h-auto"
+            style={{ filter: "brightness(0.55)", opacity: 0.45 }}
+          />
+          <img
+            src={loaderLogo}
+            alt="Museum of Islamic Art Australia"
+            className="loader-logo-white absolute inset-0 w-full h-auto"
+            style={{ clipPath: "inset(0 100% 0 0)" }}
+          />
+        </div>
+
+        {/* Acknowledgment text - always visible on mount */}
+        <div className="loader-ack mt-10 max-w-[700px] text-center px-6">
+          <p className="text-[11px] md:text-[13px] font-bold italic text-white/70 leading-relaxed">
+            MIAA is proudly located on beautiful Dharug country in Granville, Western Sydney.
+          </p>
+          <p className="text-[11px] md:text-[13px] italic text-white/55 leading-relaxed mt-1">
+            The Museum of Islamic Art Australia (MIAA) respectfully acknowledges the Burramattagal people
+            of the Dharug Nation as the Traditional Owners of the land on which the museum will be located.
+            We pay our respects to Elders past, present and emerging. Sovereignty has never been ceded.
+          </p>
+        </div>
+      </div>
+    </div>
+  )
+}

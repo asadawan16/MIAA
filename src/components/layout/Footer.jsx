@@ -1,0 +1,224 @@
+import { Link } from "react-router-dom"
+import { motion } from "framer-motion"
+import { ACKNOWLEDGMENT_TEXT } from "../../lib/constants"
+import { fadeInUp } from "../../lib/motion"
+import footerLogo from "../../assets/images/Homepage/Footer Logo.png"
+import footerPattern from "../../assets/images/Homepage/Footer Pattern.png"
+
+function TikTokIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1 0-5.78c.27 0 .54.04.8.1v-3.5a6.37 6.37 0 0 0-.8-.05A6.34 6.34 0 0 0 3.15 15.3 6.34 6.34 0 0 0 9.49 21.65a6.34 6.34 0 0 0 6.34-6.34V8.78a8.28 8.28 0 0 0 3.76.94V6.69z" />
+    </svg>
+  )
+}
+
+function XIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+    </svg>
+  )
+}
+
+function InstagramIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+      <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+    </svg>
+  )
+}
+
+function FacebookIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+    </svg>
+  )
+}
+
+function DottedDivider() {
+  return (
+    <div
+      className="w-full h-[2px]"
+      style={{
+        backgroundImage: "radial-gradient(circle, #38717A50 1.5px, transparent 1.5px)",
+        backgroundSize: "8px 3px",
+      }}
+    />
+  )
+}
+
+const footerLinks = [
+  { label: "Islamic Art in Australia", path: "/islamic-art" },
+  { label: "MIAA Off-Site Events", path: "/offsite-events" },
+  { label: "Sydney Muslim Writers Festival", path: "/events" },
+  { label: "Community Engagement & Education", path: "/community-engagement" },
+  { label: "MIAA Timeline & Construction", path: "/timeline" },
+  { label: "Contact Us", path: "/contact" },
+]
+
+export default function Footer() {
+  return (
+    <footer className="relative bg-accent-cream overflow-hidden">
+      {/* Large MIAA logo watermark — flush bottom-left, hidden on mobile */}
+      <div className="absolute bottom-0 left-0 pointer-events-none z-20 hidden md:block">
+        <img
+          src={footerLogo}
+          alt=""
+          className="md:w-[500px] lg:w-[650px] h-auto block"
+        />
+      </div>
+
+      {/* Pattern background behind acknowledgment */}
+      <div className="relative overflow-hidden">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `url(${footerPattern})`,
+            backgroundSize: "700px",
+            backgroundRepeat: "repeat",
+            backgroundPosition: "center",
+          }}
+        />
+        <div className="absolute inset-x-0 bottom-0 h-8 bg-gradient-to-b from-transparent to-accent-cream" />
+        <motion.div {...fadeInUp} className="relative z-10 w-full px-6 md:px-10 lg:px-16 pt-10 pb-10 text-center">
+          <div className="text-sm md:text-[15px] leading-[1.8] text-primary italic max-w-3xl mx-auto">
+            <p className="font-medium">MIAA is proudly located on beautiful Dharug country in Granville, Western Sydney.</p>
+            <p>The Museum of Islamic Art Australia (MIAA) respectfully acknowledges the Burramattagal people of the Dharug Nation as the Traditional Owners of the land on which the museum will be located. We pay our respects to Elders past, present and emerging. Sovereignty has never been ceded.</p>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Footer content */}
+      <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-10 lg:px-16 mt-10">
+        {/* Desktop: 2-column grid / Mobile: single column */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-10 lg:gap-16">
+          {/* ISRA info — on mobile shows after links, on desktop shows left */}
+          <div className="order-2 lg:order-1 pt-2 pl-0 lg:pl-[42%]">
+            <p className="text-sm text-primary leading-relaxed max-w-xs">
+              Museum of Islamic Art Australia is an initiative of
+              the{" "}
+              <span className="underline">
+                Islamic Sciences and Research Academy (ISRA)
+              </span>
+              . Funded by the Government of New South Wales WestInvest Program.
+            </p>
+          </div>
+
+          {/* Right column — Links, Connect, Newsletter, Copyright */}
+          <div className="order-1 lg:order-2 lg:max-w-[560px] lg:ml-auto lg:mr-4">
+            {/* Links — single column on mobile, 2 columns on sm+ */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-6">
+              <ul className="flex flex-col gap-3">
+                {footerLinks.slice(0, 3).map((link) => (
+                  <li key={link.path}>
+                    <Link
+                      to={link.path}
+                      className="text-sm text-primary font-medium hover:text-secondary-terra transition-colors"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+              <ul className="flex flex-col gap-3">
+                {footerLinks.slice(3).map((link) => (
+                  <li key={link.path}>
+                    <Link
+                      to={link.path}
+                      className="text-sm text-primary font-medium hover:text-secondary-terra transition-colors"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="my-6 md:my-8"><DottedDivider /></div>
+
+            {/* Connect + social */}
+            <div className="flex flex-col gap-4">
+              <div>
+                <p className="text-sm font-medium mb-2" style={{ color: "#38717A" }}>Connect</p>
+                <p className="text-sm leading-relaxed" style={{ color: "#38717A" }}>
+                  Stay connected with MIAA via our socials
+                  <br />
+                  Instagram FaceBook and You Tube
+                </p>
+              </div>
+              <div className="flex gap-2">
+                {[TikTokIcon, XIcon, InstagramIcon, FacebookIcon].map(
+                  (Icon, i) => (
+                    <a
+                      key={i}
+                      href="#"
+                      className="w-9 h-9 rounded-full flex items-center justify-center text-white hover:opacity-80 transition-all duration-200"
+                      style={{ backgroundColor: "#38717A" }}
+                      aria-label="Social link"
+                    >
+                      <Icon />
+                    </a>
+                  )
+                )}
+              </div>
+            </div>
+
+            <div className="my-6 md:my-8"><DottedDivider /></div>
+
+            {/* Newsletter */}
+            <div className="flex flex-col gap-4">
+              <div>
+                <p className="text-sm font-medium text-primary mb-2">
+                  Stay Connected
+                </p>
+                <p className="text-sm text-primary leading-relaxed">
+                  Get news and updates from the Museum of Islamic Art Australia.
+                </p>
+              </div>
+              <form
+                onSubmit={(e) => e.preventDefault()}
+                className="flex gap-0"
+              >
+                <input
+                  type="email"
+                  placeholder="Email address"
+                  className="flex-1 md:flex-none md:w-44 px-3 py-2 bg-white border border-primary/20 border-r-0 rounded-l-md text-xs text-primary placeholder:text-primary/40 focus:outline-none focus:border-primary/40 transition-colors"
+                />
+                <button
+                  type="submit"
+                  className="px-3 py-2 rounded-r-md hover:opacity-80 transition-colors"
+                  style={{ backgroundColor: "#38717A" }}
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="9 10 4 15 9 20" />
+                    <path d="M20 4v7a4 4 0 0 1-4 4H4" />
+                  </svg>
+                </button>
+              </form>
+            </div>
+
+            <div className="my-6 md:my-8"><DottedDivider /></div>
+
+            {/* Copyright */}
+            <p className="text-sm text-primary pb-4 lg:pb-8">
+              &copy; 2025 Museum of Islamic Art Australia
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile footer logo — bottom left */}
+      <div className="relative z-10 md:hidden mt-6 pb-0">
+        <img
+          src={footerLogo}
+          alt=""
+          className="w-[250px] h-auto block"
+        />
+      </div>
+    </footer>
+  )
+}

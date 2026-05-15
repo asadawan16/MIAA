@@ -1,0 +1,140 @@
+@import "tailwindcss";
+
+@theme {
+  /* Font */
+  --font-sans: "Avenir", "Avenir Next", system-ui, sans-serif;
+  --font-barlow: "Barlow", system-ui, sans-serif;
+  --font-display: "Cormorant Garamond", "Georgia", serif;
+
+  /* Primary */
+  --color-primary: #214952;
+  --color-primary-light: #FFFFFF;
+  --color-primary-dark: #1B1E1E;
+
+  /* Secondary */
+  --color-secondary-wine: #7A3A42;
+  --color-secondary-rust: #7A2B1E;
+  --color-secondary-amber: #995A36;
+  --color-secondary-terra: #C15C45;
+  --color-secondary-sand: #D0A270;
+
+  /* Accent */
+  --color-accent-cream: #F3EFEB;
+  --color-accent-sage: #A3B8B9;
+  --color-accent-wheat: #D7B893;
+  --color-accent-caramel: #D3A471;
+
+  /* Background */
+  --color-bg: #FFFFFF;
+  --color-bg-cream: #F3EFEB;
+  --color-bg-teal: #38717A;
+  --color-bg-deep: #214952;
+  --color-bg-dark: #1B1E1E;
+}
+
+/* Modern slim scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(33, 73, 82, 0.3);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(33, 73, 82, 0.6);
+}
+html {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(33, 73, 82, 0.3) transparent;
+}
+
+/* Base resets */
+html,
+body {
+  overflow-x: hidden;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background-color: #FFFFFF;
+  color: #1B1E1E;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Loader - prevent scroll while loading */
+body.loading {
+  overflow: hidden;
+}
+
+/* Smooth image rendering */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Gala Dinner hero heading — gold gradient */
+.gala-heading {
+  background: linear-gradient(90deg, #D0A270 0%, #D0A270 30%, #E0C09A 45%, #D0A270 55%, #C4915A 70%, #D0A270 85%, #D0A270 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Gala Dinner section headings — wheat gradient */
+.gala-heading-light {
+  background: linear-gradient(90deg, #D7B893 0%, #C4A87A 25%, #D7B893 50%, #C4A87A 75%, #D7B893 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Contact form — dotted field underlines */
+.field-dotted-line {
+  border-bottom: none;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.4) 1.5px, transparent 1.5px);
+  background-size: 8px 3px;
+  background-repeat: repeat-x;
+  background-position: bottom;
+  padding-bottom: 8px;
+}
+.field-dotted-line:focus {
+  background-image: radial-gradient(circle, rgba(215,184,147,0.8) 1.5px, transparent 1.5px);
+}
+
+/* SMWF Section — vertical carousel + diagonal banners */
+@keyframes smwf-scroll-up {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-50%); }
+}
+
+@keyframes smwf-banner-slide {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes smwf-banner-slide-reverse {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+.smwf-vertical-carousel {
+  animation: smwf-scroll-up 18s linear infinite;
+}
+
+.smwf-banner-top {
+  animation: smwf-banner-slide 12s linear infinite;
+}
+
+.smwf-banner-bottom {
+  animation: smwf-banner-slide-reverse 12s linear infinite;
+}

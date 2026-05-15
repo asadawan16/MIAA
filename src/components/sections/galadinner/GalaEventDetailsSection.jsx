@@ -1,0 +1,124 @@
+import { motion } from "framer-motion"
+import { ArrowUpRight } from "lucide-react"
+import { Link } from "react-router-dom"
+import { fadeInUp, fadeInLeft, fadeInRight } from "../../../lib/motion"
+import SectionDivider from "../../ui/SectionDivider"
+
+import maskImage from "../../../assets/images/GalaDinner/maskimage.png"
+import heroBgPattern from "../../../assets/images/GalaDinner/herobgpattern.png"
+
+export default function GalaEventDetailsSection() {
+  return (
+    <section className="relative bg-primary overflow-hidden">
+      {/* Background pattern */}
+      <div className="absolute inset-0 opacity-60">
+        <img src={heroBgPattern} alt="" className="w-full h-full object-cover" />
+      </div>
+
+      {/* Section divider */}
+      <div className="relative z-10 max-w-[1400px] mx-auto">
+        <SectionDivider label="Event" bg="bg-transparent" variant="dark" />
+      </div>
+
+      <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-10 lg:px-16 py-12 md:py-16">
+        {/* Top row — Event details + Date/Time */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 mb-12">
+          {/* Left — Heading + description */}
+          <motion.div {...fadeInLeft}>
+            <h2 className="font-display text-2xl md:text-3xl font-medium text-white leading-tight tracking-wide uppercase mb-6">
+              Event Details
+            </h2>
+            <p className="text-sm text-white/80 leading-relaxed font-medium max-w-md text-justify">
+              Join us on this auspicious occasion, hear from our special guest speakers, enjoy a fine dining experience along with the sights and sounds of Islamic art in the stunning surrounds at the Art Gallery of New South Wales. Your attendance directly supports the building of MIAA. We look forward to welcoming you on the night.
+            </p>
+          </motion.div>
+
+          {/* Right — Date, time, schedule */}
+          <motion.div {...fadeInRight} className="lg:ml-auto">
+            <p className="font-display text-lg md:text-xl tracking-wide uppercase mb-1" style={{ color: "#F3EFEB" }}>
+              Saturday
+            </p>
+            <h3 className="font-display text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight leading-none gala-heading-light mb-2">
+              25 July 2026
+            </h3>
+            <p className="text-sm text-white/70 mb-6">
+              6:00PM — 10:30PM
+            </p>
+
+            <div className="h-px bg-white/15 mb-6" />
+
+            <div className="flex gap-8 md:gap-16">
+              <div>
+                <p className="text-[11px] tracking-[0.2em] uppercase text-white/50 mb-1">Arrival Reception</p>
+                <p className="font-display text-2xl sm:text-3xl md:text-4xl font-medium tracking-tight leading-none gala-heading-light">
+                  6:00PM
+                </p>
+              </div>
+              <div>
+                <p className="text-[11px] tracking-[0.2em] uppercase text-white/50 mb-1">Dinner Commences</p>
+                <p className="font-display text-2xl sm:text-3xl md:text-4xl font-medium tracking-tight leading-none gala-heading-light">
+                  7:00PM
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Bottom row — Venue + Ticket */}
+        <div className="grid grid-cols-1 md:grid-cols-[3fr_2fr] gap-4">
+          {/* Left — Venue with mask image */}
+          <motion.div {...fadeInLeft} className="relative rounded-lg overflow-hidden h-auto min-h-[260px] md:h-[260px]">
+            {/* Mask image background */}
+            <div className="absolute inset-0">
+              <img src={maskImage} alt="Kaldor Hall" className="w-full h-full object-cover" />
+            </div>
+
+            {/* Venue text overlay — top aligned */}
+            <div className="relative z-10 p-6 flex flex-col justify-between h-full">
+              <div>
+                <p className="font-display text-base md:text-xl tracking-wide uppercase gala-heading-light leading-tight">
+                  Art Gallery of New<br />South Wales
+                </p>
+                <h3 className="font-display text-3xl md:text-4xl font-medium tracking-tight leading-none text-white mt-1 uppercase">
+                  Kaldor Hall
+                </h3>
+                <div className="text-xs text-white leading-relaxed mt-3">
+                  <p>Ground level of the Naala Nura building</p>
+                  <p>Art Gallery Road, The Domain, Sydney NSW 2000, Australia</p>
+                </div>
+              </div>
+              <a
+                href="#"
+                className="inline-flex items-center gap-1 text-[11px] font-bold tracking-[0.15em] uppercase text-white hover:text-accent-wheat transition-colors"
+              >
+                Open Maps
+                <ArrowUpRight size={12} strokeWidth={2.5} />
+              </a>
+            </div>
+          </motion.div>
+
+          {/* Right — Ticket info */}
+          <motion.div {...fadeInRight} className="rounded-lg p-6 md:p-8 flex flex-col justify-between h-auto md:h-[260px]" style={{ backgroundColor: "#F3EFEB" }}>
+            <div>
+              <h3 className="font-display text-2xl md:text-3xl font-medium text-primary tracking-wide uppercase mb-4">
+                Ticket
+              </h3>
+              <p className="text-sm text-primary leading-relaxed font-medium">
+                Attendance is by booking only. This is an adult only, no-alcohol and halal friendly event. Book your tickets here
+              </p>
+            </div>
+            <div className="mt-6">
+              <Link
+                to="/gala-dinner/tickets"
+                className="inline-flex items-center gap-1.5 px-6 py-2.5 bg-secondary-terra text-white text-[11px] font-semibold tracking-[0.15em] uppercase rounded-sm hover:bg-secondary-rust transition-colors"
+              >
+                Buy Ticket
+                <ArrowUpRight size={13} strokeWidth={2.5} />
+              </Link>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  )
+}
