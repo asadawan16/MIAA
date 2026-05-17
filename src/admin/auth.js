@@ -2,7 +2,7 @@
 const TOKEN_KEY = "miaa_admin_token"
 const ADMIN_KEY = "miaa_admin_user"
 
-const BASE = (import.meta.env.VITE_API_URL || "http://localhost:3000").replace(/\/$/, "")
+const BASE = (import.meta.env.VITE_API_URL || "https://miaa-backend.onrender.com").replace(/\/$/, "")
 
 export function getToken() {
   return localStorage.getItem(TOKEN_KEY)

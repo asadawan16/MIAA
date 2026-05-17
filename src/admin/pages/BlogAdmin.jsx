@@ -301,7 +301,7 @@ function CoverImage({ imageKey, alt }) {
   const [url, setUrl] = useState("")
   useEffect(() => {
     let cancelled = false
-    const base = (import.meta.env.VITE_API_URL || "http://localhost:3000").replace(/\/$/, "")
+    const base = (import.meta.env.VITE_API_URL || "https://miaa-backend.onrender.com").replace(/\/$/, "")
     fetch(`${base}/api/uploads/sign-get?key=${encodeURIComponent(imageKey)}`)
       .then((r) => (r.ok ? r.json() : { url: "" }))
       .then((d) => !cancelled && setUrl(d.url || ""))

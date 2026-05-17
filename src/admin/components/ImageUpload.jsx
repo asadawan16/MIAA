@@ -3,7 +3,7 @@ import { motion } from "framer-motion"
 import { UploadCloud, Image as ImageIcon, X } from "lucide-react"
 import { uploadFileToS3 } from "../auth"
 
-const BASE = (import.meta.env.VITE_API_URL || "http://localhost:3000").replace(/\/$/, "")
+const BASE = (import.meta.env.VITE_API_URL || "https://miaa-backend.onrender.com").replace(/\/$/, "")
 
 async function fetchPresignedGet(key) {
   if (!key) return ""
