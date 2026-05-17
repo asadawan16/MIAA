@@ -1,0 +1,132 @@
+import { useState } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import { Plus, Minus } from "lucide-react"
+import { fadeInLeft, fadeInRight } from "../../../lib/motion"
+import missionImg from "../../../assets/images/About/journey-photo.png"
+
+const ITEMS = [
+  {
+    title: "Mission Statement",
+    body:
+      "The mission of the Museum of Islamic Art Australia (MIAA) aims to promote a deeper understanding and appreciation of Islamic art, culture, and civilisation — both within Australian society and globally. As a community-led initiative, MIAA is committed to creating a platform that highlights and supports local Islamic art and artists. Through this effort, the museum seeks to contribute to the development of a distinct Australian Muslim identity, expressed creatively through the arts.",
+  },
+  {
+    title: "Vision",
+    body:
+      "The Museum of Islamic Art Australia is a community-led initiative with the vision of establishing a museum to showcase and develop local Islamic art and artists in Australia.",
+  },
+]
+
+function QuatrefoilMarker({ size = 11 }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 100 100"
+      fill="#C15C45"
+      className="flex-shrink-0"
+    >
+      <circle cx="50" cy="22" r="25" />
+      <circle cx="50" cy="78" r="25" />
+      <circle cx="22" cy="50" r="25" />
+      <circle cx="78" cy="50" r="25" />
+      <rect x="22" y="22" width="56" height="56" rx="4" />
+    </svg>
+  )
+}
+
+export default function GuidedSection() {
+  const [openIndex, setOpenIndex] = useState(0)
+
+  return (
+    <section className="bg-bg-deep pt-12 md:pt-16 pb-12 md:pb-16 border-t border-accent-wheat/10">
+      {/* Section label + dotted divider */}
+      <div className="px-6 md:px-10 lg:px-16 mb-8 md:mb-10">
+        <div className="flex items-center gap-2 mb-2">
+          <QuatrefoilMarker />
+          <span className="text-[10px] font-normal tracking-[0.2em] uppercase text-secondary-terra">
+            Museum Mission
+          </span>
+        </div>
+        <div
+          className="h-[2px] w-full"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle, rgba(215,184,147,0.4) 1.5px, transparent 1.5px)",
+            backgroundSize: "8px 3px",
+          }}
+        />
+      </div>
+
+      <div className="max-w-[1400px] mx-auto px-6 md:px-10 lg:px-16">
+        <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-10 lg:gap-16 items-start">
+          {/* Left — heading + accordion */}
+          <motion.div {...fadeInLeft}>
+            <h2 className="text-3xl md:text-4xl lg:text-[44px] font-medium text-accent-cream tracking-tight leading-[1.1] mb-10 md:mb-12">
+              Guided by Meaning and
+              <br />
+              Connection
+            </h2>
+
+            <div className="flex flex-col">
+              {ITEMS.map((item, i) => (
+                <div
+                  key={item.title}
+                  className="border-b border-accent-wheat/20 last:border-b-0"
+                >
+                  <button
+                    onClick={() => setOpenIndex(openIndex === i ? -1 : i)}
+                    className="w-full flex items-center gap-3 py-5 text-left group"
+                  >
+                    <span className="w-6 h-6 rounded-full border border-accent-wheat/60 flex items-center justify-center flex-shrink-0 group-hover:border-accent-wheat transition-colors">
+                      {openIndex === i ? (
+                        <Minus size={12} className="text-accent-wheat" />
+                      ) : (
+                        <Plus size={12} className="text-accent-wheat" />
+                      )}
+                    </span>
+                    <span
+                      className={`text-lg md:text-xl font-medium transition-colors ${
+                        openIndex === i
+                          ? "text-accent-cream"
+                          : "text-accent-cream/65"
+                      }`}
+                    >
+                      {item.title}
+                    </span>
+                  </button>
+                  <AnimatePresence>
+                    {openIndex === i && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3, ease: "easeInOut" }}
+                        className="overflow-hidden"
+                      >
+                        <p className="pl-9 pb-5 text-sm md:text-[15px] text-accent-cream/85 leading-relaxed max-w-xl">
+                          {item.body}
+                        </p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Right — photo */}
+          <motion.div {...fadeInRight}>
+            <div className="overflow-hidden">
+              <img
+                src={missionImg}
+                alt="MIAA cultural performance"
+                className="w-full h-auto object-cover"
+              />
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  )
+}

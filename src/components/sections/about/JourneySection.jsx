@@ -1,0 +1,117 @@
+import { motion } from "framer-motion"
+import { fadeInLeft, fadeInRight, fadeInUp } from "../../../lib/motion"
+import panelImg from "../../../assets/images/About/western-sydney-photo.png"
+import designOrnament from "../../../assets/images/About/design.png"
+
+function QuatrefoilMarker({ size = 11 }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 100 100"
+      fill="#C15C45"
+      className="flex-shrink-0"
+    >
+      <circle cx="50" cy="22" r="25" />
+      <circle cx="50" cy="78" r="25" />
+      <circle cx="22" cy="50" r="25" />
+      <circle cx="78" cy="50" r="25" />
+      <rect x="22" y="22" width="56" height="56" rx="4" />
+    </svg>
+  )
+}
+
+export default function JourneySection() {
+  return (
+    <section className="bg-accent-cream pt-12 md:pt-16 pb-12 md:pb-16">
+      {/* Section label + dotted divider */}
+      <div className="px-6 md:px-10 lg:px-16 mb-10 md:mb-14">
+        <div className="flex items-center gap-2 mb-2">
+          <QuatrefoilMarker />
+          <span className="text-[10px] font-normal tracking-[0.2em] uppercase text-secondary-terra">
+            Project Background
+          </span>
+        </div>
+        <div
+          className="h-[2px] w-full"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle, rgba(56,113,122,0.4) 1.5px, transparent 1.5px)",
+            backgroundSize: "8px 3px",
+          }}
+        />
+      </div>
+
+      <div className="max-w-[1400px] mx-auto px-6 md:px-10 lg:px-16">
+        {/* Heading + intro paragraph */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.4fr] gap-10 lg:gap-16 mb-12 md:mb-16">
+          <motion.h2
+            {...fadeInUp}
+            className="text-3xl md:text-4xl lg:text-[42px] font-medium text-primary tracking-tight leading-[1.1]"
+          >
+            How the MIAA Journey
+            <br />
+            Started
+          </motion.h2>
+
+          <motion.p
+            {...fadeInUp}
+            className="text-base md:text-[17px] text-primary leading-relaxed"
+          >
+            The Museum of Islamic Art Australia is a groundbreaking
+            community-led initiative with the vision of establishing a
+            dedicated museum to showcase and nurture local Islamic art and
+            artists in Australia. Spearheaded by ISRA and supported by its
+            diverse partners, the project gained significant momentum in 2022
+            when ISRA presented an ambitious proposal for a world-class museum
+            to the NSW government. This proposal met with strong support,
+            culminating in successful acquisition of a generous grant ($26.3m)
+            through the WestInvest Community Project Grants initiative, a NSW
+            State Government program aimed at funding transformative projects
+            across Western Sydney, where the Museum will be proudly located.
+          </motion.p>
+        </div>
+
+        {/* Photo + ornament + secondary text — photo column is wider here */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1.55fr_1fr] gap-10 lg:gap-16 items-start">
+          <motion.div {...fadeInLeft}>
+            <div className="overflow-hidden">
+              <img
+                src={panelImg}
+                alt="MIAA leadership panel"
+                className="w-full h-auto object-cover"
+              />
+            </div>
+          </motion.div>
+
+          <motion.div {...fadeInRight} className="flex flex-col">
+            {/* Decorative flower ornament */}
+            <div className="mb-32 md:mb-40">
+              <img
+                src={designOrnament}
+                alt=""
+                className="w-16 md:w-20 h-auto"
+              />
+            </div>
+
+            <div className="flex flex-col gap-5 text-sm md:text-[14px] text-primary leading-relaxed max-w-md self-end">
+              <p>
+                Since securing the WestInvest grant, the MIAA has commenced
+                phase one of its operations, focusing on preparatory work for
+                the Museum&apos;s building and design, as well as delivering
+                satellite events and partnerships aimed at fostering arts
+                engagement and community involvement.
+              </p>
+              <p>
+                These efforts highlight the MIAA&apos;s commitment to becoming
+                a dynamic cultural institution that not only preserves and
+                promotes Islamic art but also strengthens social cohesion and
+                enriches Australia&apos;s cultural landscape.
+              </p>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  )
+}

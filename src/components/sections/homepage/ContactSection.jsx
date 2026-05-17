@@ -2,7 +2,7 @@ import { useState } from "react"
 import { motion } from "framer-motion"
 import { ArrowUpRight } from "lucide-react"
 import { fadeInLeft, fadeInRight } from "../../../lib/motion"
-import connectImg from "../../../assets/images/Homepage/connectwithmuseum.png"
+import connectImg from "../../../assets/images/About/connect.png"
 
 const TOPICS = [
   "General Inquiry",
@@ -35,12 +35,12 @@ export default function ContactSection() {
               opportunities, or support our journey, our team is here to connect.
             </p>
 
-            {/* Geometric icon */}
-            <div className="mt-10 w-28 h-28 opacity-30">
+            {/* Geometric ornament — lower-left */}
+            <div className="mt-12 md:mt-16 w-32 md:w-40 h-auto">
               <img
                 src={connectImg}
                 alt=""
-                className="w-full h-full object-contain"
+                className="w-full h-auto object-contain"
               />
             </div>
           </motion.div>

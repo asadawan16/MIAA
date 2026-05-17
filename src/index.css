@@ -5,6 +5,7 @@
   --font-sans: "Avenir", "Avenir Next", system-ui, sans-serif;
   --font-barlow: "Barlow", system-ui, sans-serif;
   --font-display: "Cormorant Garamond", "Georgia", serif;
+  --font-script: "Marck Script", "Cormorant Garamond", cursive;
 
   /* Primary */
   --color-primary: #214952;
@@ -96,6 +97,29 @@ img {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   color: transparent;
+}
+
+/* Director message — hidden scrollbar (we drive it via GSAP) */
+.message-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* About hero — gentle float for the glossy quatrefoil ornament */
+@keyframes hero-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(2deg); }
+}
+.hero-float {
+  animation: hero-float 6s ease-in-out infinite;
+}
+
+/* Reusable hidden-scrollbar utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 /* Contact form — dotted field underlines */

@@ -1,0 +1,144 @@
+import { useRef, useEffect } from "react"
+import { motion } from "framer-motion"
+import { staggerContainer, staggerItem } from "../../../lib/motion"
+
+import ic1 from "../../../assets/images/About/ic1.png"
+import ic2 from "../../../assets/images/About/ic2.png"
+import ic4 from "../../../assets/images/About/ic4.png"
+import ix3 from "../../../assets/images/About/ix3.png"
+
+const PILLARS = [
+  {
+    icon: ic1,
+    title: "Galleries & Programming",
+    body:
+      "Present world-class permanent galleries, temporary and visiting exhibitions, and programming which attract tourists and other visitors to Western Sydney.",
+  },
+  {
+    icon: ic2,
+    title: "Museum Standards",
+    body:
+      "Establish and maintain permanent and temporary gallery spaces according to local and international museum standards.",
+  },
+  {
+    icon: ix3,
+    title: "Community Access",
+    body:
+      "Establish and maintain facilities within the museum premises as part of the museum Community Access Program, with a venue for cultural and educational activities.",
+  },
+  {
+    icon: ic4,
+    title: "Preservation & Collection",
+    body:
+      "Collect, preserve and display art and cultural material that reflects the diverse experiences and expressions of Islamic art and culture both here and abroad.",
+  },
+]
+
+function QuatrefoilMarker({ size = 11 }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 100 100"
+      fill="#C15C45"
+      className="flex-shrink-0"
+    >
+      <circle cx="50" cy="22" r="25" />
+      <circle cx="50" cy="78" r="25" />
+      <circle cx="22" cy="50" r="25" />
+      <circle cx="78" cy="50" r="25" />
+      <rect x="22" y="22" width="56" height="56" rx="4" />
+    </svg>
+  )
+}
+
+export default function StrategicDirectionSection() {
+  const containerRef = useRef(null)
+  const scrollerRef = useRef(null)
+
+  // Cursor-inside horizontal scroll: capture wheel, scroll cards horizontally,
+  // pause vertical page scroll until cursor leaves OR scroller hits an edge.
+  useEffect(() => {
+    const container = containerRef.current
+    const scroller = scrollerRef.current
+    if (!container || !scroller) return
+
+    const onWheel = (e) => {
+      const dy = e.deltaY
+      if (!dy) return
+
+      const atStart = scroller.scrollLeft <= 0
+      const atEnd =
+        scroller.scrollLeft + scroller.clientWidth >= scroller.scrollWidth - 1
+
+      // If scrolling up at the start, or down at the end, let the page scroll
+      if ((atStart && dy < 0) || (atEnd && dy > 0)) return
+
+      e.preventDefault()
+      scroller.scrollLeft += dy
+    }
+
+    container.addEventListener("wheel", onWheel, { passive: false })
+    return () => container.removeEventListener("wheel", onWheel)
+  }, [])
+
+  return (
+    <section className="bg-bg-deep pt-12 md:pt-16 pb-12 md:pb-16">
+      {/* Section label + dotted divider */}
+      <div className="px-6 md:px-10 lg:px-16 mb-10 md:mb-14">
+        <div className="flex items-center gap-2 mb-2">
+          <QuatrefoilMarker />
+          <span className="text-[10px] font-normal tracking-[0.2em] uppercase text-secondary-terra">
+            Strategic Direction
+          </span>
+        </div>
+        <div
+          className="h-[2px] w-full"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle, rgba(215,184,147,0.4) 1.5px, transparent 1.5px)",
+            backgroundSize: "8px 3px",
+          }}
+        />
+      </div>
+
+      <div className="max-w-[1400px] mx-auto px-6 md:px-10 lg:px-16">
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.6 }}
+          className="text-3xl md:text-4xl lg:text-[42px] font-medium text-accent-cream tracking-tight leading-[1.1] mb-12 md:mb-14 text-center"
+        >
+          Our Strategic Direction
+        </motion.h2>
+      </div>
+
+      {/* Cards — captures wheel for horizontal scroll while cursor is inside */}
+      <div ref={containerRef}>
+        <motion.div
+          ref={scrollerRef}
+          {...staggerContainer}
+          className="flex gap-5 overflow-x-auto scroll-smooth no-scrollbar px-6 md:px-10 lg:px-16 pb-2"
+          style={{ scrollbarWidth: "none" }}
+        >
+          {PILLARS.map((pillar) => (
+            <motion.div
+              key={pillar.title}
+              {...staggerItem}
+              className="bg-bg-teal/25 border border-accent-wheat/15 p-6 flex flex-col gap-4 flex-shrink-0 w-[260px] md:w-[300px] hover:bg-bg-teal/40 transition-colors duration-300"
+            >
+              <img src={pillar.icon} alt="" className="w-10 h-10 object-contain" />
+              <h3 className="text-accent-cream font-semibold text-[15px] md:text-base leading-tight">
+                {pillar.title}
+              </h3>
+              <p className="text-accent-cream/75 text-[13px] leading-relaxed">
+                {pillar.body}
+              </p>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  )
+}

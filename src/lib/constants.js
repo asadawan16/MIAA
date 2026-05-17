@@ -71,20 +71,139 @@ export const TIMELINE_MILESTONES = [
 
 export const BLOG_POSTS = [
   {
+    slug: "the-art-of-connection",
     title: "The Art of Connection",
     description: "Learn more about our growing creative communities",
     image: "Rectangle 100 (4).png",
+    category: "Blog",
   },
   {
+    slug: "heritage-and-design",
     title: "Heritage and Design",
     description:
       "Explore the heritage and innovation behind the Museum's creative vision and design.",
     image: "Rectangle 100 (5).png",
+    category: "Blog",
   },
   {
+    slug: "behind-the-vision",
     title: "Behind the Vision",
     description:
       "Meet the people and ideas shaping the Museum of Islamic Art Australia's journey.",
     image: "Rectangle 100 (6).png",
+    category: "Blog",
   },
+]
+
+// Articles used by the Blog index + detail pages.
+// "Update" = MIAA Updates row; "Blog" = MIAA Blog Posts row.
+export const BLOG_ARTICLES = [
+  // --- MIAA Updates ---
+  {
+    slug: "art-of-connection-update",
+    category: "Update",
+    image: "Rectangle 100 (4).png",
+    title: "The Art of Connection",
+    description:
+      "How MIAA is bringing communities together through art, programming and storytelling.",
+  },
+  {
+    slug: "behind-the-vision-update",
+    category: "Update",
+    image: "Rectangle 100 (5).png",
+    title: "Behind the Vision",
+    description:
+      "Meet the curators, advisors and partners shaping the museum's first chapter.",
+  },
+  {
+    slug: "heritage-and-design-update",
+    category: "Update",
+    image: "Rectangle 100 (6).png",
+    title: "Heritage and Design",
+    description:
+      "Heritage references and design language guiding MIAA's architectural identity.",
+  },
+  {
+    slug: "westinvest-progress",
+    category: "Update",
+    image: "Rectangle 100 (4).png",
+    title: "WestInvest Project Progress",
+    description:
+      "An update on planning, design and delivery milestones since the WestInvest grant.",
+  },
+  {
+    slug: "site-secured-granville",
+    category: "Update",
+    image: "Rectangle 100 (5).png",
+    title: "Granville Site Secured",
+    description:
+      "A community-defining moment as the museum site is formally secured in Western Sydney.",
+  },
+  {
+    slug: "design-competition-launch",
+    category: "Update",
+    image: "Rectangle 100 (6).png",
+    title: "Architect Design Competition Launch",
+    description:
+      "MIAA officially launched its Architect Design Competition in August 2025.",
+  },
+
+  // --- MIAA Blog Posts ---
+  {
+    slug: "stories-behind-the-creative-process",
+    category: "Blog",
+    image: "Rectangle 100 (4).png",
+    title: "Stories Behind The Creative Process",
+    description:
+      "Insights into culture, creators, and cultural storytelling at MIAA.",
+    featured: true,
+  },
+  {
+    slug: "mihrab-sacred-spaces",
+    category: "Blog",
+    image: "Rectangle 100 (5).png",
+    title: "The Art of the Mihrab: Sacred Spaces",
+    description:
+      "Exploring the architectural niche's significance in mosque design and Islamic tradition.",
+  },
+  {
+    slug: "scholars-recap",
+    category: "Blog",
+    image: "Rectangle 100 (6).png",
+    title: "Scholars Explore the Legacy of Islamic Science",
+    description:
+      "Panel discussion from the House of Wisdom through the European Renaissance.",
+  },
+  {
+    slug: "safiyya-bello-spotlight",
+    category: "Blog",
+    image: "Rectangle 100 (4).png",
+    title: "Artist Spotlight: Safiyya Bello",
+    description:
+      "A Western Sydney artist whose geometric paintings examine identity and home.",
+  },
+  {
+    slug: "muslim-writers-festival-recap",
+    category: "Blog",
+    image: "Rectangle 100 (5).png",
+    title: "Sydney Muslim Writers Festival Recap",
+    description:
+      "Highlights from a weekend of literature, conversation and craft in Western Sydney.",
+  },
+  {
+    slug: "children-gallery-preview",
+    category: "Blog",
+    image: "Rectangle 100 (6).png",
+    title: "A Preview of the Children's Gallery",
+    description:
+      "A first look at the Southern hemisphere's first dedicated Islamic arts children's space.",
+  },
+]
+
+// Reusable lorem-style body used for every detail page placeholder.
+export const ARTICLE_PLACEHOLDER_BODY = [
+  "In id pellentesque purus, sed auctor elit. Phasellus at dui ex. Curabitur molestie dignissim laoreet. Fusce mollis sagittis tellus, id efficitur diam gravida vitae. Integer convallis ultrices massa, id euismod nibh auctor non. Mauris vestibulum consectetur ligula, eget viverra mi efficitur quis. Pellentesque egestas magna in lorem vulputate efficitur.",
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus turpis quis tortor pretium, eu ultricies nisl egestas. Nullam at lorem porttitor, dapibus dolor a, ultrices nibh. Donec congue, nibh eget posuere accumsan, augue mauris commodo quam, nec gravida turpis purus nec massa. Aenean a justo eget elit imperdiet vehicula. Pellentesque a finibus orci. Suspendisse nec mi varius felis aliquet.",
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse dapibus ex sagittis sapien fermentum, ac auctor neque facilisis. Quisque a posuere felis. Aenean luctus nibh quis tincidunt iaculis. Nunc placerat at lacinia odio. Vestibulum sagittis turpis ut elit varius, nec varius felis varius. Praesent in arcu dignissim, ornare lacus eu, posuere quam.",
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pretium tincidunt fermentum. Etiam quis sapien lectus. Mauris vitae erat sapien. Curabitur eu felis suscipit, suscipit risus ut, congue lorem. Integer tincidunt ipsum vitae lacinia volutpat. Donec convallis ipsum quis fringilla blandit.",
 ]

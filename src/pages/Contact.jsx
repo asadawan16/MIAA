@@ -1,3 +1,9 @@
+import ContactPageSection from "../components/sections/contact/ContactPageSection"
+
 export default function Contact() {
-  return null
+  return (
+    <>
+      <ContactPageSection />
+    </>
+  )
 }
