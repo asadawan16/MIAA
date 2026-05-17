@@ -1,56 +1,62 @@
 import { motion } from "framer-motion"
-import { Footprints, Car, Train } from "lucide-react"
+import { BusFront, TrainFront, CarFront } from "lucide-react"
 import { fadeInUp, staggerContainer, staggerItem } from "../../../lib/motion"
 
 const OPTIONS = [
   {
-    Icon: Footprints,
-    title: "Walk",
-    body:
-      "A scenic ~10-minute walk from Martin Place Station, through the Royal Botanic Garden and across The Domain.",
+    Icon: BusFront,
+    title: "Bus",
+    body: "Bus 441 \u2013 Departs from the York Street side of Queen Victoria Building (Stand D) and drops off near the Art Gallery. Returns to Queen Victoria Building, picking up outside the Art Gallery.",
   },
   {
-    Icon: Car,
-    title: "Taxi / Rideshare",
-    body:
-      "Drop-off and pick-up is available kerbside on Art Gallery Road, directly in front of the Naala Nura entrance.",
-  },
-  {
-    Icon: Train,
+    Icon: TrainFront,
     title: "Train",
-    body:
-      "St James and Martin Place stations are the closest, each a short walk to the Art Gallery of NSW.",
+    body: (
+      <>
+        St James and Martin Place stations are both about a 10-minute walk.
+        For more information about public transport options, times or disruptions, contact the
+        Transport Infoline on 131 500 or{" "}
+        <a href="https://transportnsw.info" target="_blank" rel="noopener noreferrer" className="text-secondary-terra underline hover:text-secondary-rust transition-colors">
+          transportnsw.info
+        </a>
+      </>
+    ),
+  },
+  {
+    Icon: CarFront,
+    title: "Taxis and Rideshare",
+    body: "Drop-off and pick-up zone on Art Gallery Road near the front of the Art Gallery.",
   },
 ]
 
 export default function TransportSection() {
   return (
-    <section className="py-16 md:py-20 bg-bg">
+    <section className="py-16 md:py-24 bg-bg">
       <div className="max-w-[1400px] mx-auto px-6 md:px-10 lg:px-16">
-        <motion.div {...fadeInUp} className="mb-10">
-          <p className="text-[10px] tracking-[0.25em] uppercase text-secondary-wine mb-3">
-            Getting Here
-          </p>
-          <h2 className="text-2xl md:text-3xl lg:text-[34px] font-medium text-primary tracking-tight leading-tight">
-            Public Transport Options
-          </h2>
-        </motion.div>
+        <motion.h2
+          {...fadeInUp}
+          className="font-display text-xl sm:text-2xl md:text-3xl lg:text-[2.5rem] font-normal text-primary tracking-tight leading-snug mb-10 md:mb-14 uppercase"
+        >
+          Public Transport Options
+        </motion.h2>
 
         <motion.div
           {...staggerContainer}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8"
+          className="grid grid-cols-1 md:grid-cols-3 gap-6"
         >
           {OPTIONS.map(({ Icon, title, body }) => (
             <motion.div
               key={title}
               {...staggerItem}
-              className="bg-accent-cream/60 border border-primary/10 p-6 flex flex-col gap-3"
+              whileHover={{ y: -6, boxShadow: "0 10px 30px rgba(0,0,0,0.08)" }}
+              transition={{ duration: 0.25 }}
+              className="bg-accent-cream rounded-2xl p-6 md:p-8 flex flex-col gap-4 cursor-pointer"
             >
-              <span className="w-10 h-10 rounded-full bg-secondary-terra/15 text-secondary-terra flex items-center justify-center">
-                <Icon size={18} strokeWidth={2} />
-              </span>
-              <h3 className="text-base font-semibold text-primary">{title}</h3>
-              <p className="text-[13px] text-primary/75 leading-relaxed">
+              <div className="flex items-center gap-3">
+                <Icon size={24} strokeWidth={2.5} className="text-secondary-sand" />
+                <h3 className="text-lg md:text-xl font-semibold text-primary">{title}</h3>
+              </div>
+              <p className="text-base text-primary leading-relaxed">
                 {body}
               </p>
             </motion.div>

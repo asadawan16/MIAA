@@ -1,9 +1,12 @@
 import { useState } from "react"
-import { motion } from "framer-motion"
-import { ArrowUpRight } from "lucide-react"
+import { motion, AnimatePresence } from "framer-motion"
+import { ArrowUpRight, ChevronDown, Check } from "lucide-react"
 import { fadeInLeft, fadeInRight } from "../../../lib/motion"
 
 import heroBgPattern from "../../../assets/images/GalaDinner/herobgpattern.png"
+import bgMask from "../../../assets/images/Ticketing/bgmask.png"
+
+const API_URL = import.meta.env.VITE_API_URL
 
 const DIETARY = [
   "No dietary requirements",
@@ -13,18 +16,85 @@ const DIETARY = [
   "Allergies (please specify in notes)",
 ]
 
-export default function TicketHeroSection() {
-  const [submitted, setSubmitted] = useState(false)
+const DONATION_AMOUNTS = [10, 20, 50, 100, 200]
 
-  const handleSubmit = (e) => {
+const INITIAL_FORM = {
+  title: "",
+  firstName: "",
+  surname: "",
+  postNominals: "",
+  email: "",
+  phone: "",
+  dietary: "",
+  hasGuest: false,
+  guestCount: 1,
+  accessRequirements: "",
+  donation: null,
+  customDonation: "",
+  buyTable: false,
+}
+
+export default function TicketHeroSection() {
+  const [form, setForm] = useState(INITIAL_FORM)
+  const [submitting, setSubmitting] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
+  const [error, setError] = useState(null)
+  const [showConfirm, setShowConfirm] = useState(false)
+
+  const update = (field, value) => setForm((prev) => ({ ...prev, [field]: value }))
+
+  const donationVal =
+    form.donation === "other" ? Number(form.customDonation) || 0 : form.donation || 0
+  const ticketPrice = form.buyTable ? 2000 : 250
+  const total = ticketPrice + donationVal
+
+  const handleFormSubmit = (e) => {
     e.preventDefault()
-    setSubmitted(true)
-    setTimeout(() => setSubmitted(false), 4000)
+    setShowConfirm(true)
+  }
+
+  const handleConfirm = async () => {
+    setShowConfirm(false)
+    setSubmitting(true)
+    setError(null)
+
+    const payload = {
+      title: form.title,
+      firstName: form.firstName,
+      surname: form.surname,
+      postNominals: form.postNominals,
+      email: form.email,
+      phone: form.phone,
+      dietary: form.dietary,
+      guestCount: form.hasGuest ? form.guestCount : 0,
+      accessRequirements: form.accessRequirements,
+      donation: donationVal,
+      buyTable: form.buyTable,
+      ticketPrice,
+      total,
+    }
+
+    try {
+      const res = await fetch(`${API_URL}/tickets`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      })
+
+      if (!res.ok) throw new Error("Booking failed")
+
+      setSubmitted(true)
+      setForm(INITIAL_FORM)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   return (
     <section className="relative bg-primary overflow-hidden">
-      {/* Brick / pattern background */}
+      {/* Background pattern */}
       <div className="absolute inset-0">
         <img
           src={heroBgPattern}
@@ -33,170 +103,345 @@ export default function TicketHeroSection() {
         />
       </div>
 
+      {/* Background mask at bottom-left — extends into next section */}
+      <div className="absolute -bottom-32 md:-bottom-48 lg:-bottom-64 left-0 w-[400px] md:w-[500px] lg:w-[600px] pointer-events-none z-[5]">
+        <img
+          src={bgMask}
+          alt=""
+          className="w-full h-auto opacity-80"
+        />
+      </div>
+
       <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-10 lg:px-16 pt-28 md:pt-32 pb-16 md:pb-20">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.3fr] gap-10 lg:gap-16 items-start">
-          {/* Left — Merhaba + price */}
+          {/* Left — heading + pricing */}
           <motion.div {...fadeInLeft}>
-            <p className="font-display text-sm md:text-base tracking-[0.35em] uppercase text-accent-cream mb-2">
-              Merhaba
-            </p>
-            <h1 className="font-display text-3xl md:text-4xl lg:text-[44px] font-medium tracking-tight leading-tight gala-heading-light mb-5 uppercase">
-              We&apos;re Thrilled
-              <br />
-              At Your Interest
+            <h1 className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-[2.5rem] font-normal text-accent-cream tracking-tight leading-snug mb-5 uppercase">
+              Secure Your Seat
             </h1>
-            <p className="text-sm md:text-[15px] text-accent-cream/85 leading-relaxed max-w-md mb-10">
-              Please complete your booking below. Your attendance directly
-              supports the building of the Museum of Islamic Art Australia.
+            <p className="text-base text-accent-cream leading-relaxed max-w-md mb-10">
+              Book your tickets to join us for an unforgettable evening celebrating the
+              architectural reveal of Australia&rsquo;s first Museum of Islamic Art. Your attendance
+              directly supports the building of MIAA.
             </p>
 
             <div className="border-t border-accent-wheat/25 pt-6">
-              <p className="text-[10px] tracking-[0.25em] uppercase text-accent-wheat mb-2">
+              <p className="text-sm md:text-base tracking-[0.25em] uppercase text-white font-medium mb-2">
                 Ticket Pricing
               </p>
-              <div className="flex items-baseline gap-3">
-                <p className="font-display text-4xl md:text-5xl font-medium tracking-tight gala-heading-light leading-none">
-                  $200
+              <div className="flex items-baseline gap-1">
+                <p className="text-4xl md:text-5xl font-medium text-accent-wheat tracking-tight leading-none">
+                  $250
                 </p>
-                <p className="text-sm text-accent-cream/70">/ Single Ticket</p>
+                <p className="text-sm text-accent-wheat">/person</p>
               </div>
-              <p className="text-[12px] text-accent-cream/60 mt-2">
-                Group bookings and table-of-ten options available on request.
-              </p>
             </div>
           </motion.div>
 
           {/* Right — Booking form */}
-          <motion.div
-            {...fadeInRight}
-            className="bg-primary/60 border border-accent-wheat/20 rounded p-6 md:p-8"
-          >
+          <motion.div {...fadeInRight}>
             {submitted ? (
               <div className="py-12 text-center">
-                <p className="text-xl font-semibold text-accent-cream">
+                <p className="text-xl font-semibold text-white">
                   Booking received
                 </p>
-                <p className="text-sm text-accent-cream/70 mt-2">
+                <p className="text-sm text-white mt-2">
                   We&apos;ll be in touch with your confirmation shortly.
                 </p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-                <h2 className="font-display text-xl md:text-2xl uppercase tracking-wide gala-heading-light mb-1">
-                  Personal Details
+              <form onSubmit={handleFormSubmit} className="flex flex-col gap-6">
+                {/* Personal Information */}
+                <h2 className="text-lg font-semibold text-white">
+                  Personal Information
                 </h2>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                   <div>
-                    <label className="block text-[11px] font-semibold text-accent-cream/70 mb-2 uppercase tracking-wider">
+                    <label className="block text-[11px] font-semibold text-white mb-2 uppercase tracking-wider">
+                      Title
+                    </label>
+                    <div className="relative">
+                      <select
+                        value={form.title}
+                        onChange={(e) => update("title", e.target.value)}
+                        className="w-full bg-transparent field-dotted-line text-sm text-white/50 focus:text-white focus:outline-none appearance-none cursor-pointer pr-6"
+                      >
+                        <option value="" disabled>Select</option>
+                        <option className="bg-primary text-white" value="Mr">Mr</option>
+                        <option className="bg-primary text-white" value="Mrs">Mrs</option>
+                        <option className="bg-primary text-white" value="Ms">Ms</option>
+                        <option className="bg-primary text-white" value="Dr">Dr</option>
+                      </select>
+                      <ChevronDown size={14} className="absolute right-0 top-1/2 -translate-y-1/2 text-white/70 pointer-events-none" />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-[11px] font-semibold text-white mb-2 uppercase tracking-wider">
                       First Name
                     </label>
                     <input
                       type="text"
                       required
+                      value={form.firstName}
+                      onChange={(e) => update("firstName", e.target.value)}
                       className="w-full bg-transparent field-dotted-line text-sm text-white placeholder:text-white/30 focus:outline-none"
-                      placeholder="First name"
+                      placeholder="Enter first name"
                     />
                   </div>
                   <div>
-                    <label className="block text-[11px] font-semibold text-accent-cream/70 mb-2 uppercase tracking-wider">
-                      Last Name
+                    <label className="block text-[11px] font-semibold text-white mb-2 uppercase tracking-wider">
+                      Surname
                     </label>
                     <input
                       type="text"
                       required
+                      value={form.surname}
+                      onChange={(e) => update("surname", e.target.value)}
                       className="w-full bg-transparent field-dotted-line text-sm text-white placeholder:text-white/30 focus:outline-none"
-                      placeholder="Last name"
+                      placeholder="Enter surname"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] font-semibold text-white mb-2 uppercase tracking-wider">
+                      Post Nominals
+                    </label>
+                    <input
+                      type="text"
+                      value={form.postNominals}
+                      onChange={(e) => update("postNominals", e.target.value)}
+                      className="w-full bg-transparent field-dotted-line text-sm text-white placeholder:text-white/30 focus:outline-none"
+                      placeholder="Enter"
                     />
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[11px] font-semibold text-accent-cream/70 mb-2 uppercase tracking-wider">
-                      Email
+                    <label className="block text-[11px] font-semibold text-white mb-2 uppercase tracking-wider">
+                      Email Address
                     </label>
                     <input
                       type="email"
                       required
+                      value={form.email}
+                      onChange={(e) => update("email", e.target.value)}
                       className="w-full bg-transparent field-dotted-line text-sm text-white placeholder:text-white/30 focus:outline-none"
-                      placeholder="you@example.com"
+                      placeholder="email address"
                     />
                   </div>
                   <div>
-                    <label className="block text-[11px] font-semibold text-accent-cream/70 mb-2 uppercase tracking-wider">
-                      Phone
+                    <label className="block text-[11px] font-semibold text-white mb-2 uppercase tracking-wider">
+                      Mobile Phone Number
                     </label>
                     <input
                       type="tel"
                       required
+                      value={form.phone}
+                      onChange={(e) => update("phone", e.target.value)}
                       className="w-full bg-transparent field-dotted-line text-sm text-white placeholder:text-white/30 focus:outline-none"
                       placeholder="04xx xxx xxx"
                     />
                   </div>
                 </div>
 
-                <h2 className="font-display text-xl md:text-2xl uppercase tracking-wide gala-heading-light mt-4 mb-1">
-                  Ticket Details
-                </h2>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                  <div>
-                    <label className="block text-[11px] font-semibold text-accent-cream/70 mb-2 uppercase tracking-wider">
-                      Number of Tickets
-                    </label>
-                    <input
-                      type="number"
-                      min={1}
-                      max={20}
-                      defaultValue={1}
-                      required
-                      className="w-full bg-transparent field-dotted-line text-sm text-white placeholder:text-white/30 focus:outline-none"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-[11px] font-semibold text-accent-cream/70 mb-2 uppercase tracking-wider">
-                      Dietary Requirements
-                    </label>
+                <div>
+                  <label className="block text-[11px] font-semibold text-white mb-2 uppercase tracking-wider">
+                    Dietary Requirements
+                  </label>
+                  <div className="relative">
                     <select
-                      defaultValue=""
-                      required
-                      className="w-full bg-transparent field-dotted-line text-sm text-white/50 focus:text-white focus:outline-none appearance-none cursor-pointer"
+                      value={form.dietary}
+                      onChange={(e) => update("dietary", e.target.value)}
+                      className="w-full bg-transparent field-dotted-line text-sm text-white/50 focus:text-white focus:outline-none appearance-none cursor-pointer pr-6"
                     >
-                      <option value="" disabled>
-                        Select option
-                      </option>
+                      <option value="" disabled>Select Dietary</option>
                       {DIETARY.map((d) => (
-                        <option
-                          key={d}
-                          value={d}
-                          className="bg-primary text-white"
-                        >
+                        <option key={d} value={d} className="bg-primary text-white">
                           {d}
                         </option>
                       ))}
                     </select>
+                    <ChevronDown size={14} className="absolute right-0 top-1/2 -translate-y-1/2 text-white/70 pointer-events-none" />
                   </div>
                 </div>
 
-                <div>
-                  <label className="block text-[11px] font-semibold text-accent-cream/70 mb-2 uppercase tracking-wider">
-                    Notes
+                <p className="text-[11px] text-white/70 leading-relaxed">
+                  Note: All dishes are halal and alcohol free. For other dietary requirements please select from the following
+                  options.
+                </p>
+
+                {/* Guest */}
+                <div className="border-t border-accent-wheat/20 pt-6">
+                  <h2 className="text-lg font-semibold text-white mb-4">
+                    Guest
+                  </h2>
+                  <label className="flex items-center gap-3 cursor-pointer group">
+                    <span
+                      onClick={() => update("hasGuest", !form.hasGuest)}
+                      className={`w-6 h-6 rounded border flex items-center justify-center transition-colors ${
+                        form.hasGuest
+                          ? "bg-secondary-terra border-secondary-terra"
+                          : "border-accent-cream/30 group-hover:border-accent-cream"
+                      }`}
+                    >
+                      {form.hasGuest && <Check size={14} strokeWidth={3} className="text-white" />}
+                    </span>
+                    <span className="text-sm text-white">Add guest(s)</span>
                   </label>
+                  {form.hasGuest && (
+                    <div className="flex items-center gap-4 mt-4">
+                      <button
+                        type="button"
+                        onClick={() => update("guestCount", Math.max(1, form.guestCount - 1))}
+                        className="w-8 h-8 rounded-full border border-accent-cream/30 text-white flex items-center justify-center hover:border-accent-cream transition-colors"
+                      >
+                        −
+                      </button>
+                      <span className="text-white text-lg font-medium w-6 text-center">
+                        {form.guestCount}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => update("guestCount", form.guestCount + 1)}
+                        className="w-8 h-8 rounded-full border border-accent-cream/30 text-white flex items-center justify-center hover:border-accent-cream transition-colors"
+                      >
+                        +
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                {/* Access Requirements */}
+                <div className="border-t border-accent-wheat/20 pt-6">
+                  <h2 className="text-lg font-semibold text-white mb-2">
+                    Access Requirements
+                  </h2>
+                  <p className="text-[11px] text-white/80 leading-relaxed mb-3">
+                    Accessibility Information
+                  </p>
+                  <p className="text-[11px] text-white/70 leading-relaxed mb-4">
+                    The AGNSW is a fully accessible building. Please visit the AGNSW Physical Access and Facility page for
+                    more details. If you have any further access requirements or need to be present, please specify below.
+                  </p>
                   <textarea
-                    rows={3}
-                    placeholder="Anything we should know?"
+                    rows={2}
+                    value={form.accessRequirements}
+                    onChange={(e) => update("accessRequirements", e.target.value)}
                     className="w-full bg-transparent field-dotted-line text-sm text-white placeholder:text-white/30 focus:outline-none resize-none"
+                    placeholder="Access requirements..."
                   />
                 </div>
 
-                <div className="flex justify-end mt-4">
+                {/* Donation */}
+                <div className="border-t border-accent-wheat/20 pt-6">
+                  <p className="text-[11px] font-semibold text-white uppercase tracking-wider mb-1">
+                    Donation
+                  </p>
+                  <p className="text-[11px] text-white/70 mb-4">
+                    Support the building of MIAA by adding a Donation
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {DONATION_AMOUNTS.map((amt) => (
+                      <button
+                        key={amt}
+                        type="button"
+                        onClick={() => update("donation", form.donation === amt ? null : amt)}
+                        className={`px-4 py-2 text-sm font-medium rounded border transition-colors ${
+                          form.donation === amt
+                            ? "bg-secondary-terra border-secondary-terra text-white"
+                            : "bg-transparent border-accent-cream/30 text-white hover:border-accent-cream"
+                        }`}
+                      >
+                        ${amt}
+                      </button>
+                    ))}
+                    <button
+                      type="button"
+                      onClick={() => update("donation", form.donation === "other" ? null : "other")}
+                      className={`px-4 py-2 text-sm font-medium rounded border transition-colors ${
+                        form.donation === "other"
+                          ? "bg-secondary-terra border-secondary-terra text-white"
+                          : "bg-transparent border-accent-cream/30 text-white hover:border-accent-cream"
+                      }`}
+                    >
+                      Other
+                    </button>
+                  </div>
+                  {form.donation === "other" && (
+                    <input
+                      type="number"
+                      min={1}
+                      placeholder="Enter amount"
+                      value={form.customDonation}
+                      onChange={(e) => update("customDonation", e.target.value)}
+                      className="mt-3 w-40 bg-transparent field-dotted-line text-sm text-white placeholder:text-white/30 focus:outline-none"
+                    />
+                  )}
+                </div>
+
+                {/* Buy a Table */}
+                <div className="border-t border-accent-wheat/20 pt-6">
+                  <p className="text-[11px] font-semibold text-white uppercase tracking-wider mb-1">
+                    Buy a Table
+                  </p>
+                  <p className="text-[11px] text-white/70">
+                    8 or more tickets? KDare support the museum funds.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => update("buyTable", !form.buyTable)}
+                    className={`mt-2 px-4 py-2 text-sm font-medium rounded border transition-colors ${
+                      form.buyTable
+                        ? "bg-secondary-terra border-secondary-terra text-white"
+                        : "bg-transparent border-accent-cream/30 text-white hover:border-accent-cream"
+                    }`}
+                  >
+                    $2,000
+                  </button>
+                </div>
+
+                {/* Ticket Summary */}
+                <div className="border-t border-accent-wheat/20 pt-6">
+                  <h2 className="text-lg font-semibold text-white mb-4">
+                    Ticket
+                  </h2>
+                  <div className="flex flex-col gap-2 text-sm text-white">
+                    <div className="flex justify-between">
+                      <span>{form.buyTable ? "Buy a Table" : "1 Person"}</span>
+                      <span>${ticketPrice}</span>
+                    </div>
+                    {donationVal > 0 && (
+                      <div className="flex justify-between">
+                        <span>Donation</span>
+                        <span>${donationVal}</span>
+                      </div>
+                    )}
+                    <div className="flex justify-between border-t border-accent-wheat/20 pt-2 font-semibold">
+                      <span>Total</span>
+                      <span>${total}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <p className="text-xs text-white/60 leading-relaxed">
+                  • For other Sponsorship Opportunities please see the <a href="#" className="text-accent-wheat underline hover:text-white transition-colors">MIAA Inaugural Gala Sponsors downloadable pdf</a>.
+                  <br />
+                  • The Gala ticket is non-transferable and non-refundable. For enquiries, please contact the MIAA team directly.
+                </p>
+
+                {error && (
+                  <p className="text-sm text-red-400">{error}</p>
+                )}
+
+                <div className="flex justify-start mt-2">
                   <button
                     type="submit"
-                    className="inline-flex items-center gap-1.5 px-6 py-3 bg-secondary-terra text-white text-xs font-semibold tracking-[0.15em] uppercase rounded hover:bg-secondary-rust transition-colors"
+                    disabled={submitting}
+                    className="inline-flex items-center gap-1.5 px-6 py-3 bg-secondary-terra text-white text-xs font-semibold tracking-wider uppercase rounded hover:bg-secondary-rust transition-colors disabled:opacity-50"
                   >
-                    Confirm Booking
-                    <ArrowUpRight size={13} strokeWidth={2.5} />
+                    {submitting ? "Processing..." : "Buy Ticket"}
+                    {!submitting && <ArrowUpRight size={13} strokeWidth={2.5} />}
                   </button>
                 </div>
               </form>
@@ -204,6 +449,65 @@ export default function TicketHeroSection() {
           </motion.div>
         </div>
       </div>
+      {/* Confirmation Modal */}
+      <AnimatePresence>
+        {showConfirm && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-6"
+            onClick={() => setShowConfirm(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-primary border border-accent-wheat/20 rounded-lg p-8 max-w-md w-full"
+            >
+              <h3 className="text-xl font-medium text-white mb-3">
+                Confirm Your Booking
+              </h3>
+              <p className="text-sm text-white mb-2">
+                {form.firstName} {form.surname}
+              </p>
+              <div className="flex justify-between text-sm text-white mb-1">
+                <span>{form.buyTable ? "Table" : "1 Person"}</span>
+                <span>${ticketPrice}</span>
+              </div>
+              {donationVal > 0 && (
+                <div className="flex justify-between text-sm text-white mb-1">
+                  <span>Donation</span>
+                  <span>${donationVal}</span>
+                </div>
+              )}
+              <div className="flex justify-between text-sm text-white font-semibold border-t border-accent-wheat/20 pt-2 mt-2">
+                <span>Total</span>
+                <span>${total}</span>
+              </div>
+
+              <div className="flex gap-3 mt-6">
+                <button
+                  onClick={() => setShowConfirm(false)}
+                  className="flex-1 px-4 py-2.5 border border-accent-cream/30 text-white text-xs font-semibold tracking-wider uppercase rounded hover:border-accent-cream transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleConfirm}
+                  disabled={submitting}
+                  className="flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 bg-secondary-terra text-white text-xs font-semibold tracking-wider uppercase rounded hover:bg-secondary-rust transition-colors disabled:opacity-50"
+                >
+                  {submitting ? "Processing..." : "Confirm"}
+                  {!submitting && <ArrowUpRight size={13} strokeWidth={2.5} />}
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   )
 }

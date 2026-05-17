@@ -11,13 +11,12 @@ export default function GalaDinnerTicketing() {
       <TicketHeroSection />
       <StageBannerSection />
 
-      <SectionDivider label="Venue" bg="bg-accent-cream" variant="light" />
       <LocationSection />
 
-      <SectionDivider label="Getting Here" bg="bg-bg" variant="light" />
+      <SectionDivider label="Transport" bg="bg-bg" variant="light" />
       <TransportSection />
 
-      <SectionDivider label="Parking" bg="bg-accent-cream" variant="light" />
+      <SectionDivider label="Parking" bg="bg-primary" variant="dark" />
       <ParkingSection />
     </>
   )

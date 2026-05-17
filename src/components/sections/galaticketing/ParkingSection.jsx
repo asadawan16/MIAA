@@ -1,67 +1,182 @@
-import { motion } from "framer-motion"
+import { useState } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import { ZoomIn, ZoomOut, X } from "lucide-react"
 import { fadeInLeft, fadeInRight } from "../../../lib/motion"
 import mapImg from "../../../assets/images/Ticketing/area-map.png"
+import bgPattern from "../../../assets/images/GalaDinner/herobgpattern.png"
 
-const PARKING = [
+const PARKING_INFO = [
   {
-    name: "Wilson Parking &mdash; Domain Carpark",
-    body:
-      "Sir John Young Crescent entry, connected to the Art Gallery of NSW via The Domain. Open until late, suitable for evening events.",
+    title: "Meter Parking",
+    body: "On Mrs Macquarie\u2019s Road and other streets around the Art Gallery.",
   },
   {
-    name: "Goulburn Street Parking",
-    body:
-      "Multiple commercial carparks in the Sydney CBD are within a 10&ndash;15 minute walk of the venue.",
+    title: "Parking Stations",
+    body: "There are several car parks near the Art Gallery. The closest are the Domain Car Park and The Wharf, Woolloomooloo Car Park, both of which can be booked in advance online.",
+    noteLabel: "Note changes to access from the Domain Car Park:",
+    note: " The lift closest to the Art Gallery is not operational as it is being replaced by Wilson Parking. There are stairs, and the car park\u2019s south lift remains operational.",
   },
   {
-    name: "Kerbside",
-    body:
-      "Limited timed kerbside parking is available on Art Gallery Road. Please check signage on arrival.",
+    title: "Bicycles",
+    body: "Bike parking is available along Art Gallery Road for both buildings. Bike racks are located at the front of the Naala Nura building and outside the Naala Badu building, opposite the Woolloomooloo Gate entrance to the Royal Botanic Garden.",
+  },
+  {
+    title: "Buses",
+    body: "Drop-off and pick-up zone on Art Gallery Road near the front of the Art Gallery but no dedicated parking spaces.",
   },
 ]
 
 export default function ParkingSection() {
-  return (
-    <section className="py-16 md:py-20 bg-accent-cream">
-      <div className="max-w-[1400px] mx-auto px-6 md:px-10 lg:px-16">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-10 lg:gap-16 items-start">
-          {/* Left — Parking details */}
-          <motion.div {...fadeInLeft}>
-            <p className="text-[10px] tracking-[0.25em] uppercase text-secondary-wine mb-3">
-              Parking
-            </p>
-            <h2 className="text-2xl md:text-3xl lg:text-[34px] font-medium text-primary tracking-tight leading-tight mb-6">
-              Parking near the venue
-            </h2>
+  const [mapOpen, setMapOpen] = useState(false)
+  const [zoom, setZoom] = useState(1)
+  const [drag, setDrag] = useState({ x: 0, y: 0 })
+  const [dragging, setDragging] = useState(false)
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 })
 
-            <ul className="flex flex-col divide-y divide-primary/10 border-y border-primary/10">
-              {PARKING.map((p) => (
-                <li key={p.name} className="py-4">
-                  <p
-                    className="text-base font-semibold text-primary mb-1"
-                    dangerouslySetInnerHTML={{ __html: p.name }}
-                  />
-                  <p
-                    className="text-[13px] text-primary/75 leading-relaxed"
-                    dangerouslySetInnerHTML={{ __html: p.body }}
-                  />
-                </li>
-              ))}
-            </ul>
+  const openMap = () => {
+    setZoom(1)
+    setDrag({ x: 0, y: 0 })
+    setMapOpen(true)
+  }
+
+  const handleMouseDown = (e) => {
+    setDragging(true)
+    setDragStart({ x: e.clientX - drag.x, y: e.clientY - drag.y })
+  }
+
+  const handleMouseMove = (e) => {
+    if (!dragging) return
+    setDrag({ x: e.clientX - dragStart.x, y: e.clientY - dragStart.y })
+  }
+
+  const handleMouseUp = () => setDragging(false)
+
+  return (
+    <section className="relative py-16 md:py-24 bg-primary overflow-hidden">
+      {/* Background pattern */}
+      <div className="absolute inset-0 pointer-events-none">
+        <img
+          src={bgPattern}
+          alt=""
+          className="w-full h-full object-cover opacity-40"
+        />
+      </div>
+
+      <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-10 lg:px-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+          {/* Left — heading + parking info */}
+          <motion.div {...fadeInLeft}>
+            <h2 className="font-display text-xl sm:text-2xl md:text-3xl lg:text-[2.5rem] font-normal text-accent-cream tracking-tight leading-snug mb-10 md:mb-14 uppercase">
+              Parking
+            </h2>
+            <div className="flex flex-col divide-y divide-accent-cream/15">
+            {PARKING_INFO.map((item) => (
+              <div key={item.title} className="py-6 first:pt-0 last:pb-0">
+                <h3 className="font-display text-xl md:text-2xl font-normal text-accent-wheat mb-2">
+                  {item.title}
+                </h3>
+                <p className="text-sm md:text-base text-[#F3EFEB] leading-relaxed">
+                  {item.body}
+                </p>
+                {item.note && (
+                  <p className="text-sm md:text-base text-[#F3EFEB] leading-relaxed mt-2 italic">
+                    {item.noteLabel && <span className="text-[#F3EFEB] font-semibold not-italic">{item.noteLabel}</span>}
+                    {item.note}
+                  </p>
+                )}
+              </div>
+            ))}
+            </div>
           </motion.div>
 
-          {/* Right — Map placeholder */}
+          {/* Right — map with hover controls */}
           <motion.div {...fadeInRight}>
-            <div className="aspect-[4/5] md:aspect-[1/1] overflow-hidden bg-white">
-              <img
+            <div
+              className="relative overflow-hidden rounded-lg cursor-pointer group"
+              onClick={openMap}
+            >
+              <motion.img
                 src={mapImg}
                 alt="Map of the area around Art Gallery of NSW with parking locations"
-                className="w-full h-full object-contain"
+                className="w-full h-auto object-contain transition-transform duration-300 group-hover:scale-105"
               />
+              {/* Hover overlay with zoom icon */}
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 w-12 h-12 rounded-full bg-white/90 flex items-center justify-center shadow-lg">
+                  <ZoomIn size={20} className="text-primary" />
+                </span>
+              </div>
             </div>
           </motion.div>
         </div>
       </div>
+
+      {/* Map Modal */}
+      <AnimatePresence>
+        {mapOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex flex-col bg-primary/95 backdrop-blur-sm"
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseUp}
+          >
+            {/* Top bar */}
+            <div className="flex items-center justify-between px-6 md:px-10 py-5 border-b border-accent-wheat/15">
+              <h3 className="font-display text-lg md:text-xl text-accent-cream uppercase tracking-wide">
+                Venue Map
+              </h3>
+              <div className="flex items-center gap-3">
+                <span className="text-xs text-accent-cream/50 mr-2">{Math.round(zoom * 100)}%</span>
+                <button
+                  onClick={() => { setZoom((z) => Math.min(z + 0.5, 4)); setDrag({ x: 0, y: 0 }) }}
+                  className="w-9 h-9 rounded-full border border-accent-wheat/25 text-accent-cream flex items-center justify-center hover:bg-accent-cream/10 transition-colors"
+                >
+                  <ZoomIn size={16} />
+                </button>
+                <button
+                  onClick={() => { setZoom((z) => Math.max(z - 0.5, 0.5)); setDrag({ x: 0, y: 0 }) }}
+                  className="w-9 h-9 rounded-full border border-accent-wheat/25 text-accent-cream flex items-center justify-center hover:bg-accent-cream/10 transition-colors"
+                >
+                  <ZoomOut size={16} />
+                </button>
+                <button
+                  onClick={() => setMapOpen(false)}
+                  className="w-9 h-9 rounded-full border border-accent-wheat/25 text-accent-cream flex items-center justify-center hover:bg-accent-cream/10 transition-colors"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+            </div>
+
+            {/* Map area — draggable */}
+            <div
+              className="flex-1 overflow-hidden flex items-center justify-center select-none"
+              style={{ cursor: dragging ? "grabbing" : "grab" }}
+              onMouseDown={handleMouseDown}
+            >
+              <img
+                src={mapImg}
+                alt="Map of the area around Art Gallery of NSW with parking locations"
+                className="max-w-none transition-transform duration-150"
+                draggable={false}
+                style={{
+                  transform: `scale(${zoom}) translate(${drag.x / zoom}px, ${drag.y / zoom}px)`,
+                }}
+              />
+            </div>
+
+            {/* Bottom hint */}
+            <div className="px-6 md:px-10 py-3 border-t border-accent-wheat/15 text-center">
+              <p className="text-[11px] text-accent-cream/40 tracking-wider">
+                Drag to pan &middot; Use controls to zoom &middot; Click &times; to close
+              </p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   )
 }

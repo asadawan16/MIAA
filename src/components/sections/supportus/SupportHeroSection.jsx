@@ -1,15 +1,25 @@
 import { motion } from "framer-motion"
 import heroImg from "../../../assets/images/Support/support-hero.jpg"
+import supportElement from "../../../assets/images/Support/supportuselement.png"
 
 export default function SupportHeroSection() {
   return (
-    <section className="relative bg-bg-deep overflow-hidden">
-      <div className="relative z-10 w-full px-6 md:px-10 lg:px-16 pt-28 md:pt-32 pb-8 md:pb-10">
+    <section className="relative bg-bg-deep overflow-visible">
+      {/* Three centered headings */}
+      <div className="w-full px-6 md:px-10 lg:px-16 pt-28 md:pt-32 pb-8 md:pb-10 text-center">
+        <motion.p
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+          className="text-[11px] md:text-xs tracking-[0.25em] uppercase text-accent-wheat font-semibold mb-3"
+        >
+          Building MIAA
+        </motion.p>
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
-          className="text-3xl md:text-4xl lg:text-[2.6rem] font-medium text-accent-cream tracking-tight leading-tight text-center"
+          transition={{ duration: 0.7, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
+          className="text-3xl md:text-4xl lg:text-[2.6rem] font-medium text-accent-cream tracking-tight leading-tight"
         >
           How Can I Get Involved?
         </motion.h1>
@@ -17,19 +27,18 @@ export default function SupportHeroSection() {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-center text-sm md:text-[15px] text-accent-cream/75 mt-3 max-w-2xl mx-auto"
+          className="text-base md:text-lg text-accent-cream/75 mt-5 md:mt-6 max-w-2xl mx-auto font-medium"
         >
-          Help shape the Museum of Islamic Art Australia &mdash; through giving,
-          partnership or your time.
+          Legacy donors, sadaqa jariyah &amp; major gift giving.
         </motion.p>
       </div>
 
-      {/* Full-width speaker / event photo placeholder */}
+      {/* Banner image with support element at bottom-right */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.9, delay: 0.3 }}
-        className="w-full"
+        className="relative w-full"
       >
         <div className="w-full h-[260px] md:h-[420px] lg:h-[500px] overflow-hidden">
           <img
@@ -38,6 +47,15 @@ export default function SupportHeroSection() {
             className="w-full h-full object-cover object-center"
           />
         </div>
+
+        {/* Support element — bottom-right corner, half on image / half on next section */}
+        <motion.img
+          src={supportElement}
+          alt=""
+          animate={{ y: [0, -10, 0] }}
+          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute -bottom-12 sm:-bottom-16 md:-bottom-[7.5rem] lg:-bottom-[10rem] right-0 w-20 h-20 sm:w-28 sm:h-28 md:w-40 md:h-40 lg:w-52 lg:h-52 object-contain z-10"
+        />
       </motion.div>
     </section>
   )

@@ -8,6 +8,7 @@ export const NAV_LINKS = [
   { label: "Timeline & Construction", path: "/timeline" },
   { label: "Updates & Blogs", path: "/blog" },
   { label: "Contact Us", path: "/contact" },
+  { label: "Gala Dinner", path: "/gala-dinner" },
 ]
 
 export const FOOTER_LINKS = [

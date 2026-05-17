@@ -11,16 +11,17 @@ export default function SupportUs() {
     <>
       <SupportHeroSection />
 
-      <SectionDivider label="Founding Members" bg="bg-accent-cream" variant="light" />
+      <SectionDivider label="Founding Supporters" bg="bg-accent-cream" variant="light" />
       <FoundingMemberSection />
 
-      <SectionDivider label="Other Ways to Give" bg="bg-bg" variant="light" />
+      <SectionDivider label="Ways to Give" bg="bg-bg" variant="light" />
       <OtherDonationsSection />
 
-      <SectionDivider label="MIAA Kids" bg="bg-bg" variant="light" />
+      <SectionDivider label="MIAA Memberships" bg="bg-primary" variant="dark" />
       <MIAAKidsSection />
 
-      <SectionDivider label="Volunteer" bg="bg-accent-cream" variant="light" />
+      <SectionDivider label="Volunteer" bg="bg-bg" variant="light" />
+
       <VolunteerSection />
 
       <SectionDivider label="Volunteer FAQ" bg="bg-bg" variant="light" />

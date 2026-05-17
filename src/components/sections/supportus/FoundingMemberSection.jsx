@@ -1,33 +1,31 @@
 import { useState } from "react"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import { ArrowUpRight } from "lucide-react"
-import { fadeInLeft, fadeInRight } from "../../../lib/motion"
+import { fadeInLeft, fadeInRight, fadeInUp } from "../../../lib/motion"
 import founderImg from "../../../assets/images/Support/founder-portrait.jpg"
+import donorEventImg from "../../../assets/images/Support/donor-event.png"
+
+const SPONSORSHIP_ITEMS = [
+  { title: "Faith Gallery & Prayer Hall", image: donorEventImg },
+  { title: "Children's Gallery", image: founderImg },
+  { title: "Entry Foyer", image: donorEventImg },
+  { title: "Temporary/Touring Gallery", image: founderImg },
+  { title: "Function Room Sponsorship", image: donorEventImg },
+  { title: "Library and Resource Centre", image: founderImg },
+  { title: "Gallery Sponsorship", image: donorEventImg },
+  { title: "Central Courtyard/Internal Garden", image: founderImg },
+]
 
 export default function FoundingMemberSection() {
-  const [submitted, setSubmitted] = useState(false)
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    setSubmitted(true)
-    setTimeout(() => setSubmitted(false), 4000)
-  }
+  const [hoveredIdx, setHoveredIdx] = useState(null)
 
   return (
     <section className="py-16 md:py-24 bg-accent-cream">
       <div className="max-w-[1400px] mx-auto px-6 md:px-10 lg:px-16">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.3fr] gap-12 lg:gap-16 items-start">
-          {/* Left — intro text + photos */}
-          <motion.div {...fadeInLeft} className="flex flex-col gap-6">
-            <p className="text-[10px] tracking-[0.25em] uppercase text-secondary-wine">
-              Founding Members
-            </p>
-            <p className="text-sm md:text-[15px] text-primary leading-relaxed">
-              Founding individuals and businesses contribute a meaningful gift
-              to MIAA. Our valued and renowned founders will join us in
-              welcoming, training and developing the museum.
-            </p>
-
+        {/* Top row — image + text */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+          {/* Left — founder portrait */}
+          <motion.div {...fadeInLeft}>
             <div className="overflow-hidden">
               <img
                 src={founderImg}
@@ -37,68 +35,87 @@ export default function FoundingMemberSection() {
             </div>
           </motion.div>
 
-          {/* Right — heading + form */}
-          <motion.div {...fadeInRight}>
-            <h2 className="text-2xl md:text-3xl lg:text-[34px] font-medium text-primary tracking-tight leading-tight">
-              Become a founding member of
-              <br />
-              the Museum of Islamic Art Australia
+          {/* Right — heading, text, CTA */}
+          <motion.div {...fadeInRight} className="flex flex-col gap-6">
+            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-[2.5rem] font-medium text-primary tracking-tight leading-snug lg:max-w-lg">
+              Become a founding member of the Museum of Islamic Art Australia
             </h2>
-            <p className="mt-4 text-sm md:text-[15px] text-primary/80 leading-relaxed">
-              Express your interest below and a member of the MIAA team will be
-              in touch.
+
+            <p className="text-base sm:text-lg md:text-xl text-primary leading-relaxed lg:max-w-lg">
+              Founding members of the museum will be listed on our dedicated
+              donor&rsquo;s wall and museum archive. Donations can be made on
+              behalf of an individual (named or anonymous) or a family. Founding
+              members donations start from $5,000
             </p>
 
-            {submitted ? (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="mt-10 p-8 bg-primary/5 border border-primary/15 text-center"
+            <p className="text-sm sm:text-base text-primary leading-relaxed lg:max-w-lg">
+              Donate and sponsor an entire gallery, facility or hall. Contact
+              MIAA directly for more details.
+            </p>
+
+            <div className="flex flex-wrap items-center gap-6 mt-2">
+              <a
+                href="#donate"
+                className="inline-flex items-center gap-2 px-5 sm:px-7 py-3 sm:py-3.5 bg-secondary-terra text-white text-[10px] sm:text-[11px] font-semibold tracking-[0.15em] uppercase rounded-lg hover:bg-secondary-rust transition-colors"
               >
-                <p className="text-lg font-semibold text-primary">
-                  Thank you!
-                </p>
-                <p className="text-sm text-primary/70 mt-1">
-                  Our team will be in touch shortly.
-                </p>
-              </motion.div>
-            ) : (
-              <form onSubmit={handleSubmit} className="mt-8 flex flex-col gap-5">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                  <input
-                    type="text"
-                    placeholder="Full Name"
-                    required
-                    className="w-full px-4 py-3 bg-white border border-primary/15 rounded-sm text-sm text-primary placeholder:text-primary/40 focus:outline-none focus:border-primary transition-colors"
-                  />
-                  <input
-                    type="email"
-                    placeholder="Email Address"
-                    required
-                    className="w-full px-4 py-3 bg-white border border-primary/15 rounded-sm text-sm text-primary placeholder:text-primary/40 focus:outline-none focus:border-primary transition-colors"
-                  />
-                </div>
-                <input
-                  type="tel"
-                  placeholder="Phone Number"
-                  className="w-full px-4 py-3 bg-white border border-primary/15 rounded-sm text-sm text-primary placeholder:text-primary/40 focus:outline-none focus:border-primary transition-colors"
-                />
-                <textarea
-                  placeholder="Tell us about your interest"
-                  rows={4}
-                  className="w-full px-4 py-3 bg-white border border-primary/15 rounded-sm text-sm text-primary placeholder:text-primary/40 focus:outline-none focus:border-primary transition-colors resize-none"
-                />
-                <button
-                  type="submit"
-                  className="self-start inline-flex items-center gap-1.5 px-5 py-2.5 bg-secondary-terra text-white text-[11px] font-semibold tracking-[0.15em] uppercase rounded-sm hover:bg-secondary-rust transition-colors"
-                >
-                  Submit Interest
-                  <ArrowUpRight size={13} strokeWidth={2.5} />
-                </button>
-              </form>
-            )}
+                Donate Now
+                <ArrowUpRight size={13} strokeWidth={2.5} />
+              </a>
+              <p className="text-sm md:text-[15px] text-primary font-semibold italic leading-snug max-w-[260px]">
+                Stay in touch and be the first to hear about our upcoming
+                campaign
+              </p>
+            </div>
           </motion.div>
         </div>
+
+        {/* Bottom row — sponsorship grid */}
+        <motion.div
+          {...fadeInUp}
+          className="mt-16 md:mt-20 grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-8 lg:gap-16 items-start"
+        >
+          {/* Left label */}
+          <p className="text-lg md:text-xl font-semibold text-primary leading-relaxed">
+            Founding individuals and businesses (includes naming rights for 10
+            years and permanent founding member status) available for the
+            following:
+          </p>
+
+          {/* Right grid of items — 2 columns with hover effect */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {SPONSORSHIP_ITEMS.map((item, i) => (
+              <div
+                key={item.title}
+                onMouseEnter={() => setHoveredIdx(i)}
+                onMouseLeave={() => setHoveredIdx(null)}
+                className={`relative px-5 py-4 text-sm md:text-[15px] text-primary cursor-pointer rounded-lg transition-colors duration-200 ${
+                  hoveredIdx === i ? "bg-[#E5DED6]" : "bg-white"
+                }`}
+              >
+                {item.title}
+
+                {/* Hover image */}
+                <AnimatePresence>
+                  {hoveredIdx === i && (
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.9, rotate: 0 }}
+                      animate={{ opacity: 1, scale: 1, rotate: 3 }}
+                      exit={{ opacity: 0, scale: 0.9 }}
+                      transition={{ duration: 0.25 }}
+                      className="hidden md:block absolute right-4 top-1/2 -translate-y-1/2 w-[140px] h-[90px] rounded-lg overflow-hidden z-10 pointer-events-none shadow-lg"
+                    >
+                      <img
+                        src={item.image}
+                        alt=""
+                        className="w-full h-full object-cover"
+                      />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            ))}
+          </div>
+        </motion.div>
       </div>
     </section>
   )
