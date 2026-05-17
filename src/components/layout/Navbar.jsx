@@ -36,21 +36,24 @@ export default function Navbar() {
     <>
       {/* Top bar (always visible) — Follow CTA + hamburger */}
       <div className="fixed top-0 left-0 right-0 z-50">
-        <div className="w-full px-3 md:px-4">
+        <div className="w-full px-3 sm:px-4 md:px-6 lg:px-10">
           <div className="flex items-center justify-end h-20 md:h-24 gap-3">
             <Link
               to="/support-us"
-              className="hidden md:inline-flex items-center gap-1.5 px-4 py-2 bg-secondary-terra text-white text-[10px] font-bold tracking-[0.15em] uppercase rounded hover:bg-secondary-rust transition-colors duration-200"
+              className="hidden md:inline-flex items-center gap-1.5 px-4 py-2.5 bg-secondary-terra text-white text-[10px] font-bold tracking-[0.15em] uppercase rounded hover:bg-secondary-rust transition-colors duration-200"
             >
               Follow Our Journey
               <ArrowUpRight size={12} strokeWidth={2.5} />
             </Link>
             <button
               onClick={() => setMenuOpen(true)}
-              className="text-white p-2.5 bg-primary/60 backdrop-blur-sm rounded hover:bg-primary/80 transition-colors"
+              className="text-primary px-3 py-2.5 bg-white rounded hover:bg-white/90 transition-colors"
               aria-label="Open menu"
             >
-              <Menu size={20} />
+              <svg width="20" height="14" viewBox="0 0 20 14" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                <line x1="0" y1="2" x2="20" y2="2" />
+                <line x1="0" y1="12" x2="20" y2="12" />
+              </svg>
             </button>
           </div>
         </div>

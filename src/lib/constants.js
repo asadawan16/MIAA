@@ -107,6 +107,8 @@ export const BLOG_ARTICLES = [
     title: "The Art of Connection",
     description:
       "How MIAA is bringing communities together through art, programming and storytelling.",
+    date: "November 20, 2025",
+    author: "MIAA Team",
   },
   {
     slug: "behind-the-vision-update",
@@ -115,6 +117,8 @@ export const BLOG_ARTICLES = [
     title: "Behind the Vision",
     description:
       "Meet the curators, advisors and partners shaping the museum's first chapter.",
+    date: "October 15, 2025",
+    author: "MIAA Team",
   },
   {
     slug: "heritage-and-design-update",
@@ -123,6 +127,8 @@ export const BLOG_ARTICLES = [
     title: "Heritage and Design",
     description:
       "Heritage references and design language guiding MIAA's architectural identity.",
+    date: "September 28, 2025",
+    author: "MIAA Team",
   },
   {
     slug: "westinvest-progress",
@@ -131,6 +137,8 @@ export const BLOG_ARTICLES = [
     title: "WestInvest Project Progress",
     description:
       "An update on planning, design and delivery milestones since the WestInvest grant.",
+    date: "August 10, 2025",
+    author: "MIAA Team",
   },
   {
     slug: "site-secured-granville",
@@ -139,6 +147,8 @@ export const BLOG_ARTICLES = [
     title: "Granville Site Secured",
     description:
       "A community-defining moment as the museum site is formally secured in Western Sydney.",
+    date: "July 5, 2025",
+    author: "MIAA Team",
   },
   {
     slug: "design-competition-launch",
@@ -147,6 +157,8 @@ export const BLOG_ARTICLES = [
     title: "Architect Design Competition Launch",
     description:
       "MIAA officially launched its Architect Design Competition in August 2025.",
+    date: "August 1, 2025",
+    author: "MIAA Team",
   },
 
   // --- MIAA Blog Posts ---
@@ -154,9 +166,11 @@ export const BLOG_ARTICLES = [
     slug: "stories-behind-the-creative-process",
     category: "Blog",
     image: "Rectangle 100 (4).png",
-    title: "Stories Behind The Creative Process",
+    title: "Stories Behind the Creative Process",
     description:
-      "Insights into culture, creators, and cultural storytelling at MIAA.",
+      "Insights into artists, makers, and cultural storytelling.",
+    date: "December 16, 2025",
+    author: "George Green",
     featured: true,
   },
   {
@@ -166,6 +180,8 @@ export const BLOG_ARTICLES = [
     title: "The Art of the Mihrab: Sacred Spaces",
     description:
       "Exploring the architectural niche's significance in mosque design and Islamic tradition.",
+    date: "November 5, 2025",
+    author: "Amina Khalil",
   },
   {
     slug: "scholars-recap",
@@ -174,6 +190,8 @@ export const BLOG_ARTICLES = [
     title: "Scholars Explore the Legacy of Islamic Science",
     description:
       "Panel discussion from the House of Wisdom through the European Renaissance.",
+    date: "October 22, 2025",
+    author: "Dr. Yusuf Rahman",
   },
   {
     slug: "safiyya-bello-spotlight",
@@ -182,6 +200,8 @@ export const BLOG_ARTICLES = [
     title: "Artist Spotlight: Safiyya Bello",
     description:
       "A Western Sydney artist whose geometric paintings examine identity and home.",
+    date: "September 14, 2025",
+    author: "Layla Mahmoud",
   },
   {
     slug: "muslim-writers-festival-recap",
@@ -190,6 +210,8 @@ export const BLOG_ARTICLES = [
     title: "Sydney Muslim Writers Festival Recap",
     description:
       "Highlights from a weekend of literature, conversation and craft in Western Sydney.",
+    date: "August 30, 2025",
+    author: "MIAA Team",
   },
   {
     slug: "children-gallery-preview",
@@ -198,6 +220,128 @@ export const BLOG_ARTICLES = [
     title: "A Preview of the Children's Gallery",
     description:
       "A first look at the Southern hemisphere's first dedicated Islamic arts children's space.",
+    date: "July 18, 2025",
+    author: "MIAA Team",
+  },
+  {
+    slug: "calligraphy-traditions",
+    category: "Update",
+    image: "Rectangle 100 (4).png",
+    title: "Calligraphy Traditions in the Modern Age",
+    description:
+      "How traditional Islamic calligraphy is finding new expression in contemporary Australian art.",
+    date: "June 25, 2025",
+    author: "MIAA Team",
+  },
+  {
+    slug: "community-voices",
+    category: "Update",
+    image: "Rectangle 100 (5).png",
+    title: "Community Voices: What MIAA Means to Us",
+    description:
+      "Local community members share their hopes and excitement for Australia's first Islamic art museum.",
+    date: "June 10, 2025",
+    author: "MIAA Team",
+  },
+  {
+    slug: "architecture-reveal",
+    category: "Update",
+    image: "Rectangle 100 (6).png",
+    title: "Architecture Reveal: First Look",
+    description:
+      "An exclusive first look at the architectural vision for the Museum of Islamic Art Australia.",
+    date: "May 28, 2025",
+    author: "MIAA Team",
+  },
+  {
+    slug: "partnerships-announcement",
+    category: "Update",
+    image: "Rectangle 100 (4).png",
+    title: "New Cultural Partnerships Announced",
+    description:
+      "MIAA partners with leading cultural institutions to expand programming and outreach.",
+    date: "May 15, 2025",
+    author: "MIAA Team",
+  },
+  {
+    slug: "education-program-launch",
+    category: "Update",
+    image: "Rectangle 100 (5).png",
+    title: "Education Program Launch",
+    description:
+      "MIAA launches its inaugural schools program connecting students with Islamic art and culture.",
+    date: "April 30, 2025",
+    author: "MIAA Team",
+  },
+  {
+    slug: "donor-wall-concept",
+    category: "Update",
+    image: "Rectangle 100 (6).png",
+    title: "Donor Wall Concept Unveiled",
+    description:
+      "A preview of the donor recognition wall that will honour founding supporters of MIAA.",
+    date: "April 12, 2025",
+    author: "MIAA Team",
+  },
+  {
+    slug: "geometric-patterns-blog",
+    category: "Blog",
+    image: "Rectangle 100 (4).png",
+    title: "The Language of Geometric Patterns",
+    description:
+      "Exploring the mathematical beauty and spiritual significance of Islamic geometric art.",
+    date: "June 20, 2025",
+    author: "Dr. Fatima Hassan",
+  },
+  {
+    slug: "textile-traditions-blog",
+    category: "Blog",
+    image: "Rectangle 100 (5).png",
+    title: "Textile Traditions: Weaving Stories",
+    description:
+      "From Persian carpets to Indonesian batik — how Islamic textile arts carry cultural memory.",
+    date: "May 8, 2025",
+    author: "Amina Khalil",
+  },
+  {
+    slug: "architecture-islam-blog",
+    category: "Blog",
+    image: "Rectangle 100 (6).png",
+    title: "Architecture and Islam: Building Sacred Spaces",
+    description:
+      "How Islamic architectural principles create spaces for contemplation and community.",
+    date: "April 22, 2025",
+    author: "George Green",
+  },
+  {
+    slug: "digital-preservation-blog",
+    category: "Blog",
+    image: "Rectangle 100 (4).png",
+    title: "Digital Preservation of Islamic Art",
+    description:
+      "How technology is helping preserve and share Islamic art heritage for future generations.",
+    date: "March 15, 2025",
+    author: "Dr. Yusuf Rahman",
+  },
+  {
+    slug: "women-in-islamic-art",
+    category: "Blog",
+    image: "Rectangle 100 (5).png",
+    title: "Women in Islamic Art: Past and Present",
+    description:
+      "Celebrating the contributions of women artists, patrons and scholars throughout Islamic art history.",
+    date: "March 1, 2025",
+    author: "Layla Mahmoud",
+  },
+  {
+    slug: "music-and-poetry-blog",
+    category: "Blog",
+    image: "Rectangle 100 (6).png",
+    title: "Music, Poetry and the Islamic Arts",
+    description:
+      "The interplay between sound, word and visual art in the Islamic cultural tradition.",
+    date: "February 14, 2025",
+    author: "MIAA Team",
   },
 ]
 

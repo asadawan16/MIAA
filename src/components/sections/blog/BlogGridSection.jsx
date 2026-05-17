@@ -1,18 +1,32 @@
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect, useCallback } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { ArrowUpRight } from "lucide-react"
+import { ArrowUpRight, ArrowRight, ArrowLeft } from "lucide-react"
 import { Link } from "react-router-dom"
 import { fadeInUp, staggerContainer, staggerItem } from "../../../lib/motion"
 import { blogImages } from "./blogImages"
 
 const PAGE_SIZE = 6
 
+function SkeletonCard() {
+  return (
+    <div className="flex flex-col animate-pulse">
+      <div className="aspect-[16/10] rounded-lg bg-primary/10 mb-4" />
+      <div className="h-5 bg-primary/10 rounded w-3/4 mb-3" />
+      <div className="h-3 bg-primary/10 rounded w-full mb-2" />
+      <div className="h-3 bg-primary/10 rounded w-2/3 mb-4" />
+      <div className="h-3 bg-primary/10 rounded w-24" />
+    </div>
+  )
+}
+
 export default function BlogGridSection({
   heading,
   intro,
   articles,
+  bg = "bg-accent-cream",
 }) {
   const [page, setPage] = useState(0)
+  const [loading, setLoading] = useState(false)
 
   const pageCount = Math.max(1, Math.ceil(articles.length / PAGE_SIZE))
   const visible = useMemo(() => {
@@ -20,19 +34,40 @@ export default function BlogGridSection({
     return articles.slice(start, start + PAGE_SIZE)
   }, [articles, page])
 
+  const changePage = useCallback((newPage) => {
+    setLoading(true)
+    setTimeout(() => {
+      setPage(newPage)
+      setLoading(false)
+    }, 600)
+  }, [])
+
+  const maxVisible = 5
+  const getPageNumbers = () => {
+    if (pageCount <= maxVisible) return Array.from({ length: pageCount }, (_, i) => i)
+    const pages = [0]
+    if (page > 2) pages.push("...")
+    for (let i = Math.max(1, page - 1); i <= Math.min(pageCount - 2, page + 1); i++) {
+      pages.push(i)
+    }
+    if (page < pageCount - 3) pages.push("...")
+    pages.push(pageCount - 1)
+    return pages
+  }
+
   return (
-    <section className="py-16 md:py-20 bg-bg">
+    <section className={`py-16 md:py-20 ${bg}`}>
       <div className="max-w-[1400px] mx-auto px-6 md:px-10 lg:px-16">
         {/* Heading row */}
         <motion.div
           {...fadeInUp}
           className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-10 md:mb-12"
         >
-          <h2 className="text-2xl md:text-3xl lg:text-[36px] font-medium text-primary tracking-tight leading-tight">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-medium text-primary tracking-tight leading-tight">
             {heading}
           </h2>
           {intro && (
-            <p className="md:max-w-md text-sm text-primary/75 leading-relaxed md:text-right">
+            <p className="md:max-w-md text-base text-primary leading-relaxed">
               {intro}
             </p>
           )}
@@ -40,64 +75,108 @@ export default function BlogGridSection({
 
         {/* Grid */}
         <AnimatePresence mode="wait">
-          <motion.div
-            key={page}
-            {...staggerContainer}
-            initial="initial"
-            animate="whileInView"
-            exit={{ opacity: 0 }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10"
-          >
-            {visible.map((post) => (
-              <motion.article
-                key={post.slug}
-                {...staggerItem}
-                className="group flex flex-col"
-              >
-                <Link to={`/blog/${post.slug}`} className="block mb-4 overflow-hidden">
-                  <div className="aspect-[16/10] overflow-hidden">
-                    <img
-                      src={blogImages[post.image]}
-                      alt={post.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                  </div>
-                </Link>
-                <h3 className="text-base md:text-lg font-semibold text-primary leading-tight mb-2">
-                  {post.title}
-                </h3>
-                <p className="text-[13px] text-primary/75 leading-relaxed mb-3">
-                  {post.description}
-                </p>
-                <Link
-                  to={`/blog/${post.slug}`}
-                  className="inline-flex items-center gap-1 text-[11px] font-semibold tracking-[0.15em] uppercase text-secondary-terra hover:text-secondary-rust transition-colors mt-auto"
+          {loading ? (
+            <motion.div
+              key="skeleton"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-10 gap-x-10"
+            >
+              {Array.from({ length: PAGE_SIZE }).map((_, i) => (
+                <div key={i}>
+                  <SkeletonCard />
+                </div>
+              ))}
+            </motion.div>
+          ) : (
+            <motion.div
+              key={page}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.4 }}
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-10 gap-x-10"
+            >
+              {visible.map((post, i) => {
+                const col = i % 3
+                const rowStart = Math.floor(i / 3) * 3
+                const rowCount = Math.min(3, visible.length - rowStart)
+                const isCenter = col === 1 && rowCount === 3
+                return (
+                <article
+                  key={post.slug}
+                  className={`group flex flex-col relative ${isCenter ? "lg:before:absolute lg:before:left-[-1.25rem] lg:before:top-0 lg:before:bottom-0 lg:before:w-px lg:before:bg-primary/10 lg:after:absolute lg:after:right-[-1.25rem] lg:after:top-0 lg:after:bottom-0 lg:after:w-px lg:after:bg-primary/10" : ""}`}
                 >
-                  Read More
-                  <ArrowUpRight size={12} strokeWidth={2.5} />
-                </Link>
-              </motion.article>
-            ))}
-          </motion.div>
+                  <Link to={`/blog/${post.slug}`} className="block mb-4 overflow-hidden">
+                    <div className="aspect-[16/10] overflow-hidden rounded-lg">
+                      <img
+                        src={blogImages[post.image]}
+                        alt={post.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    </div>
+                  </Link>
+                  <h3 className="text-base md:text-lg font-semibold text-primary leading-tight mb-2">
+                    {post.title}
+                  </h3>
+                  <p className="text-sm text-primary leading-relaxed mb-3">
+                    {post.description}
+                  </p>
+                  <Link
+                    to={`/blog/${post.slug}`}
+                    className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-wider uppercase text-secondary-terra hover:text-secondary-rust transition-colors duration-200 mt-auto"
+                  >
+                    Read More
+                    <ArrowUpRight size={13} strokeWidth={2.5} />
+                  </Link>
+                </article>
+                )
+              })}
+            </motion.div>
+          )}
         </AnimatePresence>
 
         {/* Pagination */}
         {pageCount > 1 && (
-          <div className="mt-12 flex items-center justify-center gap-2">
-            {Array.from({ length: pageCount }).map((_, i) => (
+          <div className="mt-12 flex items-center justify-center gap-1.5 sm:gap-2 flex-wrap">
+            {page > 0 && (
               <button
-                key={i}
-                onClick={() => setPage(i)}
-                aria-label={`Go to page ${i + 1}`}
-                className={`w-8 h-8 flex items-center justify-center text-[11px] font-semibold tracking-wider rounded-sm transition-colors ${
-                  i === page
-                    ? "bg-secondary-terra text-white"
-                    : "bg-transparent text-primary/60 border border-primary/20 hover:border-primary/50"
-                }`}
+                onClick={() => changePage(page - 1)}
+                disabled={loading}
+                className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center bg-secondary-terra text-white rounded hover:bg-secondary-rust transition-all duration-200 hover:scale-105 disabled:opacity-50"
               >
-                {i + 1}
+                <ArrowLeft size={16} />
               </button>
-            ))}
+            )}
+            {getPageNumbers().map((p, i) =>
+              p === "..." ? (
+                <span key={`dots-${i}`} className="px-1 text-primary/40 text-sm">...</span>
+              ) : (
+                <button
+                  key={p}
+                  onClick={() => changePage(p)}
+                  disabled={loading}
+                  className={`w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center text-xs sm:text-sm font-medium rounded transition-all duration-200 ${
+                    p === page
+                      ? "bg-secondary-sand text-white"
+                      : "bg-transparent text-primary/60 border border-primary/20 hover:border-secondary-sand hover:text-secondary-sand"
+                  } disabled:opacity-50`}
+                >
+                  {p + 1}
+                </button>
+              )
+            )}
+            {page < pageCount - 1 && (
+              <button
+                onClick={() => changePage(page + 1)}
+                disabled={loading}
+                className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center bg-secondary-terra text-white rounded hover:bg-secondary-rust transition-all duration-200 hover:scale-105 disabled:opacity-50"
+              >
+                <ArrowRight size={16} />
+              </button>
+            )}
           </div>
         )}
       </div>

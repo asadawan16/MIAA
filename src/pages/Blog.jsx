@@ -18,18 +18,20 @@ export default function Blog() {
     <>
       <BlogHeroSection />
 
-      <SectionDivider label="MIAA Updates" bg="bg-bg" variant="light" />
+      <SectionDivider label="Updates" bg="bg-accent-cream" variant="light" />
       <BlogGridSection
         heading="MIAA Updates"
-        intro="A look at the latest milestones, partnerships and behind-the-scenes progress as MIAA takes shape."
+        intro="Check in to read about our latest news, reviews and happenings.
+For up to the minute news and updates remember to follow us on our socials."
         articles={updates}
       />
 
-      <SectionDivider label="MIAA Blog Posts" bg="bg-bg" variant="light" />
+      <SectionDivider label="Blog" bg="bg-bg" variant="light" />
       <BlogGridSection
         heading="MIAA Blog Posts"
-        intro="Stories, essays and reflections on Islamic art, artists and the culture being made today."
+        intro="Check in to hear from the MIAA team about all things Islamic art, literature and creative communities."
         articles={posts}
+        bg="bg-bg"
       />
     </>
   )
