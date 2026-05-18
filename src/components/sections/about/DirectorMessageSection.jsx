@@ -1,20 +1,19 @@
-import { useRef, useEffect, useState } from "react"
+import { useRef, useEffect } from "react"
 import { motion } from "framer-motion"
 import gsap from "gsap"
 import { useGSAP } from "@gsap/react"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { fadeInLeft, fadeInRight } from "../../../lib/motion"
 import directorImg from "../../../assets/images/About/director-mehmet-ozalp.png"
-import float1 from "../../../assets/images/About/float1.png"
 import float2 from "../../../assets/images/About/float2.png"
 
 gsap.registerPlugin(ScrollTrigger)
 
 const MESSAGE_PARAGRAPHS = [
-  "Director of the Islamic Sciences and Research Academy (ISRA), I am honoured to introduce this visionary project, which will be in Western Sydney and serve as a cultural landmark for all of Sydney and Australia.",
-  "Our vision is clear and unwavering: to be a leading institution for the advancement of Islamic awareness, spiritual growth and community wellbeing in Australia. MIAA is a natural extension of this vision — a space that celebrates beauty, fosters understanding and inspires connection.",
-  "The role of the Museum will be multifaceted. It will be a centre for cultural education, a repository for historical and contemporary Islamic art, and a place of encounter where Australians of all backgrounds can explore the artistic and intellectual contributions of Muslims throughout history and today. Through its exhibitions, programs and design, the museum will tell a story that is global and local — reflecting the heritage of Islamic art while capturing the Australian Muslim experience.",
-  "Our aspirations for the museum are bold and ambitious. We aim to create a space that reflects excellence in architectural design, environmental harmony and spiritual symbolism. It will be an inclusive, engaging and contemporary institution — accessible to all, deeply rooted in authenticity and connected to the wider arts and cultural community.",
+  "It is with great excitement and purpose that I welcome you to the online home for the Museum of Islamic Art Australia (MIAA). As the Executive Director of the Islamic Sciences and Research Academy (ISRA), I am honoured to introduce this visionary project, which will be in Western Sydney and serve as a cultural landmark for all of Sydney and Australia.",
+  "Our vision is clear and unwavering: to be a leading institution for the advancement of Islamic awareness, spiritual growth and community wellbeing in Australia. MIAA is a natural extension of this vision \u2013 a space that celebrates beauty, fosters understanding and inspires connection.",
+  "The role of the Museum will be multifaceted. It will be a centre for cultural education, a repository for historical and contemporary Islamic art, and a place of encounter where Australians of all backgrounds can explore the artistic and intellectual contributions of Muslims throughout history and today. Through its exhibitions, programs and design, the museum will tell a story that is global and local \u2013 reflecting the heritage of Islamic art while capturing the Australian Muslim experience.",
+  "Our aspirations for the museum are bold and ambitious. We aim to create a space that reflects excellence in architectural design, environmental harmony and spiritual symbolism. It will be an inclusive, engaging and contemporary institution \u2013 accessible to all, deeply rooted in authenticity and connected to the future. The museum will be a place of inspiration for young minds, a resource for educators and researchers, and a cultural beacon that contributes to a more cohesive and confident Australian society.",
   "On behalf of the MIAA team, I invite you to follow our journey, share in our excitement, and help us build a place that will inspire generations to come.",
 ]
 
@@ -40,8 +39,6 @@ export default function DirectorMessageSection() {
   const sectionRef = useRef(null)
   const trackRef = useRef(null)
   const viewportRef = useRef(null)
-  const [scrollProgress, setScrollProgress] = useState(0)
-
   useGSAP(
     () => {
       const track = trackRef.current
@@ -51,28 +48,26 @@ export default function DirectorMessageSection() {
       const mm = gsap.matchMedia()
 
       mm.add("(min-width: 768px)", () => {
-        const compute = () => Math.max(0, track.scrollHeight - viewport.clientHeight)
-        let distance = compute()
-        if (distance <= 0) return
+        const getOverflow = () =>
+          Math.max(0, track.scrollHeight - viewport.clientHeight)
+
+        if (getOverflow() <= 0) return
 
         gsap.set(track, { y: 0 })
 
-        const trigger = ScrollTrigger.create({
-          trigger: sectionRef.current,
-          start: "top top",
-          end: () => `+=${compute() + 200}`,
-          pin: true,
-          pinSpacing: true,
-          scrub: 0.4,
-          invalidateOnRefresh: true,
-          onUpdate: (self) => {
-            distance = compute()
-            gsap.set(track, { y: -self.progress * distance })
-            setScrollProgress(self.progress)
+        gsap.to(track, {
+          y: () => -getOverflow(),
+          ease: "none",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top top",
+            end: () => `+=${window.innerHeight * 2}`,
+            pin: true,
+            pinSpacing: true,
+            scrub: 1,
+            invalidateOnRefresh: true,
           },
         })
-
-        return () => trigger.kill()
       })
 
       return () => mm.revert()
@@ -81,14 +76,15 @@ export default function DirectorMessageSection() {
   )
 
   useEffect(() => {
-    const id = setTimeout(() => ScrollTrigger.refresh(), 300)
+    const id = setTimeout(() => ScrollTrigger.refresh(), 500)
     return () => clearTimeout(id)
   }, [])
 
   return (
     <section
       ref={sectionRef}
-      className="relative bg-bg-deep min-h-screen flex flex-col overflow-hidden"
+      className="relative bg-bg-deep min-h-screen flex flex-col"
+      style={{ clipPath: "inset(0 0 0 0)" }}
     >
       {/* Section label + dotted divider */}
       <div className="relative z-10 px-6 md:px-10 lg:px-16 3xl:px-24 pt-24 md:pt-28 pb-12 md:pb-16">
@@ -108,10 +104,10 @@ export default function DirectorMessageSection() {
         />
       </div>
 
-      <div className="relative z-10 flex-1 max-w-[1400px] 3xl:max-w-[1800px] w-full mx-auto px-6 md:px-10 lg:px-16 3xl:px-24 pb-12 md:pb-20">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.4fr] gap-12 lg:gap-20 items-stretch h-full">
-          {/* Left — heading at top, director card pinned to bottom */}
-          <motion.div {...fadeInLeft} className="flex flex-col h-full">
+      <div className="relative z-10 max-w-[1400px] 3xl:max-w-[1800px] w-full mx-auto px-6 md:px-10 lg:px-16 3xl:px-24 pb-10 md:pb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.4fr] gap-12 lg:gap-20 items-stretch">
+          {/* Left — heading at top, director card aligned with panel bottom */}
+          <motion.div {...fadeInLeft} className="flex flex-col">
             <h2 className="text-3xl md:text-4xl lg:text-[44px] 3xl:text-[3.2rem] font-medium text-accent-cream tracking-tight leading-[1.1]">
               A Message from
               <br />
@@ -156,43 +152,35 @@ export default function DirectorMessageSection() {
             </div>
           </motion.div>
 
-          {/* Right — white message panel + float2 behind */}
+          {/* Right — white message panel */}
           <motion.div {...fadeInRight} className="relative">
-            {/* float2 — sits behind the white panel, peeking out from the lower-left corner */}
-            <div className="pointer-events-none absolute -bottom-28 -left-16 md:-bottom-36 md:-left-24 lg:-bottom-44 lg:-left-28 3xl:-bottom-52 3xl:-left-32 w-44 md:w-60 lg:w-72 3xl:w-88 z-0 hero-float">
-              <img src={float2} alt="" className="w-full h-auto drop-shadow-2xl" />
+            {/* float2 — behind panel, bottom-left corner */}
+            <div className="pointer-events-none absolute -bottom-32 -left-28 md:-bottom-40 md:-left-36 3xl:-bottom-44 3xl:-left-40 z-0 hero-float">
+              <img src={float2} alt="" className="w-48 md:w-72 lg:w-80 3xl:w-96 h-auto drop-shadow-2xl" />
             </div>
 
             <div
               ref={viewportRef}
-              className="relative z-10 bg-accent-cream rounded-3xl overflow-hidden h-[60vh] md:h-[70vh] px-6 md:px-8 py-6 shadow-xl"
+              className="relative z-10 bg-accent-cream rounded-3xl overflow-hidden h-[55vh] md:h-[50vh] 3xl:h-[45vh] px-6 md:px-8 py-6 shadow-xl"
             >
+              {/* Fade gradients for smooth text clipping */}
               <div className="absolute top-0 left-0 right-0 h-16 bg-gradient-to-b from-accent-cream to-transparent z-10 pointer-events-none" />
               <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-accent-cream to-transparent z-10 pointer-events-none" />
 
-              <div ref={trackRef} className="will-change-transform">
+              <div ref={trackRef} className="will-change-transform pt-8">
                 <div className="flex flex-col gap-5 text-sm md:text-[15px] 3xl:text-lg text-primary leading-relaxed">
                   {MESSAGE_PARAGRAPHS.map((para, i) => (
                     <p key={i}>{para}</p>
                   ))}
                 </div>
+                {/* Bottom spacer so last paragraph scrolls fully into view */}
+                <div className="h-12" />
               </div>
             </div>
 
-            {/* Scroll indicator — right of the panel */}
-            <div className="hidden md:block absolute -right-3 top-4 bottom-4 w-[2px] bg-accent-cream/20 z-20">
-              <div
-                className="absolute left-0 w-full bg-accent-cream/80 transition-[height,top] duration-100 ease-out rounded-full"
-                style={{
-                  height: "20%",
-                  top: `${scrollProgress * 80}%`,
-                }}
-              />
-            </div>
           </motion.div>
         </div>
       </div>
-
     </section>
   )
 }

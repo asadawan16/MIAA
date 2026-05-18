@@ -1,5 +1,4 @@
 import { motion } from "framer-motion"
-import { staggerContainer, staggerItem } from "../../../lib/motion"
 
 import hero1 from "../../../assets/images/MIAEvents/events-hero-1.png"
 import hero2 from "../../../assets/images/MIAEvents/events-hero-2.png"
@@ -12,6 +11,8 @@ const HERO_PHOTOS = [
 ]
 
 export default function EventsHeroSection() {
+  const loopPhotos = [...HERO_PHOTOS, ...HERO_PHOTOS]
+
   return (
     <section className="relative bg-bg-deep overflow-hidden">
       {/* Title */}
@@ -26,29 +27,23 @@ export default function EventsHeroSection() {
         </motion.h1>
       </div>
 
-      {/* 3-photo strip — full-bleed: 3 equal columns spanning the entire viewport width, no padding */}
-      <motion.div
-        {...staggerContainer}
-        className="w-full pb-10 md:pb-14"
-      >
-        <div className="grid grid-cols-1 md:grid-cols-[1fr_2.5fr_1fr] gap-3 md:gap-4 w-full items-stretch">
-          {HERO_PHOTOS.map((photo, i) => {
-            const isMiddle = i === 1
-            return (
-              <motion.div
-                key={i}
-                {...staggerItem}
-                className={`h-[300px] md:h-[400px] lg:h-[480px] 3xl:h-[650px] overflow-hidden bg-cover bg-center ${
-                  isMiddle ? "" : "hidden md:block"
-                }`}
-                style={{ backgroundImage: `url(${photo.src})` }}
-                role="img"
-                aria-label={photo.alt}
+      {/* Infinite auto-scrolling carousel */}
+      <div className="w-full pb-10 md:pb-14 overflow-hidden">
+        <div className="flex gap-4 events-hero-carousel will-change-transform">
+          {loopPhotos.map((photo, i) => (
+            <div
+              key={i}
+              className="flex-shrink-0 w-[85vw] md:w-[42vw] lg:w-[38vw] 3xl:w-[32vw] h-[280px] md:h-[380px] lg:h-[450px] 3xl:h-[550px] overflow-hidden"
+            >
+              <img
+                src={photo.src}
+                alt={photo.alt}
+                className="w-full h-full object-cover"
               />
-            )
-          })}
+            </div>
+          ))}
         </div>
-      </motion.div>
+      </div>
     </section>
   )
 }

@@ -43,7 +43,7 @@ export default function OffsiteEvents() {
         </motion.div>
       </div>
 
-      <SectionDivider label="Past Events" bg="bg-bg" variant="light" />
+      <SectionDivider label="EVENT ARCHIVE" bg="bg-bg" variant="light" />
       <PreviousEventsSection />
     </>
   )

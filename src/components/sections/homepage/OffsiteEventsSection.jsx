@@ -79,7 +79,7 @@ export default function OffsiteEventsSection() {
             <motion.div
               key={event._id || i}
               {...staggerItem}
-              className="group md:px-6 first:md:pl-0 last:md:pr-0"
+              className="group md:px-6"
             >
               {/* Date & location — right-aligned */}
               <div className="mb-4 text-right">
@@ -92,7 +92,7 @@ export default function OffsiteEventsSection() {
               </div>
 
               {/* Image */}
-              <div className="aspect-[4/3] overflow-hidden mb-5">
+              <div className="aspect-[4/3] overflow-hidden rounded-lg mb-5">
                 <img
                   src={event.imageUrl || event.image}
                   alt={event.title}

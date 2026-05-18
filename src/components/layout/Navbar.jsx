@@ -7,6 +7,8 @@ import { NAV_LINKS } from "../../lib/constants"
 import smallLogo from "../../assets/images/Homepage/smalllogo.png"
 import topRightSpheres from "../../assets/images/Homepage/herotoprightelement.png"
 
+const MotionLink = motion.create(Link)
+
 const SOCIALS = [
   { label: "Tiktok", url: "#" },
   { label: "Twitter/X", url: "#" },
@@ -35,16 +37,35 @@ export default function Navbar() {
 
   return (
     <>
+      {/* Dotted divider at bottom of nav area */}
+      <div
+        className="absolute top-20 md:top-24 3xl:top-28 left-6 md:left-10 lg:left-16 3xl:left-24 right-3 md:right-4 h-[2px] z-40 pointer-events-none"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle, #6CA1AA50 1.5px, transparent 1.5px)",
+          backgroundSize: "8px 3px",
+        }}
+      />
+
       {/* Top-of-page CTAs (Gala + Follow) — absolute so they scroll away with the page */}
       <div className="absolute top-0 right-0 z-40 px-3 md:px-4 pointer-events-none">
         <div className="flex items-center justify-end h-20 md:h-24 3xl:h-28 gap-3 md:gap-5">
-          <Link
-            to="/gala-dinner"
-            className="pointer-events-auto hidden md:inline-flex items-center gap-1.5 3xl:gap-2 px-4 py-3 3xl:px-6 3xl:py-3.5 bg-primary/60 backdrop-blur-sm text-white text-[10px] 3xl:text-sm font-bold tracking-[0.15em] uppercase rounded hover:bg-primary/80 transition-colors duration-200"
-          >
-            Gala Dinner
-            <ArrowUpRight className="size-3 3xl:size-4" strokeWidth={2.5} />
-          </Link>
+          {!location.pathname.startsWith("/gala-dinner") && (
+            <MotionLink
+              to="/gala-dinner"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ type: "spring", stiffness: 400, damping: 20 }}
+              className="group pointer-events-auto hidden md:inline-flex items-center gap-1.5 3xl:gap-2 px-4 py-3 3xl:px-6 3xl:py-3.5 bg-white/15 backdrop-blur-sm text-white font-barlow text-[11px] 3xl:text-sm font-semibold tracking-[0.15em] uppercase rounded-sm overflow-hidden relative transition-colors duration-200 border border-white/20"
+            >
+              <span className="relative z-10">Gala Dinner</span>
+              <span className="relative z-10 inline-flex overflow-hidden w-[13px] h-[13px] 3xl:w-[16px] 3xl:h-[16px]">
+                <ArrowUpRight size={13} strokeWidth={2.5} className="absolute inset-0 w-full h-full transition-transform duration-300 ease-out group-hover:translate-x-full group-hover:-translate-y-full" />
+                <ArrowUpRight size={13} strokeWidth={2.5} className="absolute inset-0 w-full h-full -translate-x-full translate-y-full transition-transform duration-300 ease-out group-hover:translate-x-0 group-hover:translate-y-0" />
+              </span>
+              <span className="absolute inset-0 bg-primary/80 origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out" />
+            </MotionLink>
+          )}
           <CTAButton to="/support-us" className="pointer-events-auto hidden md:inline-flex px-4 py-3 3xl:px-7 3xl:py-3.5">
             Follow Our Journey
           </CTAButton>
@@ -171,44 +192,50 @@ export default function Navbar() {
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.3, delay: 0.05 * i }}
                       >
-                        <Link
-                          to={link.path}
-                          className={`nav-link group relative flex items-center gap-3 py-2 md:py-2.5 text-2xl md:text-3xl lg:text-[34px] 3xl:text-[42px] font-normal tracking-tight transition-colors duration-200 ${
-                            isActive
-                              ? "text-secondary-terra"
-                              : "text-white/85 hover:text-secondary-terra"
-                          }`}
+                        <motion.div
+                          whileHover={{ x: 12 }}
+                          transition={{ type: "spring", stiffness: 300, damping: 20 }}
                         >
-                          {/* Quatrefoil marker — visible on hover or when active */}
-                          <span
-                            className={`flex-shrink-0 transition-opacity duration-200 ${
+                          <Link
+                            to={link.path}
+                            onClick={() => setMenuOpen(false)}
+                            className={`nav-link group relative flex items-center gap-3 py-2 md:py-2.5 text-2xl md:text-3xl lg:text-[34px] 3xl:text-[42px] font-normal tracking-tight transition-colors duration-200 ${
                               isActive
-                                ? "opacity-100"
-                                : "opacity-0 group-hover:opacity-100"
+                                ? "text-secondary-terra"
+                                : "text-white/85 hover:text-secondary-terra"
                             }`}
                           >
-                            <svg
-                              width="14"
-                              height="14"
-                              viewBox="0 0 100 100"
-                              fill="#C15C45"
-                              className="3xl:w-[18px] 3xl:h-[18px]"
+                            {/* Quatrefoil marker — visible on hover or when active */}
+                            <span
+                              className={`flex-shrink-0 transition-opacity duration-200 ${
+                                isActive
+                                  ? "opacity-100"
+                                  : "opacity-0 group-hover:opacity-100"
+                              }`}
                             >
-                              <circle cx="50" cy="22" r="25" />
-                              <circle cx="50" cy="78" r="25" />
-                              <circle cx="22" cy="50" r="25" />
-                              <circle cx="78" cy="50" r="25" />
-                              <rect
-                                x="22"
-                                y="22"
-                                width="56"
-                                height="56"
-                                rx="4"
-                              />
-                            </svg>
-                          </span>
-                          {link.label}
-                        </Link>
+                              <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 100 100"
+                                fill="#C15C45"
+                                className="3xl:w-[18px] 3xl:h-[18px]"
+                              >
+                                <circle cx="50" cy="22" r="25" />
+                                <circle cx="50" cy="78" r="25" />
+                                <circle cx="22" cy="50" r="25" />
+                                <circle cx="78" cy="50" r="25" />
+                                <rect
+                                  x="22"
+                                  y="22"
+                                  width="56"
+                                  height="56"
+                                  rx="4"
+                                />
+                              </svg>
+                            </span>
+                            {link.label}
+                          </Link>
+                        </motion.div>
                       </motion.div>
                     )
                   })}

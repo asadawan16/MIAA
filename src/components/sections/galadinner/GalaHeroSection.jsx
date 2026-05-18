@@ -8,7 +8,7 @@ export default function GalaHeroSection() {
   return (
     <section className="relative h-auto md:h-screen md:min-h-[600px] md:max-h-[1200px] overflow-hidden flex flex-col">
       {/* Top section — teal bg with pattern + centered text */}
-      <div className="relative flex-none md:flex-[3] flex flex-col items-center justify-center bg-primary py-20 md:py-0">
+      <div className="relative flex-none md:flex-[3] flex flex-col items-center justify-center bg-primary pt-28 pb-20 md:pt-32 md:pb-0 3xl:pt-36">
         {/* Hero background pattern */}
         <div className="absolute inset-0">
           <img src={heroBgPattern} alt="" className="w-full h-full object-cover" />
@@ -49,7 +49,7 @@ export default function GalaHeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 1, ease: [0.25, 0.1, 0.25, 1] }}
-            className="mt-6 md:mt-8"
+            className="mt-6 md:mt-8 mb-8 md:mb-12"
           >
             <CTAButton to="/gala-dinner/tickets" className="px-6">Buy Ticket</CTAButton>
           </motion.div>
@@ -57,7 +57,7 @@ export default function GalaHeroSection() {
       </div>
 
       {/* Hero image — slides up into view */}
-      <div className="relative flex-none md:flex-[2] w-full h-[250px] md:h-auto bg-primary">
+      <div className="relative flex-none md:flex-[1.5] w-full h-[250px] md:h-auto bg-primary">
         <img
           src={heroImg}
           alt="MIAA Inaugural Gala Dinner"

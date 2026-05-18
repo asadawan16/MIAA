@@ -149,7 +149,7 @@ export default function IslamicArtSection() {
               <br />
               Art in Australia
             </h2>
-            <p className="mt-5 text-sm text-primary leading-relaxed">
+            <p className="mt-5 text-sm text-primary leading-relaxed font-medium">
               Across Australia, Islamic art continues to flourish — shaped by
               diverse artists, cultures, and stories. The Museum of Islamic Art
               Australia proudly supports this creative movement, celebrating its
@@ -195,7 +195,7 @@ export default function IslamicArtSection() {
                 <br />
                 Art in Australia
               </h2>
-              <p className="mt-5 text-sm md:text-[18px] 3xl:text-xl text-primary leading-relaxed max-w-lg 3xl:max-w-xl">
+              <p className="mt-5 text-sm md:text-[18px] 3xl:text-xl text-primary leading-relaxed max-w-lg 3xl:max-w-xl font-medium">
                 Across Australia, Islamic art continues to flourish — shaped by
                 diverse artists, cultures, and stories. The Museum of Islamic Art
                 Australia proudly supports this creative movement, celebrating its

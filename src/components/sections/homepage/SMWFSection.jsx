@@ -61,7 +61,7 @@ export default function SMWFSection() {
             <p className="italic text-secondary-wine mt-4 text-base 3xl:text-xl font-medium">
               Our Story Our Words
             </p>
-            <p className="mt-2 text-sm 3xl:text-lg text-primary leading-normal">
+            <p className="mt-2 text-sm 3xl:text-lg text-primary leading-normal ">
               The Sydney Muslim Writers Festival is a unique platform that
               celebrates the diverse voices of Muslim writers, poets, and
               thinkers. Founded with the vision of showcasing authentic

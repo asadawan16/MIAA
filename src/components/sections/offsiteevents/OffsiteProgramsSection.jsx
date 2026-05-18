@@ -58,11 +58,11 @@ export default function OffsiteProgramsSection() {
             <motion.div
               key={event._id || i}
               {...staggerItem}
-              className="group md:px-6 first:md:pl-0 last:md:pr-0"
+              className="group md:px-6"
             >
               {/* Date & location — right-aligned */}
               <div className="mb-4 text-right">
-                <p className="text-3xl md:text-[34px] 3xl:text-[2.6rem] font-base tracking-wide text-[#D0A270]">
+                <p className="text-3xl md:text-[34px] 3xl:text-[2.6rem] font-base tracking-wide text-[#D0A270] font-medium">
                   {event.date}
                 </p>
                 <p className="text-[11px] 3xl:text-sm text-white mt-1 tracking-wide italic">
@@ -71,7 +71,7 @@ export default function OffsiteProgramsSection() {
               </div>
 
               {/* Image */}
-              <div className="aspect-[4/3] overflow-hidden mb-5">
+              <div className="aspect-[4/3] overflow-hidden rounded-lg mb-5">
                 <img
                   src={event.imageUrl || event.image}
                   alt={event.title}

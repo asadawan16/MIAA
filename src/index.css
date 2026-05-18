@@ -184,3 +184,13 @@ img {
 .smwf-banner-bottom {
   animation: smwf-banner-slide-reverse 12s linear infinite;
 }
+
+/* Events hero infinite carousel */
+.events-hero-carousel {
+  animation: events-hero-scroll 14s linear infinite;
+}
+
+@keyframes events-hero-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}

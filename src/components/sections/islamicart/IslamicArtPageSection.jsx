@@ -1,5 +1,5 @@
-import { useRef, useMemo, useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import { useRef, useMemo, useState, useEffect, forwardRef } from "react"
+import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion"
 import gsap from "gsap"
 import { useGSAP } from "@gsap/react"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
@@ -23,27 +23,88 @@ const PARAGRAPHS = [
 ]
 
 const FRAMES = [
-  { src: art5, alt: "Blue sphere artwork", credit: "", top: "16%", left: "4%", size: "w-20 md:w-28 lg:w-36 3xl:w-48" },
-  { src: art2, alt: "Prayer mat", credit: "", top: "38%", left: "2%", size: "w-20 md:w-28 lg:w-36 3xl:w-48" },
-  { src: art3, alt: "Green figurine", credit: "", top: "62%", left: "10%", size: "w-20 md:w-28 lg:w-32 3xl:w-44" },
-  { src: art1, alt: "Islamic metalwork", credit: "", top: "18%", right: "5%", size: "w-24 md:w-32 lg:w-40 3xl:w-56" },
-  {
-    src: art4,
-    alt: "One Thousand and One and Counting",
-    credit: "One Thousand and One and Counting (1004 and counting) —",
-    creditAuthor: "Abdullah M Syed",
-    top: "55%",
-    right: "3%",
-    size: "w-24 md:w-32 lg:w-40 3xl:w-56",
-  },
+  { src: art5, alt: "Blue sphere artwork", credit: "Luminous Geometry \u2014", creditAuthor: "Zarah Hussain", top: "16%", left: "12%", size: "w-20 md:w-28 lg:w-36 3xl:w-48", parallaxFactor: 1.2 },
+  { src: art2, alt: "Prayer mat", credit: "Sacred Weave \u2014", creditAuthor: "Nada Rawhi Debs", top: "38%", left: "10%", size: "w-20 md:w-28 lg:w-36 3xl:w-48", parallaxFactor: 0.8 },
+  { src: art3, alt: "Green figurine", credit: "The Green Horse \u2014", creditAuthor: "Hossein Valamanesh", top: "62%", left: "16%", size: "w-20 md:w-28 lg:w-32 3xl:w-44", parallaxFactor: 1.5 },
+  { src: art1, alt: "Islamic metalwork", credit: "Patterns in Metal \u2014", creditAuthor: "Aisha Khalid", top: "18%", right: "17%", size: "w-24 md:w-32 lg:w-40 3xl:w-56", parallaxFactor: 1.0 },
+  { src: art4, alt: "One Thousand and One and Counting", credit: "One Thousand and One and Counting (1004 and counting) \u2014", creditAuthor: "Abdullah M Syed", top: "55%", right: "9%", size: "w-28 md:w-36 lg:w-48 3xl:w-64", parallaxFactor: 1.3 },
 ]
+
+const ArtFrame = forwardRef(function ArtFrame(
+  { piece, isHovered, onHover, onLeave, springX, springY },
+  ref,
+) {
+  const factor = piece.parallaxFactor
+  const mx = useTransform(springX, (v) => -v * factor * 20)
+  const my = useTransform(springY, (v) => -v * factor * 10)
+
+  return (
+    <div
+      ref={ref}
+      className={`${piece.size} absolute z-10 cursor-pointer hidden md:block`}
+      style={{
+        top: piece.top,
+        left: piece.left,
+        right: piece.right,
+      }}
+    >
+      <motion.div
+        style={{ x: mx, y: my }}
+        onMouseEnter={onHover}
+        onMouseLeave={onLeave}
+      >
+        <div className="border-[4px] border-secondary-terra bg-secondary-terra overflow-hidden">
+          <img
+            src={piece.src}
+            alt={piece.alt}
+            className="w-full h-auto block scale-[1.15]"
+          />
+        </div>
+
+        <AnimatePresence>
+          {isHovered && piece.credit && (
+            <motion.p
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 6 }}
+              transition={{ duration: 0.25 }}
+              className="mt-2.5 text-[9px] lg:text-[11px] 3xl:text-sm text-accent-cream leading-snug text-center italic"
+            >
+              {piece.credit}{" "}
+              <span className="font-medium not-italic">{piece.creditAuthor}</span>
+            </motion.p>
+          )}
+        </AnimatePresence>
+      </motion.div>
+    </div>
+  )
+})
 
 export default function IslamicArtPageSection() {
   const sectionRef = useRef(null)
   const pinRef = useRef(null)
   const wordsRef = useRef([])
+  const frameRefs = useRef([])
+  const trackRef = useRef(null)
+  const viewportRef = useRef(null)
+  const indicatorRef = useRef(null)
   const [hoveredIndex, setHoveredIndex] = useState(null)
-  const [scrollProgress, setScrollProgress] = useState(0)
+
+  const mouseX = useMotionValue(0)
+  const mouseY = useMotionValue(0)
+  const springX = useSpring(mouseX, { stiffness: 50, damping: 20 })
+  const springY = useSpring(mouseY, { stiffness: 50, damping: 20 })
+
+  useEffect(() => {
+    function onMove(e) {
+      const x = (e.clientX / window.innerWidth - 0.5) * 2
+      const y = (e.clientY / window.innerHeight - 0.5) * 2
+      mouseX.set(x)
+      mouseY.set(y)
+    }
+    window.addEventListener("mousemove", onMove)
+    return () => window.removeEventListener("mousemove", onMove)
+  }, [mouseX, mouseY])
 
   const wordTokens = useMemo(() => {
     const tokens = []
@@ -59,94 +120,82 @@ export default function IslamicArtPageSection() {
   useGSAP(
     () => {
       const wordEls = wordsRef.current.filter(Boolean)
-      if (!wordEls.length) return
+      const track = trackRef.current
+      const viewport = viewportRef.current
+      if (!wordEls.length || !track || !viewport) return
 
       gsap.set(wordEls, { opacity: 0.18 })
 
-      const totalScroll = window.innerHeight * 2.5
+      // Frames entrance — staggered rise from below
+      const frames = frameRefs.current.filter(Boolean)
+      if (frames.length) {
+        gsap.set(frames, { y: 80, opacity: 0 })
+        gsap.to(frames, {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: "power3.out",
+          stagger: 0.15,
+          delay: 0.3,
+        })
+      }
 
-      const trigger = ScrollTrigger.create({
-        trigger: pinRef.current,
-        start: "top top",
-        end: `+=${totalScroll}`,
-        pin: true,
-        pinSpacing: true,
-        scrub: 0.5,
-        onUpdate: (self) => {
-          const progress = self.progress
-          const start = 0.05
-          const end = 0.95
-          const local = Math.min(1, Math.max(0, (progress - start) / (end - start)))
-          const targetCount = Math.round(local * wordEls.length)
-          wordEls.forEach((el, idx) => {
-            el.style.opacity = idx < targetCount ? "1" : "0.18"
-          })
-          setScrollProgress(progress)
+      const getOverflow = () => Math.max(0, track.scrollHeight - viewport.clientHeight)
+
+      gsap.set(track, { y: 0 })
+
+      // Scrubbed tween for text translation (like Director Message)
+      gsap.to(track, {
+        y: () => -getOverflow(),
+        ease: "none",
+        scrollTrigger: {
+          trigger: pinRef.current,
+          start: "top top",
+          end: () => `+=${window.innerHeight * 2.5}`,
+          pin: true,
+          pinSpacing: true,
+          scrub: 1,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            const progress = self.progress
+            // Word highlighting
+            const start = 0.02
+            const end = 0.95
+            const local = Math.min(1, Math.max(0, (progress - start) / (end - start)))
+            const targetCount = Math.round(local * wordEls.length)
+            wordEls.forEach((el, idx) => {
+              el.style.opacity = idx < targetCount ? "1" : "0.18"
+            })
+            // Scroll indicator
+            if (indicatorRef.current) {
+              indicatorRef.current.style.top = `${progress * 80}%`
+            }
+          },
         },
       })
-
-      return () => {
-        trigger.kill()
-      }
     },
     { scope: sectionRef }
   )
 
   return (
-    <section ref={sectionRef} className="relative bg-bg-deep">
-      <div ref={pinRef} className="relative w-full h-screen overflow-hidden">
-        {/* Dotted divider under navbar — matches About hero */}
-        <div
-          className="absolute top-20 md:top-24 left-4 sm:left-6 md:left-10 lg:left-16 right-4 sm:right-6 md:right-10 lg:right-16 h-[2px] pointer-events-none z-10"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle, rgba(215,184,147,0.4) 1.5px, transparent 1.5px)",
-            backgroundSize: "8px 3px",
-          }}
-        />
-
-        {/* Frames scattered — to the far left and far right */}
+    <section ref={sectionRef} className="relative bg-bg-deep pt-14 md:pt-20">
+      <div ref={pinRef} className="relative w-full h-screen" style={{ clipPath: "inset(0 0 0 0)" }}>
+        {/* Frames — mouse-tracking parallax + hover credits */}
         {FRAMES.map((piece, i) => (
-          <motion.div
+          <ArtFrame
             key={i}
-            initial={{ opacity: 0, y: 30, scale: 0.94 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.15 + 0.12 * i, ease: [0.25, 0.1, 0.25, 1] }}
-            className={`${piece.size} absolute z-10 cursor-pointer hidden md:block`}
-            style={{
-              top: piece.top,
-              left: piece.left,
-              right: piece.right,
-            }}
-            onMouseEnter={() => setHoveredIndex(i)}
-            onMouseLeave={() => setHoveredIndex(null)}
-          >
-            <div className="border-[3px] md:border-[4px] border-secondary-terra bg-secondary-terra overflow-hidden">
-              <img
-                src={piece.src}
-                alt={piece.alt}
-                className="w-full h-auto block"
-              />
-            </div>
-            <AnimatePresence>
-              {piece.credit && hoveredIndex === i && (
-                <motion.p
-                  initial={{ opacity: 0, y: 5 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 5 }}
-                  transition={{ duration: 0.2 }}
-                  className="mt-2 text-[9px] 3xl:text-sm text-accent-cream leading-tight text-center italic"
-                >
-                  {piece.credit}{" "}
-                  <span className="font-medium not-italic">{piece.creditAuthor}</span>
-                </motion.p>
-              )}
-            </AnimatePresence>
-          </motion.div>
+            ref={(el) => (frameRefs.current[i] = el)}
+            piece={piece}
+            isHovered={hoveredIndex === i}
+            onHover={() => setHoveredIndex(i)}
+            onLeave={() => setHoveredIndex(null)}
+            springX={springX}
+            springY={springY}
+          />
         ))}
 
-        {/* Center column — title at top, body text directly below, signature at end */}
-        <div className="absolute inset-0 z-20 flex justify-center pt-28 md:pt-32 pb-12 px-4 pointer-events-none">
+        {/* Center column — title fixed, text scrolls in viewport */}
+        <div className="absolute inset-0 z-20 flex justify-center pt-12 md:pt-16 px-4 pointer-events-none">
           <div className="w-full max-w-md md:max-w-lg lg:max-w-xl 3xl:max-w-2xl text-center flex flex-col">
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
@@ -157,60 +206,49 @@ export default function IslamicArtPageSection() {
               Islamic Art in Australia
             </motion.h1>
 
-            <div className="text-[14px] md:text-[15px] lg:text-base 3xl:text-xl text-accent-cream leading-[1.7] tracking-wide space-y-3 md:space-y-4 text-left md:text-justify">
-              {PARAGRAPHS.map((para, pIdx) => {
-                const words = para.split(/\s+/)
-                return (
-                  <p key={pIdx}>
-                    {words.map((w, wIdx) => {
-                      const flatIdx = wordTokens.findIndex(
-                        (t) => t.paraIdx === pIdx && t.wordIdx === wIdx
-                      )
-                      return (
-                        <span
-                          key={`${pIdx}-${wIdx}`}
-                          ref={(el) => (wordsRef.current[flatIdx] = el)}
-                          className="transition-opacity duration-200"
-                          style={{ opacity: 0.18 }}
-                        >
-                          {w}{" "}
-                        </span>
-                      )
-                    })}
-                  </p>
-                )
-              })}
+            {/* Scrollable text viewport — like Director Message panel */}
+            <div
+              ref={viewportRef}
+              className="relative flex-1 overflow-hidden mb-8"
+            >
+              {/* Fade gradients */}
+              <div className="absolute top-0 left-0 right-0 h-10 bg-gradient-to-b from-bg-deep to-transparent z-10 pointer-events-none" />
+              <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-bg-deep to-transparent z-10 pointer-events-none" />
 
-              <p className="font-display italic text-accent-wheat text-2xl md:text-3xl 3xl:text-4xl tracking-wide pt-3 text-center">
-                Dr Nur Shkembi OAM
-              </p>
+              <div ref={trackRef} className="will-change-transform pt-6">
+                <div className="text-[14px] md:text-[15px] lg:text-base 3xl:text-xl text-accent-cream leading-[1.7] tracking-wide space-y-3 md:space-y-4 text-left md:text-justify">
+                  {PARAGRAPHS.map((para, pIdx) => {
+                    const words = para.split(/\s+/)
+                    return (
+                      <p key={pIdx}>
+                        {words.map((w, wIdx) => {
+                          const flatIdx = wordTokens.findIndex(
+                            (t) => t.paraIdx === pIdx && t.wordIdx === wIdx
+                          )
+                          return (
+                            <span
+                              key={`${pIdx}-${wIdx}`}
+                              ref={(el) => (wordsRef.current[flatIdx] = el)}
+                              className="transition-opacity duration-200"
+                              style={{ opacity: 0.18 }}
+                            >
+                              {w}{" "}
+                            </span>
+                          )
+                        })}
+                      </p>
+                    )
+                  })}
+
+                </div>
+                <div className="h-16" />
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Custom scroll indicator — right edge */}
-        <div className="hidden md:block absolute right-4 top-32 bottom-16 w-[2px] bg-accent-wheat/15 z-30 pointer-events-none">
-          <div
-            className="absolute left-0 w-full bg-accent-wheat/80 transition-[height,top] duration-100 ease-out rounded-full"
-            style={{
-              height: "20%",
-              top: `${scrollProgress * 80}%`,
-            }}
-          />
-        </div>
       </div>
 
-      {/* Acknowledgement strip — appears after the pinned section ends */}
-      <div className="bg-bg-deep py-12 md:py-16 px-6 md:px-10 lg:px-16 3xl:px-24">
-        <p className="max-w-3xl 3xl:max-w-4xl mx-auto text-center text-xs md:text-[13px] 3xl:text-base text-accent-cream/70 leading-relaxed italic">
-          MIAA is proudly located on beautiful Dharug country in Granville,
-          Western Sydney. The Museum of Islamic Art Australia (MIAA)
-          respectfully acknowledges the Burramattagal people of the Dharug
-          Nation as the Traditional Owners of the land on which the museum will
-          be located. We pay our respects to Elders past, present and emerging.
-          Sovereignty has never been ceded.
-        </p>
-      </div>
     </section>
   )
 }

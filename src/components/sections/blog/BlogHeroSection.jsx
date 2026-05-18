@@ -17,16 +17,7 @@ export default function BlogHeroSection() {
   const article = FEATURED[current]
 
   return (
-    <section className="bg-bg-deep pt-18 md:pt-22 pb-0">
-      {/* Dotted line below nav */}
-      <div
-        className="h-[2px] mb-4 md:mb-6 ml-4 mr-3 sm:ml-6 sm:mr-4 md:ml-10 md:mr-6 lg:ml-16 lg:mr-10"
-        style={{
-          backgroundImage: "radial-gradient(circle, #6CA1AA50 1.5px, transparent 1.5px)",
-          backgroundSize: "8px 3px",
-          height: "2px",
-        }}
-      />
+    <section className="bg-bg-deep pt-28 md:pt-32 pb-0">
       {/* Page heading */}
       <motion.h1
         initial={{ opacity: 0, y: 20 }}

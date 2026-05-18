@@ -56,7 +56,7 @@ export default function JourneySection() {
 
           <motion.p
             {...fadeInUp}
-            className="text-base md:text-[17px] 3xl:text-xl text-primary leading-relaxed"
+            className="text-base md:text-[17px] 3xl:text-xl text-primary leading-relaxed font-medium"
           >
             The Museum of Islamic Art Australia is a groundbreaking
             community-led initiative with the vision of establishing a
@@ -94,7 +94,7 @@ export default function JourneySection() {
               />
             </div>
 
-            <div className="flex flex-col gap-5 text-sm md:text-[14px] 3xl:text-base text-primary leading-relaxed max-w-md 3xl:max-w-xl self-end">
+            <div className="flex flex-col gap-5 text-sm md:text-[14px] 3xl:text-base text-primary leading-relaxed max-w-md 3xl:max-w-xl self-end font-medium">
               <p>
                 Since securing the WestInvest grant, the MIAA has commenced
                 phase one of its operations, focusing on preparatory work for

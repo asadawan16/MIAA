@@ -34,9 +34,7 @@ export default function FamiliesDiscoverSection() {
     <section className="relative py-16 md:py-24 3xl:py-32 bg-accent-cream">
       <div className="max-w-[1400px] 3xl:max-w-[1800px] mx-auto px-6 md:px-10 lg:px-16 3xl:px-24">
         <motion.div {...fadeInUp} className="mb-12 md:mb-14 max-w-3xl 3xl:max-w-4xl">
-          <p className="text-[10px] 3xl:text-sm tracking-[0.25em] uppercase text-secondary-wine mb-3">
-            MIAA Kids: Family Events
-          </p>
+     
           <h2 className="text-3xl md:text-[42px] 3xl:text-[3.2rem] font-medium text-primary tracking-tight leading-tight">
             Where Families Discover Art Together
           </h2>
@@ -44,13 +42,13 @@ export default function FamiliesDiscoverSection() {
 
         <motion.div
           {...staggerContainer}
-          className="grid grid-cols-1 md:grid-cols-3 gap-x-8 md:gap-x-12 lg:gap-x-16 gap-y-12"
+          className="grid grid-cols-1 md:grid-cols-3 md:divide-x md:divide-primary/15 gap-y-12"
         >
           {FAMILY_EVENTS.map((event, i) => (
             <motion.article
               key={i}
               {...staggerItem}
-              className="group flex flex-col"
+              className="group flex flex-col md:px-6"
             >
               {/* Title */}
               <h3 className="text-lg md:text-xl 3xl:text-3xl font-semibold text-primary leading-tight mb-2">
@@ -72,7 +70,7 @@ export default function FamiliesDiscoverSection() {
 
               {/* Date — wheat/gold, right-aligned, at the bottom */}
               <div className="mt-auto text-right">
-                <p className="text-2xl md:text-[28px] 3xl:text-[2.1rem] tracking-wide text-[#D0A270]">
+                <p className="text-2xl md:text-[28px] 3xl:text-[2.1rem] tracking-wide text-[#D0A270] font-medium">
                   {event.date}
                 </p>
                 <p className="text-[11px] 3xl:text-sm text-primary/60 italic mt-1">
