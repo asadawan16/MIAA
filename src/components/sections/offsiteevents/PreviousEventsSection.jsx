@@ -1,7 +1,6 @@
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { ArrowUpRight } from "lucide-react"
-import { Link } from "react-router-dom"
+import CTAButton from "../../ui/Button"
 import { fadeInUp } from "../../../lib/motion"
 import { useCMS } from "../../../hooks/useCMS"
 import { api } from "../../../lib/api"
@@ -78,13 +77,7 @@ export default function PreviousEventsSection() {
               </div>
 
               <div className="mt-6">
-                <Link
-                  to="/offsite-events"
-                  className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-secondary-terra text-white text-[11px] font-semibold tracking-[0.15em] uppercase rounded-sm hover:bg-secondary-rust transition-colors"
-                >
-                  View Now
-                  <ArrowUpRight size={13} strokeWidth={2.5} />
-                </Link>
+                <CTAButton to="/offsite-events">View Now</CTAButton>
               </div>
             </div>
           </div>

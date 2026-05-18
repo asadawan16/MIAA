@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { ArrowUpRight, ChevronDown, Check } from "lucide-react"
+import { ChevronDown, Check } from "lucide-react"
+import CTAButton from "../../ui/Button"
 import { fadeInLeft, fadeInRight } from "../../../lib/motion"
 import { api } from "../../../lib/api"
 
@@ -434,14 +435,7 @@ export default function TicketHeroSection() {
                 )}
 
                 <div className="flex justify-start mt-2">
-                  <button
-                    type="submit"
-                    disabled={submitting}
-                    className="inline-flex items-center gap-1.5 px-6 py-3 bg-secondary-terra text-white text-xs font-semibold tracking-wider uppercase rounded hover:bg-secondary-rust transition-colors disabled:opacity-50"
-                  >
-                    {submitting ? "Processing..." : "Buy Ticket"}
-                    {!submitting && <ArrowUpRight size={13} strokeWidth={2.5} />}
-                  </button>
+                  <CTAButton type="submit" disabled={submitting} showArrow={!submitting} className="px-6 py-3 disabled:opacity-50">{submitting ? "Processing..." : "Buy Ticket"}</CTAButton>
                 </div>
               </form>
             )}
@@ -494,14 +488,7 @@ export default function TicketHeroSection() {
                 >
                   Cancel
                 </button>
-                <button
-                  onClick={handleConfirm}
-                  disabled={submitting}
-                  className="flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 bg-secondary-terra text-white text-xs font-semibold tracking-wider uppercase rounded hover:bg-secondary-rust transition-colors disabled:opacity-50"
-                >
-                  {submitting ? "Processing..." : "Confirm"}
-                  {!submitting && <ArrowUpRight size={13} strokeWidth={2.5} />}
-                </button>
+                <CTAButton onClick={handleConfirm} disabled={submitting} showArrow={!submitting} className="flex-1 justify-center px-4 disabled:opacity-50">{submitting ? "Processing..." : "Confirm"}</CTAButton>
               </div>
             </motion.div>
           </motion.div>

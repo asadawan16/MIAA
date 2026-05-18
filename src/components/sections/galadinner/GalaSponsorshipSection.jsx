@@ -1,6 +1,6 @@
 import { motion } from "framer-motion"
-import { ArrowUpRight } from "lucide-react"
 import { fadeInLeft, fadeInRight } from "../../../lib/motion"
+import CTAButton from "../../ui/Button"
 import SectionDivider from "../../ui/SectionDivider"
 
 export default function GalaSponsorshipSection() {
@@ -17,15 +17,7 @@ export default function GalaSponsorshipSection() {
             <h2 className="font-display text-3xl md:text-[42px] font-medium text-primary leading-none tracking-tight mb-10 mt-0 uppercase">
               Sponsorship<br />Opportunities
             </h2>
-            <a
-              href="https://drive.google.com/file/d/1072ktfGFYxJMQHalRFTKSyhICR5ONtEo/view?usp=sharing"
-              target="_blank"
-              rel="noreferrer noopener"
-              className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-secondary-terra text-white text-[11px] font-semibold tracking-[0.15em] uppercase rounded-sm hover:bg-secondary-rust transition-colors"
-            >
-              Download Sponsorship Package
-              <ArrowUpRight size={13} strokeWidth={2.5} />
-            </a>
+            <CTAButton href="https://drive.google.com/file/d/1072ktfGFYxJMQHalRFTKSyhICR5ONtEo/view?usp=sharing" target="_blank" rel="noreferrer noopener">Download Sponsorship Package</CTAButton>
           </motion.div>
 
           {/* Right — Description */}

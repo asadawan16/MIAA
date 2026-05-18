@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { motion } from "framer-motion"
-import { ArrowUpRight } from "lucide-react"
 import { fadeInLeft, fadeInRight } from "../../../lib/motion"
+import CTAButton from "../../ui/Button"
 
 const TOPICS = [
   "General Inquiry",
@@ -212,14 +212,7 @@ export default function ContactPageSection() {
                   <p className="text-sm text-secondary-terra" role="alert">{error}</p>
                 )}
                 <div>
-                  <button
-                    type="submit"
-                    disabled={submitting}
-                    className="inline-flex items-center gap-1.5 px-6 py-3 bg-secondary-terra text-white text-xs font-semibold tracking-wider uppercase rounded hover:bg-secondary-rust disabled:opacity-60 transition-colors duration-200"
-                  >
-                    {submitting ? "Sending…" : "Send Message"}
-                    <ArrowUpRight size={13} strokeWidth={2.5} />
-                  </button>
+                  <CTAButton type="submit" disabled={submitting} className="px-6 py-3 disabled:opacity-60">{submitting ? "Sending…" : "Send Message"}</CTAButton>
                 </div>
               </form>
             )}

@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react"
 import { motion } from "framer-motion"
-import { ArrowUpRight } from "lucide-react"
 import { fadeInUp } from "../../../lib/motion"
+import CTAButton from "../../ui/Button"
 
 const TIMELINE_DATA = {
   2022: [
@@ -363,15 +363,7 @@ export default function ProjectTimelineSection() {
 
         {/* CTA */}
         <motion.div {...fadeInUp} className="flex justify-center mt-12 md:mt-16">
-          <a
-            href="https://www.youtube.com/@MuseumofIslamicArtAustralia"
-            target="_blank"
-            rel="noreferrer noopener"
-            className="inline-flex items-center gap-1.5 px-6 py-3 bg-secondary-terra text-white text-[11px] font-semibold tracking-[0.15em] uppercase rounded-sm hover:bg-secondary-rust transition-colors"
-          >
-            Watch Our First Steps
-            <ArrowUpRight size={13} strokeWidth={2.5} />
-          </a>
+          <CTAButton href="https://www.youtube.com/@MuseumofIslamicArtAustralia" target="_blank" rel="noreferrer noopener" className="px-6 py-3">Watch Our First Steps</CTAButton>
         </motion.div>
       </div>
     </section>

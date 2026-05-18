@@ -1,3 +1,78 @@
-export default function Button() {
-  return null
+import { Link } from "react-router-dom"
+import { motion } from "framer-motion"
+import { ArrowUpRight } from "lucide-react"
+import clsx from "clsx"
+
+const MotionLink = motion.create(Link)
+
+const springTransition = { type: "spring", stiffness: 400, damping: 20 }
+
+export default function CTAButton({
+  children,
+  to,
+  href,
+  icon: Icon = ArrowUpRight,
+  showArrow = true,
+  className,
+  ...props
+}) {
+  const base = clsx(
+    "group relative inline-flex items-center gap-1.5 px-5 py-2.5",
+    "bg-secondary-terra text-white font-barlow text-[11px] font-semibold",
+    "tracking-[0.15em] uppercase rounded-sm overflow-hidden",
+    "transition-colors duration-200",
+    className,
+  )
+
+  const motionProps = {
+    whileHover: { scale: 1.03 },
+    whileTap: { scale: 0.97 },
+    transition: springTransition,
+  }
+
+  const content = (
+    <>
+      <span className="relative z-10">{children}</span>
+      {showArrow && (
+        <span className="relative z-10 inline-flex overflow-hidden w-[13px] h-[13px]">
+          {/* Default arrow — slides out top-right on hover */}
+          <Icon
+            size={13}
+            strokeWidth={2.5}
+            className="absolute inset-0 transition-transform duration-300 ease-out group-hover:translate-x-full group-hover:-translate-y-full"
+          />
+          {/* Clone arrow — slides in from bottom-left on hover */}
+          <Icon
+            size={13}
+            strokeWidth={2.5}
+            className="absolute inset-0 -translate-x-full translate-y-full transition-transform duration-300 ease-out group-hover:translate-x-0 group-hover:translate-y-0"
+          />
+        </span>
+      )}
+      {/* Background sweep on hover */}
+      <span className="absolute inset-0 bg-secondary-rust origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out" />
+    </>
+  )
+
+  if (to) {
+    return (
+      <MotionLink to={to} className={base} {...motionProps} {...props}>
+        {content}
+      </MotionLink>
+    )
+  }
+
+  if (href) {
+    return (
+      <motion.a href={href} className={base} {...motionProps} {...props}>
+        {content}
+      </motion.a>
+    )
+  }
+
+  return (
+    <motion.button className={base} {...motionProps} {...props}>
+      {content}
+    </motion.button>
+  )
 }

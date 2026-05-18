@@ -1,7 +1,7 @@
 import { motion } from "framer-motion"
 import { ArrowUpRight } from "lucide-react"
-import { Link } from "react-router-dom"
 import { fadeInUp, fadeInLeft, fadeInRight } from "../../../lib/motion"
+import CTAButton from "../../ui/Button"
 import SectionDivider from "../../ui/SectionDivider"
 
 import maskImage from "../../../assets/images/GalaDinner/maskimage.png"
@@ -110,13 +110,7 @@ export default function GalaEventDetailsSection() {
               </p>
             </div>
             <div className="mt-6">
-              <Link
-                to="/gala-dinner/tickets"
-                className="inline-flex items-center gap-1.5 px-6 py-2.5 bg-secondary-terra text-white text-[11px] font-semibold tracking-[0.15em] uppercase rounded-sm hover:bg-secondary-rust transition-colors"
-              >
-                Buy Ticket
-                <ArrowUpRight size={13} strokeWidth={2.5} />
-              </Link>
+              <CTAButton to="/gala-dinner/tickets" className="px-6">Buy Ticket</CTAButton>
             </div>
           </motion.div>
         </div>

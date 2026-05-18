@@ -1,7 +1,6 @@
 import { motion } from "framer-motion"
-import { ArrowUpRight } from "lucide-react"
-import { Link } from "react-router-dom"
 import { fadeInUp } from "../../../lib/motion"
+import CTAButton from "../../ui/Button"
 
 export default function AboutUsSection() {
   return (
@@ -21,13 +20,7 @@ export default function AboutUsSection() {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="mt-8"
           >
-            <Link
-              to="/about"
-              className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-secondary-terra text-white text-xs font-semibold tracking-wider uppercase rounded hover:bg-secondary-rust transition-colors duration-200"
-            >
-              Learn More About Us
-              <ArrowUpRight size={13} strokeWidth={2.5} />
-            </Link>
+            <CTAButton to="/about">Learn More About Us</CTAButton>
           </motion.div>
         </motion.div>
       </div>

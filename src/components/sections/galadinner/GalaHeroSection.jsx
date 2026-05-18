@@ -1,6 +1,5 @@
 import { motion } from "framer-motion"
-import { ArrowUpRight } from "lucide-react"
-import { Link } from "react-router-dom"
+import CTAButton from "../../ui/Button"
 
 import heroImg from "../../../assets/images/GalaDinner/hero.jpg"
 import heroBgPattern from "../../../assets/images/GalaDinner/herobgpattern.png"
@@ -52,13 +51,7 @@ export default function GalaHeroSection() {
             transition={{ duration: 0.6, delay: 1, ease: [0.25, 0.1, 0.25, 1] }}
             className="mt-6 md:mt-8"
           >
-            <Link
-              to="/gala-dinner/tickets"
-              className="inline-flex items-center gap-1.5 px-6 py-2.5 bg-secondary-terra text-white text-[11px] font-semibold tracking-[0.15em] uppercase rounded-sm hover:bg-secondary-rust transition-colors"
-            >
-              Buy Ticket
-              <ArrowUpRight size={13} strokeWidth={2.5} />
-            </Link>
+            <CTAButton to="/gala-dinner/tickets" className="px-6">Buy Ticket</CTAButton>
           </motion.div>
         </div>
       </div>

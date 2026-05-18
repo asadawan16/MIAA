@@ -1,7 +1,6 @@
 import { motion } from "framer-motion"
-import { ArrowUpRight } from "lucide-react"
-import { Link } from "react-router-dom"
 import { fadeInLeft, fadeInRight } from "../../../lib/motion"
+import CTAButton from "../../ui/Button"
 
 import smwf1 from "../../../assets/images/Homepage/SMWF/SMWF-01.png"
 import smwf2 from "../../../assets/images/Homepage/SMWF/SMWF-02.png"
@@ -31,7 +30,7 @@ function BannerStrip({ text, count = 30 }) {
       {Array.from({ length: count }).map((_, i) => (
         <span
           key={i}
-          className="inline-flex items-center gap-2 text-white text-[13px] font-semibold tracking-wide flex-shrink-0"
+          className="inline-flex items-center gap-2 text-white font-aeonik text-[13px] font-normal tracking-wide flex-shrink-0"
         >
           <QuatrefoilIcon />
           {text}
@@ -74,13 +73,7 @@ export default function SMWFSection() {
               foster dialogue, and build connections across communities
             </p>
             <div className="mt-8">
-              <Link
-                to="/events"
-                className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-secondary-terra text-white text-xs font-semibold tracking-wider uppercase rounded hover:bg-secondary-rust transition-colors duration-200"
-              >
-                Explore
-                <ArrowUpRight size={13} strokeWidth={2.5} />
-              </Link>
+              <CTAButton to="/events">Explore</CTAButton>
             </div>
           </motion.div>
 

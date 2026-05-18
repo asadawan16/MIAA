@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { motion } from "framer-motion"
-import { ArrowUpRight } from "lucide-react"
 import { fadeInLeft, fadeInRight } from "../../../lib/motion"
+import CTAButton from "../../ui/Button"
 import { api } from "../../../lib/api"
 import connectImg from "../../../assets/images/About/connect.png"
 
@@ -154,14 +154,9 @@ export default function ContactSection() {
                 )}
                 {/* Submit */}
                 <div className="flex justify-end">
-                  <button
-                    type="submit"
-                    disabled={submitting}
-                    className="inline-flex items-center gap-1.5 px-6 py-3 bg-secondary-terra text-white text-xs font-semibold tracking-wider uppercase rounded hover:bg-secondary-rust disabled:opacity-60 transition-colors duration-200"
-                  >
+                  <CTAButton type="submit" disabled={submitting} className="px-6 py-3 disabled:opacity-60">
                     {submitting ? "Sending…" : "Send Message"}
-                    <ArrowUpRight size={13} strokeWidth={2.5} />
-                  </button>
+                  </CTAButton>
                 </div>
               </form>
             )}

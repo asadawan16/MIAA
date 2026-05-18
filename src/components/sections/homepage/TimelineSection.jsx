@@ -1,9 +1,8 @@
 import { motion } from "framer-motion"
-import { ArrowUpRight } from "lucide-react"
-import { Link } from "react-router-dom"
 import { fadeInUp, fadeInLeft, fadeInRight, staggerContainer, staggerItem } from "../../../lib/motion"
+import CTAButton from "../../ui/Button"
 import { TIMELINE_MILESTONES } from "../../../lib/constants"
-import buildingImg from "../../../assets/images/Homepage/buildingfuture.png"
+import buildingImg from "../../../assets/images/Homepage/buildingfuture.jpg"
 
 import sydneyView from "../../../assets/images/Homepage/Miatimeline/sydney-view.png"
 import sydneyWater from "../../../assets/images/Homepage/Miatimeline/sydney-water.png"
@@ -30,13 +29,7 @@ export default function TimelineSection() {
               innovation, and community.
             </p>
             <div className="mt-8">
-              <Link
-                to="/timeline"
-                className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-secondary-terra text-white text-[11px] font-semibold tracking-[0.15em] uppercase rounded-sm hover:bg-secondary-rust transition-colors duration-200"
-              >
-                Follow Our Journey
-                <ArrowUpRight size={13} strokeWidth={2.5} />
-              </Link>
+              <CTAButton to="/timeline">Follow Our Journey</CTAButton>
             </div>
           </motion.div>
 

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
-import { useParams, Link } from "react-router-dom"
+import { useParams } from "react-router-dom"
+import CTAButton from "../components/ui/Button"
 import BlogDetailSection from "../components/sections/blog/BlogDetailSection"
 import { BLOG_ARTICLES } from "../lib/constants"
 import { api } from "../lib/api"
@@ -92,12 +93,7 @@ export default function BlogDetail() {
           <h1 className="text-3xl md:text-4xl text-accent-cream mb-4">
             We couldn&apos;t find that post.
           </h1>
-          <Link
-            to="/blog"
-            className="inline-flex items-center gap-1 px-5 py-2.5 bg-secondary-terra text-white text-[11px] font-semibold tracking-[0.15em] uppercase rounded-sm hover:bg-secondary-rust transition-colors"
-          >
-            Back to Blog
-          </Link>
+          <CTAButton to="/blog" showArrow={false}>Back to Blog</CTAButton>
         </div>
       </section>
     )

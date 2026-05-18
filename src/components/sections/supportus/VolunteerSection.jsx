@@ -1,6 +1,6 @@
 import { motion } from "framer-motion"
-import { ArrowUpRight } from "lucide-react"
 import { fadeInLeft, fadeInRight } from "../../../lib/motion"
+import CTAButton from "../../ui/Button"
 import volunteerImg from "../../../assets/images/Support/volunteer-group.png"
 
 export default function VolunteerSection() {
@@ -45,13 +45,7 @@ export default function VolunteerSection() {
               </p>
             </div>
 
-            <a
-              href="#volunteer"
-              className="inline-flex items-center gap-1.5 px-5 py-2.5 mt-8 bg-secondary-terra text-white text-xs font-semibold tracking-wider uppercase rounded hover:bg-secondary-rust transition-colors duration-200 self-start"
-            >
-              Join Volunteer
-              <ArrowUpRight size={14} strokeWidth={2.5} />
-            </a>
+            <CTAButton href="#volunteer" className="mt-8 self-start">Join Volunteer</CTAButton>
           </motion.div>
         </div>
       </div>

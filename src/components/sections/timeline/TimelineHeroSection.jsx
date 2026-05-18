@@ -1,8 +1,8 @@
 import { motion } from "framer-motion"
 import { ArrowDownRight } from "lucide-react"
-import { Link } from "react-router-dom"
 import { fadeInLeft, fadeInRight } from "../../../lib/motion"
-import renderImg from "../../../assets/images/Timeline/timeline-render.png"
+import CTAButton from "../../ui/Button"
+import renderImg from "../../../assets/images/Timeline/buildingfuture.jpg"
 import float1 from "../../../assets/images/About/float1.png"
 
 export default function TimelineHeroSection() {
@@ -19,13 +19,7 @@ export default function TimelineHeroSection() {
               Completion
             </h1>
             <div className="mt-6">
-              <a
-                href="#architecture"
-                className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-secondary-terra text-white text-[11px] font-semibold tracking-[0.15em] uppercase rounded-sm hover:bg-secondary-rust transition-colors"
-              >
-                Learn More
-                <ArrowDownRight size={13} strokeWidth={2.5} />
-              </a>
+              <CTAButton href="#architecture" icon={ArrowDownRight}>Learn More</CTAButton>
             </div>
           </motion.div>
 

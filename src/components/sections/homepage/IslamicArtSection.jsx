@@ -1,8 +1,10 @@
-import { useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { ArrowUpRight } from "lucide-react"
-import { Link } from "react-router-dom"
+import { useState, useRef, useEffect } from "react"
+import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from "framer-motion"
+import gsap from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { useGSAP } from "@gsap/react"
 import { fadeInUp } from "../../../lib/motion"
+import CTAButton from "../../ui/Button"
 
 import art1 from "../../../assets/images/Homepage/Art in Aus.png"
 import art2 from "../../../assets/images/Homepage/Art in Aus-1.png"
@@ -10,13 +12,49 @@ import art3 from "../../../assets/images/Homepage/Art in Aus-2.png"
 import art4 from "../../../assets/images/Homepage/Art in Aus-3.png"
 import art5 from "../../../assets/images/Homepage/Art in Aus-4.png"
 
-// Left side: blue sphere (top), prayer mat (mid-left), horse (bottom-center)
-// Right side: metalwork (top), patterned textile (bottom) with credit
+gsap.registerPlugin(ScrollTrigger)
+
 const artPieces = [
-  { src: art5, alt: "Blue sphere artwork", credit: "", top: "5%", left: "10%", size: "w-28 md:w-36 lg:w-56" },
-  { src: art2, alt: "Prayer mat", credit: "", top: "40%", left: "-5%", size: "w-28 md:w-40 lg:w-56" },
-  { src: art3, alt: "Green figurine", credit: "", top: "66%", left: "22%", size: "w-24 md:w-36 lg:w-50" },
-  { src: art1, alt: "Islamic metalwork", credit: "", top: "8%", right: "0%", size: "w-32 md:w-48 lg:w-60" },
+  {
+    src: art5,
+    alt: "Blue sphere artwork",
+    credit: "Luminous Geometry —",
+    creditAuthor: "Zarah Hussain",
+    top: "5%",
+    left: "10%",
+    size: "w-28 md:w-36 lg:w-56",
+    parallaxFactor: 1.2,
+  },
+  {
+    src: art2,
+    alt: "Prayer mat",
+    credit: "Sacred Weave —",
+    creditAuthor: "Nada Rawhi Debs",
+    top: "40%",
+    left: "-5%",
+    size: "w-28 md:w-40 lg:w-56",
+    parallaxFactor: 0.8,
+  },
+  {
+    src: art3,
+    alt: "Green figurine",
+    credit: "The Green Horse —",
+    creditAuthor: "Hossein Valamanesh",
+    top: "66%",
+    left: "22%",
+    size: "w-24 md:w-36 lg:w-50",
+    parallaxFactor: 1.5,
+  },
+  {
+    src: art1,
+    alt: "Islamic metalwork",
+    credit: "Patterns in Metal —",
+    creditAuthor: "Aisha Khalid",
+    top: "8%",
+    right: "0%",
+    size: "w-32 md:w-48 lg:w-60",
+    parallaxFactor: 1.0,
+  },
   {
     src: art4,
     alt: "One Thousand and One and Counting",
@@ -25,22 +63,65 @@ const artPieces = [
     top: "56%",
     right: "10%",
     size: "w-28 md:w-40 lg:w-56",
+    parallaxFactor: 1.3,
   },
 ]
 
 export default function IslamicArtSection() {
   const [hoveredIndex, setHoveredIndex] = useState(null)
+  const containerRef = useRef(null)
+  const sectionRef = useRef(null)
+  const frameRefs = useRef([])
+
+  // Track mouse globally — normalised to -1 … 1 based on window center
+  const mouseX = useMotionValue(0)
+  const mouseY = useMotionValue(0)
+
+  const springX = useSpring(mouseX, { stiffness: 50, damping: 20 })
+  const springY = useSpring(mouseY, { stiffness: 50, damping: 20 })
+
+  useEffect(() => {
+    function onMove(e) {
+      const x = (e.clientX / window.innerWidth - 0.5) * 2
+      const y = (e.clientY / window.innerHeight - 0.5) * 2
+      mouseX.set(x)
+      mouseY.set(y)
+    }
+    window.addEventListener("mousemove", onMove)
+    return () => window.removeEventListener("mousemove", onMove)
+  }, [mouseX, mouseY])
+
+  // GSAP scroll-triggered entrance: frames rise one-by-one from below
+  useGSAP(() => {
+    const frames = frameRefs.current.filter(Boolean)
+    if (!frames.length) return
+
+    // Set initial state — far below and invisible
+    gsap.set(frames, { y: 150, opacity: 0 })
+
+    gsap.to(frames, {
+      y: 0,
+      opacity: 1,
+      duration: 1,
+      ease: "power3.out",
+      stagger: 0.2,
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: "top 75%",
+        once: true,
+      },
+    })
+  }, { scope: sectionRef })
 
   // Mobile layout — frames stack above + below the center text (no overlap)
   const mobileTopFrames = artPieces.slice(0, 3)
   const mobileBottomFrames = artPieces.slice(3)
 
   return (
-    <section className="py-16 md:py-24 bg-accent-cream overflow-hidden">
+    <section ref={sectionRef} className="py-16 md:py-24 bg-accent-cream overflow-hidden">
       <div className="max-w-[1400px] mx-auto px-6 md:px-10 lg:px-16">
         {/* Mobile layout — stacked, no overlap */}
         <div className="md:hidden flex flex-col items-center text-center gap-8">
-          {/* Top frames row — tall portrait cells, alternating up/down for a wall feel */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -62,7 +143,6 @@ export default function IslamicArtSection() {
             ))}
           </motion.div>
 
-          {/* Center text */}
           <motion.div {...fadeInUp} className="px-2 py-4">
             <h2 className="text-3xl font-medium text-primary tracking-tight leading-snug">
               Celebrating Islamic
@@ -76,17 +156,10 @@ export default function IslamicArtSection() {
               heritage and future through art, learning, and community.
             </p>
             <div className="mt-6">
-              <Link
-                to="/islamic-art"
-                className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-secondary-terra text-white text-xs font-semibold tracking-wider uppercase rounded hover:bg-secondary-rust transition-colors duration-200"
-              >
-                Explore
-                <ArrowUpRight size={13} strokeWidth={2.5} />
-              </Link>
+              <CTAButton to="/islamic-art">Explore</CTAButton>
             </div>
           </motion.div>
 
-          {/* Bottom frames row — tall portrait cells, staggered down on the second */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -109,8 +182,8 @@ export default function IslamicArtSection() {
           </motion.div>
         </div>
 
-        {/* Desktop layout — original scattered absolute-positioned frames (unchanged) */}
-        <div className="hidden md:block">
+        {/* Desktop layout — scattered frames with mouse-tracking */}
+        <div ref={containerRef} className="hidden md:block">
           <div className="relative md:min-h-[750px] lg:min-h-[900px]">
             {/* Center text */}
             <motion.div
@@ -129,55 +202,23 @@ export default function IslamicArtSection() {
                 heritage and future through art, learning, and community.
               </p>
               <div className="pointer-events-auto mt-6">
-                <Link
-                  to="/islamic-art"
-                  className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-secondary-terra text-white text-xs font-semibold tracking-wider uppercase rounded hover:bg-secondary-rust transition-colors duration-200"
-                >
-                  Explore
-                  <ArrowUpRight size={13} strokeWidth={2.5} />
-                </Link>
+                <CTAButton to="/islamic-art">Explore</CTAButton>
               </div>
             </motion.div>
 
-            {/* Art frames - single teal border, image has its own white mat */}
+            {/* Art frames — GSAP drives the entrance, Framer Motion drives the mouse parallax */}
             {artPieces.map((piece, i) => (
-              <motion.div
+              <ArtFrame
                 key={i}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.5, delay: 0.1 * i, ease: "easeOut" }}
-                className={`${piece.size} absolute z-0 cursor-pointer`}
-                style={{
-                  top: piece.top,
-                  left: piece.left,
-                  right: piece.right,
-                }}
-                onMouseEnter={() => setHoveredIndex(i)}
-                onMouseLeave={() => setHoveredIndex(null)}
-              >
-                <div className="border-[4px] border-primary overflow-hidden">
-                  <img
-                    src={piece.src}
-                    alt={piece.alt}
-                    className="w-full h-auto block"
-                  />
-                </div>
-                <AnimatePresence>
-                  {piece.credit && hoveredIndex === i && (
-                    <motion.p
-                      initial={{ opacity: 0, y: 5 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 5 }}
-                      transition={{ duration: 0.2 }}
-                      className="mt-2 text-[9px] text-primary leading-tight text-center italic"
-                    >
-                      {piece.credit}{" "}
-                      <span className="font-medium not-italic">{piece.creditAuthor}</span>
-                    </motion.p>
-                  )}
-                </AnimatePresence>
-              </motion.div>
+                ref={(el) => (frameRefs.current[i] = el)}
+                piece={piece}
+                index={i}
+                isHovered={hoveredIndex === i}
+                onHover={() => setHoveredIndex(i)}
+                onLeave={() => setHoveredIndex(null)}
+                springX={springX}
+                springY={springY}
+              />
             ))}
           </div>
         </div>
@@ -185,3 +226,58 @@ export default function IslamicArtSection() {
     </section>
   )
 }
+
+import { forwardRef } from "react"
+
+const ArtFrame = forwardRef(function ArtFrame(
+  { piece, index, isHovered, onHover, onLeave, springX, springY },
+  ref,
+) {
+  const factor = piece.parallaxFactor
+  // Opposite direction: negate the spring values, scaled by factor * 20px
+  const mx = useTransform(springX, (v) => -v * factor * 20)
+  const my = useTransform(springY, (v) => -v * factor * 10)
+
+  return (
+    <div
+      ref={ref}
+      className={`${piece.size} absolute z-0 cursor-pointer`}
+      style={{
+        top: piece.top,
+        left: piece.left,
+        right: piece.right,
+      }}
+    >
+      {/* Inner wrapper for mouse-tracking parallax (Framer Motion) */}
+      <motion.div
+        style={{ x: mx, y: my }}
+        onMouseEnter={onHover}
+        onMouseLeave={onLeave}
+      >
+        <div className="border-[4px] border-primary overflow-hidden">
+          <img
+            src={piece.src}
+            alt={piece.alt}
+            className="w-full h-auto block"
+          />
+        </div>
+
+        {/* Credit overlay — visible on hover */}
+        <AnimatePresence>
+          {isHovered && piece.credit && (
+            <motion.p
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 6 }}
+              transition={{ duration: 0.25 }}
+              className="mt-2.5 text-[10px] lg:text-[11px] text-primary leading-snug text-center italic"
+            >
+              {piece.credit}{" "}
+              <span className="font-medium not-italic">{piece.creditAuthor}</span>
+            </motion.p>
+          )}
+        </AnimatePresence>
+      </motion.div>
+    </div>
+  )
+})

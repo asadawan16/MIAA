@@ -1,8 +1,7 @@
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { ArrowUpRight } from "lucide-react"
-import { Link } from "react-router-dom"
 import { fadeInUp, staggerContainer, staggerItem } from "../../../lib/motion"
+import CTAButton from "../../ui/Button"
 import { useCMS } from "../../../hooks/useCMS"
 import { api } from "../../../lib/api"
 
@@ -68,13 +67,7 @@ export default function OffsiteEventsSection() {
           <h2 className="text-3xl md:text-[42px] font-medium text-white tracking-tight  leading-tight">
             Offsite Programs and Events
           </h2>
-          <Link
-            to="/offsite-events"
-            className="hidden md:inline-flex items-center gap-1.5 mt-1 px-5 py-2.5 bg-secondary-terra text-white text-[11px] font-semibold tracking-[0.15em] uppercase rounded-sm hover:bg-secondary-rust transition-colors whitespace-nowrap"
-          >
-            View All Events
-            <ArrowUpRight size={13} strokeWidth={2.5} />
-          </Link>
+          <CTAButton to="/offsite-events" className="hidden md:inline-flex mt-1 whitespace-nowrap">View All Events</CTAButton>
         </motion.div>
 
         {/* Upcoming event cards */}
@@ -90,7 +83,7 @@ export default function OffsiteEventsSection() {
             >
               {/* Date & location — right-aligned */}
               <div className="mb-4 text-right">
-                <p className="text-3xl md:text-[34px] font-base tracking-wide  text-[#D0A270]" >
+                <p className="text-3xl md:text-[34px] font-semibold tracking-wide text-[#D0A270]" >
                   {event.date}
                 </p>
                 <p className="text-[11px] text-white mt-1 tracking-wide italic">
@@ -171,13 +164,7 @@ export default function OffsiteEventsSection() {
               </div>
 
               <div className="mt-6">
-                <Link
-                  to="/offsite-events"
-                  className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-secondary-terra text-white text-[11px] font-semibold tracking-[0.15em] uppercase rounded-sm hover:bg-secondary-rust transition-colors"
-                >
-                  View All Events
-                  <ArrowUpRight size={13} strokeWidth={2.5} />
-                </Link>
+                <CTAButton to="/offsite-events">View All Events</CTAButton>
               </div>
             </div>
           </div>

@@ -1,6 +1,6 @@
 import { motion } from "framer-motion"
-import { ArrowUpRight } from "lucide-react"
 import { fadeInLeft, fadeInRight, fadeInUp } from "../../../lib/motion"
+import CTAButton from "../../ui/Button"
 
 function QuatrefoilMarker({ size = 11 }) {
   return (
@@ -57,15 +57,7 @@ export default function ArchitectureSection() {
               Brief here.
             </p>
 
-            <a
-              href="https://drive.google.com/file/d/1072ktfGFYxJMQHalRFTKSyhICR5ONtEo/view?usp=sharing"
-              target="_blank"
-              rel="noreferrer noopener"
-              className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-secondary-terra text-white text-[11px] font-semibold tracking-[0.15em] uppercase rounded-sm hover:bg-secondary-rust transition-colors"
-            >
-              Download
-              <ArrowUpRight size={13} strokeWidth={2.5} />
-            </a>
+            <CTAButton href="https://drive.google.com/file/d/1072ktfGFYxJMQHalRFTKSyhICR5ONtEo/view?usp=sharing" target="_blank" rel="noreferrer noopener">Download</CTAButton>
           </motion.div>
 
           {/* Right — intro paragraph + 2-col sub-grid */}

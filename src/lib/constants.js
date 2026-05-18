@@ -5,7 +5,7 @@ export const NAV_LINKS = [
   { label: "MIAA Offsite Events", path: "/offsite-events" },
   { label: "Education & Community Engagement", path: "/community-engagement" },
   { label: "Timeline & Construction", path: "/timeline" },
-  { label: "Updates & Blogs", path: "/blog" },
+  // { label: "Updates & Blogs", path: "/blog" },
   { label: "Contact Us", path: "/contact" },
   { label: "Gala Dinner", path: "/gala-dinner" },
 ]

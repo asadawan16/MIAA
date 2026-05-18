@@ -1,6 +1,6 @@
 import { motion } from "framer-motion"
-import { ArrowUpRight } from "lucide-react"
 import { fadeInLeft, fadeInRight, staggerContainer, staggerItem } from "../../../lib/motion"
+import CTAButton from "../../ui/Button"
 import kidsImg from "../../../assets/images/Support/donor-event.png"
 
 const BENEFITS = [
@@ -47,13 +47,7 @@ export default function MIAAKidsSection() {
               *Excludes ticketed events
             </p>
 
-            <a
-              href="#join"
-              className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-secondary-terra text-white text-xs font-semibold tracking-wider uppercase rounded hover:bg-secondary-rust transition-colors duration-200"
-            >
-              Join Membership
-              <ArrowUpRight size={14} strokeWidth={2.5} />
-            </a>
+            <CTAButton href="#join">Join Membership</CTAButton>
           </motion.div>
 
           {/* Right — image */}

@@ -2,6 +2,7 @@ import { motion } from "framer-motion"
 import { ArrowUpRight } from "lucide-react"
 import { Link } from "react-router-dom"
 import { fadeInUp, staggerContainer, staggerItem } from "../../../lib/motion"
+import CTAButton from "../../ui/Button"
 import { BLOG_POSTS } from "../../../lib/constants"
 
 import img1 from "../../../assets/images/Homepage/insightsandinspirations/Rectangle 100 (4).png"
@@ -26,13 +27,7 @@ export default function InsightsSection() {
           <h2 className="text-3xl md:text-4xl font-medium text-primary tracking-tight">
             Insights and Inspiration
           </h2>
-          <Link
-            to="/blog"
-            className="inline-flex items-center gap-1.5 mt-4 md:mt-0 px-4 py-2 bg-secondary-terra text-white text-xs font-semibold tracking-wider uppercase rounded hover:bg-secondary-rust transition-colors"
-          >
-            Visit Blog
-            <ArrowUpRight size={13} strokeWidth={2.5} />
-          </Link>
+          <CTAButton to="/blog" className="mt-4 md:mt-0 px-4 py-2">Visit Blog</CTAButton>
         </motion.div>
 
         {/* Blog cards - flat, no card wrapper */}

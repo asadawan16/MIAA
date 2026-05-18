@@ -1,5 +1,6 @@
 import { motion } from "framer-motion"
-import { ArrowUpRight, Check } from "lucide-react"
+import { Check } from "lucide-react"
+import CTAButton from "../../ui/Button"
 import { fadeInLeft, fadeInRight, staggerContainer, staggerItem } from "../../../lib/motion"
 
 const DONATION_OPTIONS = [
@@ -39,13 +40,7 @@ export default function OtherDonationsSection() {
               Other Individual Donations Arranged Through Our Team
             </h2>
 
-            <a
-              href="#donate"
-              className="inline-flex items-center gap-1.5 px-5 py-2.5 mt-8 lg:mt-10 bg-secondary-terra text-white text-xs font-semibold tracking-wider uppercase rounded hover:bg-secondary-rust transition-colors duration-200 self-start"
-            >
-              Donate Now
-              <ArrowUpRight size={14} strokeWidth={2.5} />
-            </a>
+            <CTAButton href="#donate" className="mt-8 lg:mt-10 self-start">Donate Now</CTAButton>
           </motion.div>
 
           {/* Right — checklist */}

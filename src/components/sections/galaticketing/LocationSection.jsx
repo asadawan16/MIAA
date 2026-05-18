@@ -1,6 +1,6 @@
 import { motion } from "framer-motion"
-import { ArrowUpRight } from "lucide-react"
 import { fadeInLeft, fadeInRight, fadeInUp } from "../../../lib/motion"
+import CTAButton from "../../ui/Button"
 import venueImg from "../../../assets/images/Ticketing/agnsw-exterior.jpg"
 import bgPattern from "../../../assets/images/Ticketing/bgpatternticket.png"
 
@@ -115,15 +115,7 @@ export default function LocationSection() {
               </p>
             </div>
 
-            <a
-              href="https://maps.google.com/?q=Art+Gallery+of+New+South+Wales"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-secondary-terra text-white text-xs font-semibold tracking-wider uppercase rounded hover:bg-secondary-rust transition-colors duration-200 whitespace-nowrap self-start"
-            >
-              Open Maps
-              <ArrowUpRight size={14} strokeWidth={2.5} />
-            </a>
+            <CTAButton href="https://maps.google.com/?q=Art+Gallery+of+New+South+Wales" target="_blank" rel="noopener noreferrer" className="whitespace-nowrap self-start">Open Maps</CTAButton>
           </motion.div>
         </div>
       </div>

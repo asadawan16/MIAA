@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { Link, useLocation } from "react-router-dom"
 import { motion, AnimatePresence } from "framer-motion"
 import { Menu, X, ArrowUpRight } from "lucide-react"
+import CTAButton from "../ui/Button"
 import { NAV_LINKS } from "../../lib/constants"
 import smallLogo from "../../assets/images/Homepage/smalllogo.png"
 import topRightSpheres from "../../assets/images/Homepage/herotoprightelement.png"
@@ -44,13 +45,9 @@ export default function Navbar() {
             Gala Dinner
             <ArrowUpRight size={12} strokeWidth={2.5} />
           </Link>
-          <Link
-            to="/support-us"
-            className="pointer-events-auto hidden md:inline-flex items-center gap-1.5 px-4 py-3 bg-secondary-terra text-white text-[10px] font-bold tracking-[0.15em] uppercase rounded hover:bg-secondary-rust transition-colors duration-200"
-          >
+          <CTAButton to="/support-us" className="pointer-events-auto hidden md:inline-flex px-4 py-3">
             Follow Our Journey
-            <ArrowUpRight size={12} strokeWidth={2.5} />
-          </Link>
+          </CTAButton>
           {/* Reserve the hamburger slot here so the CTAs sit left of it at the top of the page */}
           <span className="w-[80px] h-[48px]" aria-hidden="true" />
         </div>
@@ -109,14 +106,9 @@ export default function Navbar() {
                 </Link>
 
                 <div className="flex items-center gap-3">
-                  <Link
-                    to="/support-us"
-                    onClick={() => setMenuOpen(false)}
-                    className="hidden md:inline-flex items-center gap-1.5 px-4 py-2 bg-secondary-terra text-white text-[10px] font-bold tracking-[0.15em] uppercase rounded hover:bg-secondary-rust transition-colors duration-200"
-                  >
+                  <CTAButton to="/support-us" onClick={() => setMenuOpen(false)} className="hidden md:inline-flex px-4 py-2">
                     Follow Our Journey
-                    <ArrowUpRight size={12} strokeWidth={2.5} />
-                  </Link>
+                  </CTAButton>
                   <button
                     onClick={() => setMenuOpen(false)}
                     className="bg-accent-cream rounded-xl px-7 py-3 shadow-md hover:bg-white transition-colors"

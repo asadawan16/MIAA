@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { ArrowUpRight } from "lucide-react"
 import { fadeInLeft, fadeInRight, fadeInUp } from "../../../lib/motion"
+import CTAButton from "../../ui/Button"
 import founderImg from "../../../assets/images/Support/founder-portrait.jpg"
 import donorEventImg from "../../../assets/images/Support/donor-event.png"
 
@@ -54,13 +54,7 @@ export default function FoundingMemberSection() {
             </p>
 
             <div className="flex flex-wrap items-center gap-6 mt-2">
-              <a
-                href="#donate"
-                className="inline-flex items-center gap-2 px-5 sm:px-7 py-3 sm:py-3.5 bg-secondary-terra text-white text-[10px] sm:text-[11px] font-semibold tracking-[0.15em] uppercase rounded-lg hover:bg-secondary-rust transition-colors"
-              >
-                Donate Now
-                <ArrowUpRight size={13} strokeWidth={2.5} />
-              </a>
+              <CTAButton href="#donate" className="px-5 sm:px-7 py-3 sm:py-3.5 rounded-lg">Donate Now</CTAButton>
               <p className="text-sm md:text-[15px] text-primary font-semibold italic leading-snug max-w-[260px]">
                 Stay in touch and be the first to hear about our upcoming
                 campaign

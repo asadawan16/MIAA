@@ -1,3 +1,4 @@
+import { useOutletContext } from "react-router-dom"
 import HeroSection from "../components/sections/homepage/HeroSection"
 import AboutUsSection from "../components/sections/homepage/AboutUsSection"
 import IslamicArtSection from "../components/sections/homepage/IslamicArtSection"
@@ -10,6 +11,10 @@ import ContactSection from "../components/sections/homepage/ContactSection"
 import SectionDivider from "../components/ui/SectionDivider"
 
 export default function Home() {
+  const { loaderDone } = useOutletContext()
+
+  if (!loaderDone) return null
+
   return (
     <>
       <HeroSection />

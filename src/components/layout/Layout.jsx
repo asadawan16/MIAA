@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Outlet, useLocation, Link } from "react-router-dom"
+import { Outlet, useLocation, Link, useOutletContext } from "react-router-dom"
 import { AnimatePresence, motion } from "framer-motion"
 import Navbar from "./Navbar"
 import Footer from "./Footer"
@@ -23,8 +23,8 @@ export default function Layout() {
         )}
       </AnimatePresence>
 
-      {/* Page always rendered at full opacity — the loader (z-9999) covers it while loading, then fades to reveal it without a white flash */}
-      <div>
+      {/* Hide page shell while loader is playing so footer doesn't flash */}
+      <div style={loading && isHome ? { visibility: "hidden" } : undefined}>
         {/* Logo top-left — absolute so it scrolls away with the page (only the hamburger stays sticky) */}
         <Link
           to="/"
@@ -41,7 +41,7 @@ export default function Layout() {
         <main>
           {/* Pages render directly — section-level Framer Motion handles entrance animations.
               No route-level opacity fade so the teal body bg never flashes on cream/light pages. */}
-          <Outlet />
+          <Outlet context={{ loaderDone: !loading || !isHome }} />
         </main>
         <Footer />
       </div>
