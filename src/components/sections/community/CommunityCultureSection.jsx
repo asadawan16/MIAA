@@ -101,7 +101,7 @@ export default function CommunityCultureSection() {
             </div>
 
             {/* Bottom photo — overlapping the first, with thick white border + shadow */}
-            <div className="relative z-10 w-[80%] ml-auto -mt-12 md:-mt-20 lg:-mt-28 bg-white p-2 md:p-3 shadow-2xl">
+            <div className="relative z-10 w-[80%] ml-auto -mt-12 md:-mt-20 lg:-mt-28 bg-white p-2 md:p-3 ">
               <img
                 src={workshopImg}
                 alt="Sydney Muslim Writers Festival workshop"
