@@ -81,7 +81,7 @@ export default function HeroSection() {
       </div>
 
       {/* Full-width hero image — fills remaining viewport height */}
-      <div className="relative flex-1 min-h-[250px]">
+      <div className="relative flex-1 min-h-[70vh] sm:min-h-[65vh] md:min-h-[250px]">
         {/* Flower ornament - half above image, half on image, left side */}
         <div className="hero-ornament-1 absolute top-2 md:-top-[80px] left-[3%] z-20 pointer-events-none">
           <img
@@ -95,12 +95,13 @@ export default function HeroSection() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 0.8 }}
-          className="hero-image-container w-full h-full overflow-hidden"
+          className="hero-image-container absolute inset-0 overflow-hidden"
         >
           <img
             src={heroImg}
             alt="People gathered around reflective art installation"
-            className="hero-image w-full h-full object-cover"
+            className="hero-image w-full object-cover block"
+            style={{ height: "100%" }}
           />
         </motion.div>
       </div>

@@ -30,10 +30,10 @@ function CountdownBig({ time }) {
     { v: time.seconds, l: "Seconds" },
   ]
   return (
-    <div className="flex justify-center gap-4 md:gap-6 3xl:gap-10">
+    <div className="flex justify-center gap-3 sm:gap-4 md:gap-6 3xl:gap-10 flex-wrap">
       {cells.map((c) => (
-        <div key={c.l} className="text-center">
-          <p className="text-5xl md:text-7xl 3xl:text-[7rem] font-medium text-accent-cream tabular-nums leading-none">
+        <div key={c.l} className="text-center min-w-[3.5rem] sm:min-w-[4rem]">
+          <p className="text-4xl sm:text-5xl md:text-7xl 3xl:text-[7rem] font-medium text-accent-cream tabular-nums leading-none">
             {String(c.v).padStart(2, "0")}
           </p>
           <p className="text-[0.625rem] md:text-xs 3xl:text-sm tracking-[0.3em] uppercase text-accent-wheat mt-3">
@@ -102,9 +102,9 @@ export default function SMWFPanellistsSection() {
           </motion.p>
           <motion.h2
             {...fadeInUp}
-            className="text-3xl md:text-4xl 3xl:text-[3rem] font-medium text-accent-cream tracking-tight leading-tight mb-12 md:mb-14"
+            className="text-2xl sm:text-3xl md:text-4xl 3xl:text-[3rem] font-medium text-accent-cream tracking-tight leading-tight mb-10 md:mb-14"
           >
-            April 18, 2026 — a day for writers,<br />readers and dreamers to gather.
+            April 18, 2026 — a day for writers, readers and dreamers to gather.
           </motion.h2>
           <motion.div {...fadeInUp}>
             <CountdownBig time={time} />

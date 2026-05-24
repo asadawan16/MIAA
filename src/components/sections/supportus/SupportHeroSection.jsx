@@ -40,11 +40,12 @@ export default function SupportHeroSection() {
         transition={{ duration: 0.9, delay: 0.3 }}
         className="relative w-full"
       >
-        <div className="w-full h-[260px] md:h-[26.25rem] lg:h-[31.25rem] 3xl:h-[40vh] overflow-hidden">
+        <div className="w-full h-[55vh] md:h-[26.25rem] lg:h-[31.25rem] 3xl:h-[40vh] overflow-hidden">
           <img
             src={heroImg}
             alt="Speaker addressing the MIAA community"
-            className="w-full h-full object-cover object-center"
+            className="w-full object-cover object-center block"
+            style={{ height: "100%" }}
           />
         </div>
 

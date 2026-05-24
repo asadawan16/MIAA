@@ -16,13 +16,13 @@ function CountdownCells({ time }) {
     { value: time.seconds, label: "Seconds" },
   ]
   return (
-    <div className="flex gap-3 md:gap-4 3xl:gap-6">
+    <div className="flex gap-2 sm:gap-3 md:gap-4 3xl:gap-6">
       {cells.map((c) => (
         <div
           key={c.label}
-          className="bg-secondary-terra text-white rounded-md px-4 py-3 md:px-5 md:py-4 3xl:px-7 3xl:py-6 text-center min-w-[4.5rem] md:min-w-[5.5rem] 3xl:min-w-[7.5rem]"
+          className="bg-secondary-terra text-white rounded-md px-3 py-2 sm:px-4 sm:py-3 md:px-5 md:py-4 3xl:px-7 3xl:py-6 text-center min-w-[3.75rem] sm:min-w-[4.5rem] md:min-w-[5.5rem] 3xl:min-w-[7.5rem] flex-shrink-0"
         >
-          <p className="text-2xl md:text-3xl 3xl:text-5xl font-semibold tabular-nums leading-none">
+          <p className="text-xl sm:text-2xl md:text-3xl 3xl:text-5xl font-semibold tabular-nums leading-none">
             {String(c.value).padStart(2, "0")}
           </p>
           <p className="text-[0.5625rem] 3xl:text-xs tracking-[0.25em] uppercase text-white/85 mt-1.5">
@@ -85,7 +85,7 @@ export default function SMWFHeroSection() {
             transition={{ duration: 0.7, delay: 0.15 }}
             className="relative flex justify-center lg:justify-end"
           >
-            <div className="relative w-[20rem] md:w-[26rem] lg:w-[30rem] 3xl:w-[44rem] aspect-square">
+            <div className="relative w-[14rem] sm:w-[18rem] md:w-[26rem] lg:w-[30rem] 3xl:w-[44rem] aspect-square max-w-full">
               <div
                 className="absolute inset-0 rounded-full overflow-hidden border-[6px] 3xl:border-[10px] border-accent-cream/15"
               >
@@ -107,7 +107,7 @@ export default function SMWFHeroSection() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.35 }}
-          className="mt-16 md:mt-20 flex flex-col md:flex-row md:items-end md:justify-between gap-6"
+          className="mt-12 md:mt-20 flex flex-col md:flex-row md:items-end md:justify-between gap-6 overflow-x-auto"
         >
           <div>
             <p className="text-[0.6875rem] 3xl:text-sm tracking-[0.3em] uppercase text-accent-wheat mb-4">

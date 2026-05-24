@@ -104,6 +104,26 @@ img {
   height: auto;
 }
 
+/* Responsive site logo — small on phones, scales with viewport above md */
+.miaa-logo {
+  width: 80px;
+}
+@media (min-width: 640px) {
+  .miaa-logo { width: 100px; }
+}
+@media (min-width: 768px) {
+  .miaa-logo { width: clamp(125px, 8.5vw, 360px); }
+}
+
+/* SMWF homepage carousel — on phones each lower image steps LEFT and
+   gaps between them widen. Desktop keeps its inline-style rotation/offset. */
+@media (max-width: 767px) {
+  .smwf-carousel-item {
+    transform: translateX(var(--smwf-mob-x, 0)) rotate(-0.3deg) !important;
+    margin-top: var(--smwf-mob-mt, 0.5rem) !important;
+  }
+}
+
 /* Gala Dinner hero heading — gold gradient */
 .gala-heading {
   background: linear-gradient(90deg, #D0A270 0%, #D0A270 30%, #E0C09A 45%, #D0A270 55%, #C4915A 70%, #D0A270 85%, #D0A270 100%);

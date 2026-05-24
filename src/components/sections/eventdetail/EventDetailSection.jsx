@@ -57,7 +57,7 @@ export default function EventDetailSection({ event, relatedEvents = [] }) {
           <div className="absolute inset-0 bg-gradient-to-b from-bg-deep/70 via-bg-deep/60 to-bg-deep" />
         </div>
 
-        <div className="relative z-10 max-w-[1400px] 3xl:max-w-[3200px] mx-auto px-6 md:px-10 lg:px-16 3xl:px-24 pt-32 md:pt-40 3xl:pt-48 pb-20 md:pb-28 3xl:pb-36">
+        <div className="relative z-10 max-w-[1400px] 3xl:max-w-[3200px] mx-auto px-4 sm:px-6 md:px-10 lg:px-16 3xl:px-24 pt-28 sm:pt-32 md:pt-40 3xl:pt-48 pb-16 sm:pb-20 md:pb-28 3xl:pb-36">
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
@@ -85,7 +85,7 @@ export default function EventDetailSection({ event, relatedEvents = [] }) {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
-            className="text-4xl md:text-6xl lg:text-7xl 3xl:text-[6.5rem] font-medium text-accent-cream tracking-tight leading-[1.05] max-w-5xl"
+            className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl 3xl:text-[6.5rem] font-medium text-accent-cream tracking-tight leading-[1.05] max-w-5xl"
           >
             {event.title}
           </motion.h1>
@@ -94,7 +94,7 @@ export default function EventDetailSection({ event, relatedEvents = [] }) {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="mt-10 md:mt-14 flex flex-wrap gap-x-10 gap-y-5 text-accent-cream"
+            className="mt-8 md:mt-14 flex flex-wrap gap-x-6 sm:gap-x-10 gap-y-5 text-accent-cream"
           >
             <div className="flex items-center gap-3">
               <span className="w-9 h-9 3xl:w-12 3xl:h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center">
@@ -144,8 +144,8 @@ export default function EventDetailSection({ event, relatedEvents = [] }) {
       </section>
 
       {/* Feature image + body */}
-      <section className="bg-bg-cream py-20 md:py-28 3xl:py-36">
-        <div className="max-w-[1400px] 3xl:max-w-[3200px] mx-auto px-6 md:px-10 lg:px-16 3xl:px-24">
+      <section className="bg-bg-cream py-14 sm:py-20 md:py-28 3xl:py-36">
+        <div className="max-w-[1400px] 3xl:max-w-[3200px] mx-auto px-4 sm:px-6 md:px-10 lg:px-16 3xl:px-24">
           <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] gap-12 lg:gap-20 items-start">
             <motion.div
               {...fadeInLeft}
@@ -160,7 +160,7 @@ export default function EventDetailSection({ event, relatedEvents = [] }) {
                   />
                 </div>
               )}
-              <div className="absolute -bottom-6 -left-6 hidden md:block">
+              <div className="absolute -bottom-4 left-4 md:-bottom-6 md:-left-6">
                 <div className="bg-secondary-terra text-white px-5 py-4 3xl:px-7 3xl:py-5 rounded-md shadow-xl">
                   <p className="text-[0.625rem] 3xl:text-xs tracking-[0.25em] uppercase text-white/80">
                     Save the Date

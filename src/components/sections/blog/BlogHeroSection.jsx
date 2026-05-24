@@ -31,7 +31,7 @@ export default function BlogHeroSection() {
       {/* Hero carousel — full width */}
       <div className="grid grid-cols-1 lg:grid-cols-[1.6fr_1fr] items-stretch">
         {/* Left — image carousel */}
-        <div className="relative overflow-hidden bg-primary h-[300px] sm:h-[400px] md:h-[31.25rem] lg:h-[34.375rem] 3xl:h-[45vh]">
+        <div className="relative overflow-hidden bg-primary h-[55vh] sm:h-[60vh] md:h-[31.25rem] lg:h-[34.375rem] 3xl:h-[45vh]">
             <AnimatePresence mode="wait">
               <motion.img
                 key={current}

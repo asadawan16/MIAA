@@ -49,11 +49,12 @@ export default function TimelineHeroSection() {
         transition={{ duration: 1, delay: 0.4 }}
         className="relative w-full"
       >
-        <div className="w-full h-[280px] md:h-[28.75rem] lg:h-[35rem] 3xl:h-[45vh] overflow-hidden">
+        <div className="w-full h-[55vh] md:h-[28.75rem] lg:h-[35rem] 3xl:h-[45vh] overflow-hidden">
           <img
             src={renderImg}
             alt="MIAA architectural render"
-            className="w-full h-full object-cover object-center"
+            className="w-full object-cover object-center block"
+            style={{ height: "100%" }}
           />
         </div>
 

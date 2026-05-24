@@ -2,6 +2,7 @@ import { useState, useMemo } from "react"
 import { motion } from "framer-motion"
 import { fadeInUp } from "../../../lib/motion"
 import CTAButton from "../../ui/Button"
+import dotMark from "../../../assets/images/Timeline/dot.png"
 
 const TIMELINE_DATA = {
   2022: [
@@ -132,13 +133,14 @@ const YEARS = [
   { label: "2022", value: 2022 },
   { label: "2023", value: 2023 },
   { label: "2024", value: 2024 },
-  { label: "2025, This Year", value: 2025 },
-  { label: "2026", value: 2026 },
+  { label: "2025", value: 2025 },
+  { label: "2026, This Year", value: 2026 },
 ]
 
 const COLS_PER_ROW = 4
 const TERRA = "#C15C45"
-const WHEAT_DOT = "rgba(215,184,147,0.45)"
+const WHEAT = "#D7B893"
+const WHEAT_LINE = "rgba(215,184,147,0.85)"
 
 function QuatrefoilMarker({ size = 11 }) {
   return (
@@ -202,19 +204,19 @@ export default function ProjectTimelineSection() {
           Project Timeline
         </motion.h2>
 
-        {/* Year tabs — pill */}
+        {/* Year tabs — pill (horizontally scrollable on mobile if it overflows) */}
         <motion.div
           {...fadeInUp}
-          className="flex justify-center mb-14 md:mb-16"
+          className="mb-14 md:mb-16 -mx-6 md:mx-0 px-6 md:px-0 overflow-x-auto md:overflow-visible md:flex md:justify-center"
         >
-          <div className="inline-flex items-center bg-bg-teal/25 rounded-full p-1 gap-1">
+          <div className="inline-flex items-center bg-bg-teal/25 rounded-full p-1 gap-1 flex-nowrap whitespace-nowrap">
             {YEARS.map((y) => {
               const isActive = active === y.value
               return (
                 <button
                   key={y.value}
                   onClick={() => setActive(y.value)}
-                  className={`px-4 md:px-5 3xl:px-6 py-2 3xl:py-2.5 rounded-full text-xs md:text-sm 3xl:text-base transition-colors whitespace-nowrap ${
+                  className={`px-3 sm:px-4 md:px-5 3xl:px-6 py-2 3xl:py-2.5 rounded-full text-[0.6875rem] sm:text-xs md:text-sm 3xl:text-base transition-colors whitespace-nowrap flex-shrink-0 ${
                     isActive
                       ? "bg-accent-wheat text-primary font-medium"
                       : "text-accent-cream/70 hover:text-accent-cream"
@@ -227,26 +229,25 @@ export default function ProjectTimelineSection() {
           </div>
         </motion.div>
 
-        {/* Mobile timeline — single vertical column with a left-side dotted line */}
+        {/* Mobile timeline — single vertical column with a left-side solid line */}
         <motion.div
           {...fadeInUp}
           className="md:hidden relative pl-6"
         >
-          {/* Vertical dotted spine */}
+          {/* Vertical solid spine */}
           <div
-            className="absolute top-2 bottom-2 left-1 w-[2px] pointer-events-none"
-            style={{
-              backgroundImage: `radial-gradient(circle, ${WHEAT_DOT} 0.09375rem, transparent 0.09375rem)`,
-              backgroundSize: "3px 6px",
-            }}
+            className="absolute top-2 bottom-2 left-[7px] w-[3px] pointer-events-none rounded-full"
+            style={{ background: WHEAT_LINE }}
           />
           <ul className="flex flex-col gap-8">
             {(TIMELINE_DATA[active] || []).map((m, i) => (
               <li key={i} className="relative">
-                {/* Terra dot anchored on the spine */}
-                <span
-                  className="absolute -left-[22px] top-1 w-3 h-3 rounded-full"
-                  style={{ background: TERRA }}
+                {/* Diamond dot anchored on the spine */}
+                <img
+                  src={dotMark}
+                  alt=""
+                  className="absolute -left-[22px] top-[2px] pointer-events-none"
+                  style={{ width: "12px", height: "12px", display: "block" }}
                 />
                 <p
                   className="text-[0.75rem] tracking-[0.1em] uppercase mb-2 font-semibold"
@@ -267,17 +268,53 @@ export default function ProjectTimelineSection() {
           {rows.map((row, rowIdx) => {
             const isLastRow = rowIdx === rows.length - 1
             const isEvenRow = rowIdx % 2 === 0
+            const isFirstRow = rowIdx === 0
             // Right-side curve after even rows (0, 2…), left-side curve after odd rows (1, 3…)
+            // A row has an outgoing snake on the right when even (not last), on the left when odd (not last).
+            // The incoming snake side is whatever the previous row's outgoing side was.
+            const hasOutgoingRight = !isLastRow && isEvenRow
+            const hasOutgoingLeft = !isLastRow && !isEvenRow
+            // Previous row outgoing side determines this row's incoming side
+            const prevEven = (rowIdx - 1) % 2 === 0
+            const hasIncomingRight = !isFirstRow && prevEven
+            const hasIncomingLeft = !isFirstRow && !prevEven
+            const needsDashedLeft = !hasOutgoingLeft && !hasIncomingLeft
+            const needsDashedRight = !hasOutgoingRight && !hasIncomingRight
             return (
               <div key={rowIdx} className="relative pb-16 md:pb-20 last:pb-0">
-                {/* Horizontal dotted line spanning the row */}
+                {/* Horizontal solid line spanning the row */}
                 <div
-                  className="absolute top-[6px] left-0 right-0 h-[2px] pointer-events-none"
-                  style={{
-                    backgroundImage: `radial-gradient(circle, ${WHEAT_DOT} 0.09375rem, transparent 0.09375rem)`,
-                    backgroundSize: "0.5rem 0.1875rem",
-                  }}
+                  className="absolute top-[6px] left-0 right-0 h-[3px] pointer-events-none rounded-full"
+                  style={{ background: WHEAT_LINE }}
                 />
+                {/* Dashed extension off the left of the row */}
+                {needsDashedLeft && (
+                  <div
+                    className="absolute top-[6px] h-[3px] pointer-events-none"
+                    style={{
+                      right: "calc(100% + 2px)",
+                      width: "30vw",
+                      maxWidth: "260px",
+                      backgroundImage: `linear-gradient(to right, ${WHEAT_LINE} 50%, transparent 0%)`,
+                      backgroundSize: "10px 2px",
+                      backgroundRepeat: "repeat-x",
+                    }}
+                  />
+                )}
+                {/* Dashed extension off the right of the row */}
+                {needsDashedRight && (
+                  <div
+                    className="absolute top-[6px] h-[3px] pointer-events-none"
+                    style={{
+                      left: "calc(100% + 2px)",
+                      width: "30vw",
+                      maxWidth: "260px",
+                      backgroundImage: `linear-gradient(to right, ${WHEAT_LINE} 50%, transparent 0%)`,
+                      backgroundSize: "10px 2px",
+                      backgroundRepeat: "repeat-x",
+                    }}
+                  />
+                )}
 
                 {/* Grid of milestones (max 4 per row) */}
                 <div
@@ -288,17 +325,30 @@ export default function ProjectTimelineSection() {
                 >
                   {row.map((m, colIdx) => (
                     <div key={colIdx} className="relative pt-12 md:pt-14">
-                      {/* Terra dot on the horizontal line */}
+                      {/* Diamond dot on the horizontal line — centered on the line, with a
+                          small bg-coloured pad on each side so the line doesn't run through it */}
                       <span
-                        className="absolute -top-[3px] left-0 w-3 h-3 rounded-full"
-                        style={{ background: TERRA }}
-                      />
-                      {/* Vertical dotted drop-line */}
-                      <span
-                        className="absolute top-[14px] left-[5px] w-[2px] h-7 md:h-9"
+                        className="absolute inline-flex items-center justify-center bg-bg-deep pointer-events-none"
                         style={{
-                          backgroundImage: `radial-gradient(circle, ${WHEAT_DOT} 0.09375rem, transparent 0.09375rem)`,
-                          backgroundSize: "3px 6px",
+                          top: "1px",
+                          left: "-7px",
+                          width: "26px",
+                          height: "13px",
+                        }}
+                      >
+                        <img
+                          src={dotMark}
+                          alt=""
+                          style={{ width: "12px", height: "12px", display: "block" }}
+                        />
+                      </span>
+                      {/* Vertical dashed drop-line */}
+                      <span
+                        className="absolute top-[14px] left-[5px] w-[3px] h-7 md:h-9 pointer-events-none"
+                        style={{
+                          backgroundImage: `linear-gradient(to bottom, ${WHEAT_LINE} 50%, transparent 0%)`,
+                          backgroundSize: "3px 7px",
+                          backgroundRepeat: "repeat-y",
                         }}
                       />
                       {/* Date */}
@@ -316,45 +366,68 @@ export default function ProjectTimelineSection() {
                   ))}
                 </div>
 
-                {/* Snake connector between this row and the next — starts/ends exactly where the dotted lines end */}
+                {/* Snake connector between this row and the next — fixed-radius rounded
+                    rectangle built from divs so the stroke width and corner radius stay
+                    constant regardless of row height */}
                 {!isLastRow && (
-                  <svg
+                  <div
                     className="absolute pointer-events-none"
-                    style={
-                      isEvenRow
-                        ? // right-side: SVG's left edge sits exactly at the row's right edge (= where the line ends)
-                          {
-                            top: 6,
-                            right: -30,
-                            width: 30,
-                            height: "100%",
-                          }
-                        : // left-side: SVG's right edge sits exactly at the row's left edge
-                          {
-                            top: 6,
-                            left: -30,
-                            width: 30,
-                            height: "100%",
-                          }
-                    }
-                    viewBox="0 0 30 100"
-                    preserveAspectRatio="none"
+                    style={{
+                      top: 6,
+                      bottom: -9,
+                      [isEvenRow ? "right" : "left"]: -30,
+                      width: 30,
+                    }}
                   >
-                    <path
-                      d={
-                        isEvenRow
-                          ? // bulges right
-                            "M 0 0 C 30 0, 30 100, 0 100"
-                          : // bulges left
-                            "M 30 0 C 0 0, 0 100, 30 100"
-                      }
-                      fill="none"
-                      stroke={TERRA}
-                      strokeWidth="2"
-                      strokeOpacity="0.6"
-                      strokeDasharray="3 4"
+                    {/* Top horizontal segment up to the corner */}
+                    <div
+                      className="absolute top-0 h-[4px]"
+                      style={{
+                        background: WHEAT_LINE,
+                        [isEvenRow ? "left" : "right"]: 0,
+                        [isEvenRow ? "right" : "left"]: 18,
+                      }}
                     />
-                  </svg>
+                    {/* Top corner */}
+                    <div
+                      className="absolute top-0 w-[20px] h-[20px]"
+                      style={{
+                        [isEvenRow ? "right" : "left"]: 0,
+                        borderTop: `4px solid ${WHEAT_LINE}`,
+                        ...(isEvenRow
+                          ? { borderRight: `4px solid ${WHEAT_LINE}`, borderTopRightRadius: 20 }
+                          : { borderLeft: `4px solid ${WHEAT_LINE}`, borderTopLeftRadius: 20 }),
+                      }}
+                    />
+                    {/* Vertical segment */}
+                    <div
+                      className="absolute top-[20px] bottom-[20px] w-[4px]"
+                      style={{
+                        background: WHEAT_LINE,
+                        [isEvenRow ? "right" : "left"]: 0,
+                      }}
+                    />
+                    {/* Bottom corner */}
+                    <div
+                      className="absolute bottom-0 w-[20px] h-[20px]"
+                      style={{
+                        [isEvenRow ? "right" : "left"]: 0,
+                        borderBottom: `4px solid ${WHEAT_LINE}`,
+                        ...(isEvenRow
+                          ? { borderRight: `4px solid ${WHEAT_LINE}`, borderBottomRightRadius: 20 }
+                          : { borderLeft: `4px solid ${WHEAT_LINE}`, borderBottomLeftRadius: 20 }),
+                      }}
+                    />
+                    {/* Bottom horizontal segment back to the row */}
+                    <div
+                      className="absolute bottom-0 h-[4px]"
+                      style={{
+                        background: WHEAT_LINE,
+                        [isEvenRow ? "left" : "right"]: 0,
+                        [isEvenRow ? "right" : "left"]: 18,
+                      }}
+                    />
+                  </div>
                 )}
               </div>
             )

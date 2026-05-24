@@ -104,10 +104,12 @@ export default function SMWFSection() {
                 {carouselImages.map((src, i) => (
                   <div
                     key={i}
-                    className="flex-shrink-0 w-[380px] md:w-[29rem] 3xl:w-[22vw] rounded-lg overflow-hidden"
+                    className="smwf-carousel-item flex-shrink-0 w-[260px] sm:w-[320px] md:w-[29rem] 3xl:w-[22vw] rounded-lg overflow-hidden"
                     style={{
                       transform: `translateX(${i === 0 ? "0.2rem" : `${1.75 + (i - 1) * 1.75}rem`}) rotate(-0.3deg)`,
                       marginTop: i === 0 ? 0 : "-1.5rem",
+                      "--smwf-mob-x": `${1.25 * i}rem`,
+                      "--smwf-mob-mt": i === 0 ? "0" : "0.4rem",
                     }}
                   >
                     <img

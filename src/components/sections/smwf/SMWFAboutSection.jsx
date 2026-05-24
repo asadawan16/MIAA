@@ -52,11 +52,11 @@ export default function SMWFAboutSection() {
         <BannerStrip text="Festival Day" />
       </div>
 
-      <div className="relative z-20 max-w-[1400px] 3xl:max-w-[3200px] mx-auto px-6 md:px-10 lg:px-16 3xl:px-24 pt-28 md:pt-36 3xl:pt-44">
+      <div className="relative z-20 max-w-[1400px] 3xl:max-w-[3200px] mx-auto px-4 sm:px-6 md:px-10 lg:px-16 3xl:px-24 pt-24 sm:pt-28 md:pt-36 3xl:pt-44">
         {/* Festival Day card */}
         <motion.div
           {...fadeInUp}
-          className="bg-accent-cream rounded-xl p-8 md:p-12 3xl:p-16 shadow-2xl"
+          className="bg-accent-cream rounded-xl p-6 sm:p-8 md:p-12 3xl:p-16 shadow-2xl"
         >
           <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-8 md:gap-12 items-end mb-10 md:mb-12">
             <div>
@@ -78,11 +78,11 @@ export default function SMWFAboutSection() {
               { label: "Time", value: "9:30 AM – 5:30 PM" },
               { label: "Venue", value: "Bryan Brown Theatre & Function Centre" },
             ].map((item) => (
-              <div key={item.label} className="px-2 md:px-8 py-6 md:py-7">
+              <div key={item.label} className="px-0 md:px-8 py-5 md:py-7">
                 <p className="text-[0.625rem] 3xl:text-xs tracking-[0.3em] uppercase text-primary/55 mb-2">
                   {item.label}
                 </p>
-                <p className="text-xl md:text-2xl 3xl:text-3xl font-medium text-primary leading-snug">
+                <p className="text-lg sm:text-xl md:text-2xl 3xl:text-3xl font-medium text-primary leading-snug">
                   {item.value}
                 </p>
               </div>

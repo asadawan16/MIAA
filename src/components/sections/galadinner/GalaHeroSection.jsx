@@ -64,11 +64,12 @@ export default function GalaHeroSection() {
       </div>
 
       {/* Hero image — slides up into view */}
-      <div className="relative flex-none md:flex-[1.5] w-full h-[250px] md:h-auto bg-primary">
+      <div className="relative flex-none md:flex-[1.5] w-full h-[70vh] sm:h-[65vh] md:h-auto bg-primary">
         <img
           src={heroImg}
           alt="MIAA Inaugural Gala Dinner"
-          className="w-full h-full object-cover object-top"
+          className="w-full object-cover object-top block"
+          style={{ height: "100%" }}
         />
       </div>
     </section>
