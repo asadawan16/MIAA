@@ -45,12 +45,15 @@ function slugify(s = "") {
 
 export default function EventsAdmin() {
   const [items, setItems] = useState([])
+  const [filter, setFilter] = useState("all")
   const [editing, setEditing] = useState(null)
   const [form, setForm] = useState(EMPTY)
   const [busy, setBusy] = useState(false)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
   const { notify } = useToast()
+
+  const filtered = filter === "all" ? items : items.filter((it) => it.category === filter)
 
   const load = async () => {
     setLoading(true)
@@ -144,9 +147,33 @@ export default function EventsAdmin() {
         }
       />
 
+      {/* Category filter */}
+      <div className="flex items-center gap-2 mb-6">
+        {[
+          { value: "all", label: "All" },
+          { value: "homepage", label: "Homepage" },
+          { value: "offsite", label: "Offsite" },
+        ].map((opt) => (
+          <button
+            key={opt.value}
+            onClick={() => setFilter(opt.value)}
+            className={`px-4 py-1.5 text-[0.625rem] tracking-[0.2em] uppercase rounded-sm border transition-colors ${
+              filter === opt.value
+                ? "bg-primary text-white border-primary"
+                : "bg-white text-primary/70 border-primary/15 hover:border-primary/40"
+            }`}
+          >
+            {opt.label}
+          </button>
+        ))}
+        <span className="text-[0.625rem] text-primary/40 ml-2">
+          {filtered.length} of {items.length} events
+        </span>
+      </div>
+
       {loading ? (
         <SkeletonCardGrid count={6} withImage />
-      ) : items.length === 0 ? (
+      ) : filtered.length === 0 ? (
         <EmptyState
           title="No events yet"
           hint="Add your first event so the homepage and offsite pages have something to show."
@@ -158,7 +185,7 @@ export default function EventsAdmin() {
           variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.05 } } }}
           className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"
         >
-          {items.map((it) => (
+          {filtered.map((it) => (
             <motion.div
               key={it._id}
               variants={{ hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0 } }}

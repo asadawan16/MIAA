@@ -2,15 +2,16 @@ import { motion } from "framer-motion"
 import { fadeInLeft, fadeInRight } from "../../../lib/motion"
 import CTAButton from "../../ui/Button"
 
-import smwf1 from "../../../assets/images/Homepage/SMWF/SMWF-01.png"
-import smwf2 from "../../../assets/images/Homepage/SMWF/SMWF-02.png"
-import smwf3 from "../../../assets/images/Homepage/SMWF/SMWF-03.png"
+import smwf1 from "../../../assets/images/Homepage/SMWF/SMWF-02.jpg"
+import smwf2 from "../../../assets/images/Homepage/SMWF/SMWF-03.jpg"
+import smwf3 from "../../../assets/images/Homepage/SMWF/SMWF-04.jpg"
+import smwf4 from "../../../assets/images/Homepage/SMWF/SMWF-05.jpg"
 import bgPattern from "../../../assets/images/Homepage/SMWF/SMWF-BGPATTERN.png"
 import smwfLogo from "../../../assets/images/Homepage/SMWF/smwflogo.png"
 
-// 3 base images doubled for seamless infinite scroll
-const baseImages = [smwf1, smwf2, smwf3]
-const carouselImages = [...baseImages, ...baseImages]
+// Base images repeated enough times for seamless infinite scroll (no flicker on reset)
+const baseImages = [smwf1, smwf2, smwf3, smwf4]
+const carouselImages = [...baseImages, ...baseImages, ...baseImages, ...baseImages]
 
 function QuatrefoilIcon() {
   return (
@@ -89,28 +90,22 @@ export default function SMWFSection() {
               <img src={bgPattern} alt="" className="w-full h-full object-cover" />
             </div>
 
-            {/* Vertical auto-carousel — tilted as a group */}
+            {/* Vertical auto-carousel — entire column rotated diagonally */}
             <div
               className="absolute z-10 flex justify-center"
               style={{
-                top: "-25%",
-                bottom: "-25%",
-                left: "0",
-                right: "0",
-                transform: "translateX(-2.5rem)",
+                top: "-30%",
+                bottom: "-30%",
+                left: "-5%",
+                right: "-5%",
+                transform: "rotate(-8deg)",
               }}
             >
-              <div className="smwf-vertical-carousel flex flex-col items-center">
+              <div className="smwf-vertical-carousel flex flex-col items-center gap-3 md:gap-4">
                 {carouselImages.map((src, i) => (
                   <div
                     key={i}
-                    className="smwf-carousel-item flex-shrink-0 w-[260px] sm:w-[320px] md:w-[29rem] 3xl:w-[22vw] rounded-lg overflow-hidden"
-                    style={{
-                      transform: `translateX(${i === 0 ? "0.2rem" : `${1.75 + (i - 1) * 1.75}rem`}) rotate(-0.3deg)`,
-                      marginTop: i === 0 ? 0 : "-1.5rem",
-                      "--smwf-mob-x": `${1.25 * i}rem`,
-                      "--smwf-mob-mt": i === 0 ? "0" : "0.4rem",
-                    }}
+                    className="smwf-carousel-item flex-shrink-0 w-[260px] sm:w-[320px] md:w-[26rem] 3xl:w-[20vw] rounded-lg overflow-hidden shadow-lg border-[4px] md:border-[6px] border-white"
                   >
                     <img
                       src={src}

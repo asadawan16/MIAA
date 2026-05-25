@@ -4,7 +4,7 @@ import { Quote, ChevronLeft, ChevronRight, Play } from "lucide-react"
 import { fadeInUp, fadeInLeft, fadeInRight, staggerContainer, staggerItem } from "../../../lib/motion"
 import CTAButton from "../../ui/Button"
 
-import smwf1 from "../../../assets/images/Homepage/SMWF/SMWF-01.png"
+import smwf1 from "../../../assets/images/Homepage/SMWF/SMWF-02.jpg"
 import smwfLogo from "../../../assets/images/Homepage/SMWF/smwflogo.png"
 import bgPattern from "../../../assets/images/Homepage/SMWF/SMWF-BGPATTERN.png"
 

@@ -3,6 +3,7 @@ import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from
 import gsap from "gsap"
 import { useGSAP } from "@gsap/react"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { ZoomIn, ZoomOut, X } from "lucide-react"
 
 import art1 from "../../../assets/images/Homepage/Art in Aus.png"
 import art2 from "../../../assets/images/Homepage/Art in Aus-1.png"
@@ -23,15 +24,15 @@ const PARAGRAPHS = [
 ]
 
 const FRAMES = [
-  { src: art5, alt: "Blue sphere artwork", credit: "Luminous Geometry \u2014", creditAuthor: "Zarah Hussain", top: "16%", left: "12%", size: "w-20 md:w-28 lg:w-36 3xl:w-[10vw]", parallaxFactor: 1.2 },
-  { src: art2, alt: "Prayer mat", credit: "Sacred Weave \u2014", creditAuthor: "Nada Rawhi Debs", top: "38%", left: "10%", size: "w-20 md:w-28 lg:w-36 3xl:w-[10vw]", parallaxFactor: 0.8 },
-  { src: art3, alt: "Green figurine", credit: "The Green Horse \u2014", creditAuthor: "Hossein Valamanesh", top: "62%", left: "16%", size: "w-20 md:w-28 lg:w-32 3xl:w-[9vw]", parallaxFactor: 1.5 },
-  { src: art1, alt: "Islamic metalwork", credit: "Patterns in Metal \u2014", creditAuthor: "Aisha Khalid", top: "18%", right: "17%", size: "w-24 md:w-32 lg:w-40 3xl:w-[12vw]", parallaxFactor: 1.0 },
-  { src: art4, alt: "One Thousand and One and Counting", credit: "One Thousand and One and Counting (1004 and counting) \u2014", creditAuthor: "Abdullah M Syed", top: "55%", right: "9%", size: "w-28 md:w-36 lg:w-48 3xl:w-[13vw]", parallaxFactor: 1.3 },
+  { src: art5, alt: "(2011). 99 channel SD video sculpture installation, audio, and 98 paintings: acrylic, watercolour and gouache on dye diffusion thermal transfer prints. Installation view (detail) for Destiny Disrupted, Griffith University Art Museum. Courtesy the artist and Milani Gallery, Brisbane. Photograph by Carl Warner.", credit: "99 \u2014", creditAuthor: "Khaled Sabsabi", top: "3%", left: "4%", size: "w-28 md:w-36 lg:w-44 3xl:w-[14vw]", parallaxFactor: 1.2 },
+  { src: art2, alt: "(2025). Clay, cardamom, size variable. Installation view at Liverpool Powerhouse. Courtesy the artist. Photograph by Kamil Abdullahi.", credit: "Udub-Core \u2014", creditAuthor: "Idil Abdullahi", top: "35%", left: "2%", size: "w-28 md:w-40 lg:w-44 3xl:w-[14vw]", parallaxFactor: 0.8 },
+  { src: art3, alt: "(2008), Borderlands series surfboard: digital decal fibreglass, polystyrene and carbon fibre, wire stand, vinyl, 194 x 45 x 8cm. Courtesy the artist. Artist acknowledgment Mark Rabbidge for production. Photograph by Phillip George.", credit: "Inshalla \u2014", creditAuthor: "Phillip George", top: "68%", left: "10%", size: "w-24 md:w-36 lg:w-40 3xl:w-[12vw]", parallaxFactor: 1.5, hoverWidth: "w-[20rem] 3xl:w-[24rem] left-1/2 -translate-x-1/2 relative" },
+  { src: art1, alt: "(2014-). Hand-stitched white prayer caps (topi), Perspex dome and light, 107 (Dia.) x 60 cm. Image courtesy the artist and Gallery Sally Dan Cuthbert, \u00a9the artist. In Private Collection. Photograph by Abdullah M. I. Syed.", credit: "Aura II \u2014", creditAuthor: "Abdullah M. I. Syed", top: "5%", right: "4%", size: "w-32 md:w-48 lg:w-48 3xl:w-[15vw]", parallaxFactor: 1.0 },
+  { src: art4, alt: "(2008\u20132021), Folded US$ Bills and staple pins. Image courtesy the artist. Photograph by Mahmood Ali.", credit: "Flying Rug \u2014", creditAuthor: "Abdullah M. I. Syed", top: "52%", right: "4%", size: "w-28 md:w-40 lg:w-44 3xl:w-[14vw]", parallaxFactor: 1.3 },
 ]
 
 const ArtFrame = forwardRef(function ArtFrame(
-  { piece, isHovered, onHover, onLeave, springX, springY },
+  { piece, isHovered, onHover, onLeave, onClick, springX, springY },
   ref,
 ) {
   const factor = piece.parallaxFactor
@@ -52,13 +53,16 @@ const ArtFrame = forwardRef(function ArtFrame(
         style={{ x: mx, y: my }}
         onMouseEnter={onHover}
         onMouseLeave={onLeave}
+        onClick={onClick}
       >
-        <div className="border-[4px] border-secondary-terra bg-secondary-terra overflow-hidden">
-          <img
-            src={piece.src}
-            alt={piece.alt}
-            className="w-full h-auto block scale-[1.15]"
-          />
+        <div className="border-[4px] border-secondary-terra overflow-hidden">
+          <div className="border-[4px] border-white">
+            <img
+              src={piece.src}
+              alt={piece.alt}
+              className="w-full h-auto block"
+            />
+          </div>
         </div>
 
         <AnimatePresence>
@@ -68,10 +72,13 @@ const ArtFrame = forwardRef(function ArtFrame(
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 6 }}
               transition={{ duration: 0.25 }}
-              className="mt-2.5 text-[0.5625rem] lg:text-[0.6875rem] 3xl:text-sm text-accent-cream leading-snug text-center italic"
+              className={`mt-2.5 text-[0.625rem] lg:text-[0.6875rem] 3xl:text-sm text-accent-cream leading-snug text-center ${piece.hoverWidth || ""}`}
             >
-              {piece.credit}{" "}
-              <span className="font-medium not-italic">{piece.creditAuthor}</span>
+              <span className="not-italic text-[0.5625rem] lg:text-[0.625rem] 3xl:text-xs font-normal opacity-80">{piece.alt}</span>
+              <br />
+              <span className="not-italic font-medium">{piece.credit.replace(" \u2014", "")}</span>
+              {" ~ "}
+              <span className="not-italic font-bold">{piece.creditAuthor}</span>
             </motion.p>
           )}
         </AnimatePresence>
@@ -89,6 +96,41 @@ export default function IslamicArtPageSection() {
   const viewportRef = useRef(null)
   const indicatorRef = useRef(null)
   const [hoveredIndex, setHoveredIndex] = useState(null)
+  const [lightboxIndex, setLightboxIndex] = useState(null)
+  const [zoom, setZoom] = useState(1)
+  const [drag, setDrag] = useState({ x: 0, y: 0 })
+  const [dragging, setDragging] = useState(false)
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 })
+
+  const openLightbox = (i) => {
+    setZoom(1)
+    setDrag({ x: 0, y: 0 })
+    setLightboxIndex(i)
+  }
+
+  const handleMouseDown = (e) => {
+    setDragging(true)
+    setDragStart({ x: e.clientX - drag.x, y: e.clientY - drag.y })
+  }
+  const handleMouseMove = (e) => {
+    if (!dragging) return
+    setDrag({ x: e.clientX - dragStart.x, y: e.clientY - dragStart.y })
+  }
+  const handleMouseUp = () => setDragging(false)
+
+  useEffect(() => {
+    if (lightboxIndex === null) return
+    const onKey = (e) => {
+      if (e.key === "Escape") setLightboxIndex(null)
+    }
+    window.addEventListener("keydown", onKey)
+    const prevOverflow = document.body.style.overflow
+    document.body.style.overflow = "hidden"
+    return () => {
+      window.removeEventListener("keydown", onKey)
+      document.body.style.overflow = prevOverflow
+    }
+  }, [lightboxIndex])
 
   const mouseX = useMotionValue(0)
   const mouseY = useMotionValue(0)
@@ -189,6 +231,7 @@ export default function IslamicArtPageSection() {
             isHovered={hoveredIndex === i}
             onHover={() => setHoveredIndex(i)}
             onLeave={() => setHoveredIndex(null)}
+            onClick={() => openLightbox(i)}
             springX={springX}
             springY={springY}
           />
@@ -249,6 +292,80 @@ export default function IslamicArtPageSection() {
 
       </div>
 
+      {/* Lightbox modal — same style as homepage art + gala venue map */}
+      <AnimatePresence>
+        {lightboxIndex !== null && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[200] flex flex-col bg-primary/95 backdrop-blur-sm"
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseUp}
+          >
+            {/* Top bar */}
+            <div className="flex items-center justify-between px-6 md:px-10 py-5 border-b border-accent-wheat/15">
+              <div>
+                <h3 className="font-display text-lg md:text-xl 3xl:text-2xl text-accent-cream uppercase tracking-wide">
+                  {FRAMES[lightboxIndex].credit}
+                </h3>
+                <p className="text-sm 3xl:text-base text-accent-wheat">
+                  {FRAMES[lightboxIndex].creditAuthor}
+                </p>
+                <p className="text-xs 3xl:text-sm text-accent-cream/50 mt-1">
+                  {FRAMES[lightboxIndex].alt}
+                </p>
+              </div>
+              <div className="flex items-center gap-3">
+                <span className="text-xs 3xl:text-sm text-accent-cream/50 mr-2">{Math.round(zoom * 100)}%</span>
+                <button
+                  onClick={() => { setZoom((z) => Math.min(z + 0.5, 4)); setDrag({ x: 0, y: 0 }) }}
+                  className="w-9 h-9 rounded-full border border-accent-wheat/25 text-accent-cream flex items-center justify-center hover:bg-accent-cream/10 transition-colors"
+                >
+                  <ZoomIn className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => { setZoom((z) => Math.max(z - 0.5, 0.5)); setDrag({ x: 0, y: 0 }) }}
+                  className="w-9 h-9 rounded-full border border-accent-wheat/25 text-accent-cream flex items-center justify-center hover:bg-accent-cream/10 transition-colors"
+                >
+                  <ZoomOut className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => setLightboxIndex(null)}
+                  className="w-9 h-9 rounded-full border border-accent-wheat/25 text-accent-cream flex items-center justify-center hover:bg-accent-cream/10 transition-colors"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
+            {/* Image area — draggable */}
+            <div
+              className="flex-1 overflow-hidden flex items-center justify-center select-none"
+              style={{ cursor: dragging ? "grabbing" : "grab" }}
+              onMouseDown={handleMouseDown}
+            >
+              <img
+                src={FRAMES[lightboxIndex].src}
+                alt={FRAMES[lightboxIndex].alt}
+                className="max-h-[80vh] w-auto transition-transform duration-150"
+                draggable={false}
+                style={{
+                  transform: `scale(${zoom}) translate(${drag.x / zoom}px, ${drag.y / zoom}px)`,
+                }}
+              />
+            </div>
+
+            {/* Bottom hint */}
+            <div className="px-6 md:px-10 py-3 border-t border-accent-wheat/15 text-center">
+              <p className="text-[0.6875rem] 3xl:text-sm text-accent-cream/40 tracking-wider">
+                Drag to pan &middot; Use controls to zoom &middot; Click &times; to close
+              </p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   )
 }

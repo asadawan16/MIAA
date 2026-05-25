@@ -2,13 +2,16 @@ import { useRef, useEffect, useState } from "react"
 import gsap from "gsap"
 import loaderLogo from "../../assets/images/Loader to logo.png"
 
-import art1 from "../../assets/images/Homepage/Art in Aus.png"
-import art2 from "../../assets/images/Homepage/Art in Aus-1.png"
-import art3 from "../../assets/images/Homepage/Art in Aus-2.png"
-import art4 from "../../assets/images/Homepage/Art in Aus-3.png"
-import art5 from "../../assets/images/Homepage/Art in Aus-4.png"
+import loader01 from "../../assets/images/Homepage/loaderimages/loader-01.jpg"
+import loader02 from "../../assets/images/Homepage/loaderimages/loader-02.jpg"
+import loader03 from "../../assets/images/Homepage/loaderimages/loader-03.jpg"
+import loader04 from "../../assets/images/Homepage/loaderimages/loader-04.jpg"
+import loader05 from "../../assets/images/Homepage/loaderimages/loader-05.jpg"
+import loader06 from "../../assets/images/Homepage/loaderimages/loader-06.jpg"
+import loader07 from "../../assets/images/Homepage/loaderimages/loader-07.jpg"
+import loader08 from "../../assets/images/Homepage/loaderimages/loader-08.jpg"
 
-const galleryImages = [art2, art1, art5, art3, art4, art1, art2, art5]
+const galleryImages = [loader01, loader02, loader03, loader04, loader05, loader06, loader07, loader08]
 
 export default function Loader({ onComplete }) {
   const containerRef = useRef(null)
@@ -129,13 +132,13 @@ export default function Loader({ onComplete }) {
         {galleryImages.map((src, i) => (
           <div
             key={i}
-            className="loader-frame opacity-0 flex-shrink-0 border-[3px] md:border-[5px] 3xl:border-[0.35rem] border-[#C15C45] bg-[#C15C45] overflow-hidden"
+            className="loader-frame opacity-0 flex-shrink-0 border-[3px] md:border-[5px] 3xl:border-[0.35rem] border-[#C15C45] overflow-hidden"
             style={{ lineHeight: 0, fontSize: 0 }}
           >
             <img
               src={src}
               alt=""
-              className="block w-[32px] h-[32px] md:w-[4.375rem] md:h-[4.375rem] 3xl:w-[8vw] 3xl:h-[8vw] object-cover scale-[1.15]"
+              className="block w-[32px] h-[32px] md:w-[4.375rem] md:h-[4.375rem] 3xl:w-[8vw] 3xl:h-[8vw] object-cover"
             />
           </div>
         ))}

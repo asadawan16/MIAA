@@ -2,7 +2,7 @@ import { motion } from "framer-motion"
 import CTAButton from "../../ui/Button"
 import { useCountdown } from "./useCountdown"
 
-import heroImage from "../../../assets/images/Homepage/SMWF/SMWF-01.png"
+import heroImage from "../../../assets/images/Homepage/SMWF/SMWF-02.jpg"
 import smwfLogo from "../../../assets/images/Homepage/SMWF/smwflogo.png"
 import bgPattern from "../../../assets/images/Homepage/SMWF/SMWF-BGPATTERN.png"
 

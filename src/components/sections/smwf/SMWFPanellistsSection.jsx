@@ -2,9 +2,9 @@ import { motion } from "framer-motion"
 import { fadeInUp, staggerContainer, staggerItem } from "../../../lib/motion"
 import { useCountdown } from "./useCountdown"
 
-import smwf1 from "../../../assets/images/Homepage/SMWF/SMWF-01.png"
-import smwf2 from "../../../assets/images/Homepage/SMWF/SMWF-02.png"
-import smwf3 from "../../../assets/images/Homepage/SMWF/SMWF-03.png"
+import smwf1 from "../../../assets/images/Homepage/SMWF/SMWF-02.jpg"
+import smwf2 from "../../../assets/images/Homepage/SMWF/SMWF-03.jpg"
+import smwf3 from "../../../assets/images/Homepage/SMWF/SMWF-04.jpg"
 
 const FESTIVAL_DATE = "2026-04-18T09:30:00+10:00"
 

@@ -2,8 +2,8 @@ import { motion } from "framer-motion"
 import { fadeInUp, staggerContainer, staggerItem } from "../../../lib/motion"
 import CTAButton from "../../ui/Button"
 
-import smwf1 from "../../../assets/images/Homepage/SMWF/SMWF-01.png"
-import smwf2 from "../../../assets/images/Homepage/SMWF/SMWF-02.png"
+import smwf1 from "../../../assets/images/Homepage/SMWF/SMWF-02.jpg"
+import smwf2 from "../../../assets/images/Homepage/SMWF/SMWF-03.jpg"
 
 const SIDE_EVENTS = [
   {

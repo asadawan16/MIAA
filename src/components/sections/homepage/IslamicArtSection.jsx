@@ -18,9 +18,9 @@ gsap.registerPlugin(ScrollTrigger)
 const artPieces = [
   {
     src: art5,
-    alt: "Blue sphere artwork",
-    credit: "Luminous Geometry —",
-    creditAuthor: "Zarah Hussain",
+    alt: "(2011). 99 channel SD video sculpture installation, audio, and 98 paintings: acrylic, watercolour and gouache on dye diffusion thermal transfer prints. Installation view (detail) for Destiny Disrupted, Griffith University Art Museum. Courtesy the artist and Milani Gallery, Brisbane. Photograph by Carl Warner.",
+    credit: "99 —",
+    creditAuthor: "Khaled Sabsabi",
     top: "3%",
     left: "12%",
     size: "w-28 md:w-36 lg:w-56 3xl:w-[18vw]",
@@ -28,9 +28,9 @@ const artPieces = [
   },
   {
     src: art2,
-    alt: "Prayer mat",
-    credit: "Sacred Weave —",
-    creditAuthor: "Nada Rawhi Debs",
+    alt: "(2025). Clay, cardamom, size variable. Installation view at Liverpool Powerhouse. Courtesy the artist. Photograph by Kamil Abdullahi.",
+    credit: "Udub-Core —",
+    creditAuthor: "Idil Abdullahi",
     top: "35%",
     left: "-3%",
     size: "w-28 md:w-40 lg:w-56 3xl:w-[18vw]",
@@ -38,9 +38,9 @@ const artPieces = [
   },
   {
     src: art3,
-    alt: "Green figurine",
-    credit: "The Green Horse —",
-    creditAuthor: "Hossein Valamanesh",
+    alt: "(2008), Borderlands series surfboard: digital decal fibreglass, polystyrene and carbon fibre, wire stand, vinyl, 194 x 45 x 8cm. Courtesy the artist. Artist acknowledgment Mark Rabbidge for production. Photograph by Phillip George.",
+    credit: "Inshalla —",
+    creditAuthor: "Phillip George",
     top: "62%",
     left: "20%",
     size: "w-24 md:w-36 lg:w-50 3xl:w-[15vw]",
@@ -48,9 +48,9 @@ const artPieces = [
   },
   {
     src: art1,
-    alt: "Islamic metalwork",
-    credit: "Patterns in Metal —",
-    creditAuthor: "Aisha Khalid",
+    alt: "(2014-). Hand-stitched white prayer caps (topi), Perspex dome and light, 107 (Dia.) x 60 cm. Image courtesy the artist and Gallery Sally Dan Cuthbert, \u00a9the artist. In Private Collection. Photograph by Abdullah M. I. Syed.",
+    credit: "Aura II —",
+    creditAuthor: "Abdullah M. I. Syed",
     top: "5%",
     right: "2%",
     size: "w-32 md:w-48 lg:w-60 3xl:w-[19vw]",
@@ -58,9 +58,9 @@ const artPieces = [
   },
   {
     src: art4,
-    alt: "One Thousand and One and Counting",
-    credit: "One Thousand and One and Counting (1004 and counting) —",
-    creditAuthor: "Abdullah M Syed",
+    alt: "(2008\u20132021), Folded US$ Bills and staple pins. Image courtesy the artist. Photograph by Mahmood Ali.",
+    credit: "Flying Rug —",
+    creditAuthor: "Abdullah M. I. Syed",
     top: "52%",
     right: "8%",
     size: "w-28 md:w-40 lg:w-56 3xl:w-[18vw]",
@@ -170,13 +170,15 @@ export default function IslamicArtSection() {
                 type="button"
                 key={i}
                 onClick={() => openLightbox(i)}
-                className={`aspect-[3/4] overflow-hidden cursor-pointer ${i % 2 === 1 ? "mt-8" : ""}`}
+                className={`overflow-hidden cursor-pointer border-[5px] border-primary ${i % 2 === 1 ? "mt-8" : ""}`}
               >
-                <img
-                  src={piece.src}
-                  alt={piece.alt}
-                  className="w-full h-full object-cover block"
-                />
+                <div className="border-[6px] border-white">
+                  <img
+                    src={piece.src}
+                    alt={piece.alt}
+                    className="w-full h-auto block"
+                  />
+                </div>
               </button>
             ))}
           </motion.div>
@@ -209,14 +211,16 @@ export default function IslamicArtSection() {
               <button
                 type="button"
                 key={i}
-                onClick={() => setLightboxIndex(mobileTopFrames.length + i)}
-                className={`aspect-[3/4] overflow-hidden cursor-pointer ${i % 2 === 1 ? "mt-10" : ""}`}
+                onClick={() => openLightbox(mobileTopFrames.length + i)}
+                className={`overflow-hidden cursor-pointer border-[5px] border-primary ${i % 2 === 1 ? "mt-10" : ""}`}
               >
-                <img
-                  src={piece.src}
-                  alt={piece.alt}
-                  className="w-full h-full object-cover block"
-                />
+                <div className="border-[6px] border-white">
+                  <img
+                    src={piece.src}
+                    alt={piece.alt}
+                    className="w-full h-auto block"
+                  />
+                </div>
               </button>
             ))}
           </motion.div>
@@ -371,12 +375,14 @@ const ArtFrame = forwardRef(function ArtFrame(
         onMouseLeave={onLeave}
         onClick={onClick}
       >
-        <div className="border-[4px] border-primary overflow-hidden">
-          <img
-            src={piece.src}
-            alt={piece.alt}
-            className="w-full h-auto block"
-          />
+        <div className="border-[6px] border-primary overflow-hidden">
+          <div className="border-[8px] border-white">
+            <img
+              src={piece.src}
+              alt={piece.alt}
+              className="w-full h-auto block"
+            />
+          </div>
         </div>
 
         {/* Credit overlay — visible on hover */}
@@ -387,10 +393,13 @@ const ArtFrame = forwardRef(function ArtFrame(
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 6 }}
               transition={{ duration: 0.25 }}
-              className="mt-2.5 text-[0.625rem] lg:text-[0.6875rem] 3xl:text-sm text-primary leading-snug text-center italic"
+              className="mt-2.5 text-[0.625rem] lg:text-[0.6875rem] 3xl:text-sm text-primary leading-snug text-center"
             >
-              {piece.credit}{" "}
-              <span className="font-medium not-italic">{piece.creditAuthor}</span>
+              <span className="not-italic text-[0.5625rem] lg:text-[0.625rem] 3xl:text-xs font-normal opacity-80">{piece.alt}</span>
+              <br />
+              <span className="not-italic font-medium">{piece.credit.replace(" —", "")}</span>
+              {" ~ "}
+              <span className="not-italic font-bold">{piece.creditAuthor}</span>
             </motion.p>
           )}
         </AnimatePresence>
