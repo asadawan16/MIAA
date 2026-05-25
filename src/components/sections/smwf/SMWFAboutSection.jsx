@@ -1,34 +1,45 @@
 import { motion } from "framer-motion"
-import { fadeInUp, staggerContainer, staggerItem } from "../../../lib/motion"
-import CTAButton from "../../ui/Button"
+import { fadeInUp, fadeInLeft, fadeInRight } from "../../../lib/motion"
+import { ArrowUpRight } from "lucide-react"
 
+<<<<<<< Updated upstream
 import smwf1 from "../../../assets/images/Homepage/SMWF/SMWF-02.jpg"
 import smwf2 from "../../../assets/images/Homepage/SMWF/SMWF-03.jpg"
 import smwf3 from "../../../assets/images/Homepage/SMWF/SMWF-04.jpg"
+=======
+import visionPhoto from "../../../assets/images/Homepage/SMWF/vision-photo.jpg"
+import bannerIcon from "../../../assets/images/Homepage/SMWF/banner-icon.svg"
+>>>>>>> Stashed changes
 
-function QuatrefoilIcon() {
-  return (
-    <svg width="13" height="13" viewBox="0 0 100 100" fill="#fff">
-      <circle cx="50" cy="22" r="25" />
-      <circle cx="50" cy="78" r="25" />
-      <circle cx="22" cy="50" r="25" />
-      <circle cx="78" cy="50" r="25" />
-      <rect x="22" y="22" width="56" height="56" rx="4" fill="#fff" />
-    </svg>
-  )
-}
+const INNER_MARQUEE_WORDS = ["Our Words", "Our Story"]
 
-function BannerStrip({ text, count = 30 }) {
+function InnerMarqueeRow() {
   return (
-    <div className="flex whitespace-nowrap gap-5">
-      {Array.from({ length: count }).map((_, i) => (
-        <span
-          key={i}
-          className="inline-flex items-center gap-2.5 text-white font-aeonik text-base 3xl:text-xl font-normal tracking-wide flex-shrink-0"
-        >
-          <QuatrefoilIcon />
-          {text}
-        </span>
+    <div className="flex items-center shrink-0">
+      {Array.from({ length: 8 }).map((_, i) => (
+        <div key={i} className="flex items-center gap-4 md:gap-6 px-2 md:px-3 shrink-0">
+          <span
+            className="font-aeonik font-medium text-sm md:text-base 3xl:text-xl whitespace-nowrap"
+            style={{ color: "#124039" }}
+          >
+            {INNER_MARQUEE_WORDS[i % 2]}
+          </span>
+          <span
+            aria-hidden="true"
+            className="w-3.5 h-3.5 md:w-4 md:h-4 3xl:w-6 3xl:h-6 shrink-0 inline-block"
+            style={{
+              backgroundColor: "#2A9E9B",
+              WebkitMaskImage: `url(${bannerIcon})`,
+              maskImage: `url(${bannerIcon})`,
+              WebkitMaskSize: "contain",
+              maskSize: "contain",
+              WebkitMaskRepeat: "no-repeat",
+              maskRepeat: "no-repeat",
+              WebkitMaskPosition: "center",
+              maskPosition: "center",
+            }}
+          />
+        </div>
       ))}
     </div>
   )
@@ -36,79 +47,111 @@ function BannerStrip({ text, count = 30 }) {
 
 export default function SMWFAboutSection() {
   return (
-    <section className="relative bg-primary pb-20 md:pb-28 3xl:pb-36 overflow-hidden">
-      {/* Diagonal orange "Festival Day" banner */}
-      <div
-        className="absolute z-10"
-        style={{
-          top: -10,
-          left: -200,
-          right: -200,
-          transform: "rotate(-4deg)",
-          backgroundColor: "#DD613E",
-          padding: "14px 0",
-        }}
-      >
-        <BannerStrip text="Festival Day" />
-      </div>
-
-      <div className="relative z-20 max-w-[1400px] 3xl:max-w-[3200px] mx-auto px-4 sm:px-6 md:px-10 lg:px-16 3xl:px-24 pt-24 sm:pt-28 md:pt-36 3xl:pt-44">
-        {/* Festival Day card */}
+    <section
+      id="smwf-festival"
+      className="py-20 md:py-28 lg:py-32 3xl:py-44"
+      style={{ backgroundColor: "#F3EFEB" }}
+    >
+      <div className="max-w-[1500px] 3xl:max-w-[3200px] mx-auto px-6 md:px-10 lg:px-14 3xl:px-20">
+        {/* Two-column intro text */}
         <motion.div
           {...fadeInUp}
-          className="bg-accent-cream rounded-xl p-6 sm:p-8 md:p-12 3xl:p-16 shadow-2xl"
+          className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20 lg:gap-32 3xl:gap-48 max-w-5xl 3xl:max-w-7xl mx-auto mb-16 md:mb-20 lg:mb-24 3xl:mb-32"
         >
-          <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-8 md:gap-12 items-end mb-10 md:mb-12">
-            <div>
-              <p className="text-[0.6875rem] 3xl:text-sm tracking-[0.3em] uppercase text-secondary-terra mb-4">
-                Festival Day
-              </p>
-              <h2 className="text-3xl md:text-5xl 3xl:text-[3.75rem] font-medium text-primary tracking-tight leading-tight">
-                Save the Date
-              </h2>
-            </div>
-            <CTAButton href="https://www.miaaustralia.org/smwf">
-              Download Full Programme
-            </CTAButton>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-primary/15 border-y border-primary/15 mb-10 md:mb-12">
-            {[
-              { label: "Date", value: "18 April 2026" },
-              { label: "Time", value: "9:30 AM – 5:30 PM" },
-              { label: "Venue", value: "Bryan Brown Theatre & Function Centre" },
-            ].map((item) => (
-              <div key={item.label} className="px-0 md:px-8 py-5 md:py-7">
-                <p className="text-[0.625rem] 3xl:text-xs tracking-[0.3em] uppercase text-primary/55 mb-2">
-                  {item.label}
-                </p>
-                <p className="text-lg sm:text-xl md:text-2xl 3xl:text-3xl font-medium text-primary leading-snug">
-                  {item.value}
-                </p>
-              </div>
-            ))}
-          </div>
-
-          <motion.div
-            {...staggerContainer}
-            className="grid grid-cols-3 gap-3 md:gap-4"
+          <p
+            className="font-barlow text-sm md:text-base 3xl:text-xl leading-relaxed"
+            style={{ color: "#124039" }}
           >
-            {[smwf1, smwf2, smwf3].map((img, i) => (
-              <motion.div
-                key={i}
-                {...staggerItem}
-                className="aspect-[4/3] overflow-hidden rounded-lg"
-              >
-                <img
-                  src={img}
-                  alt=""
-                  className="w-full object-cover"
-                  style={{ height: "100%" }}
-                />
-              </motion.div>
-            ))}
-          </motion.div>
+            The Sydney Muslim Writers Festival is a unique platform that
+            celebrates the diverse voices of Muslim writers, poets, and
+            thinkers. Founded with the vision of showcasing authentic
+            storytelling, SMWF offers a space for both emerging and established
+            authors to share their narratives and explore various themes in
+            literature.
+          </p>
+          <p
+            className="font-barlow text-sm md:text-base 3xl:text-xl leading-relaxed"
+            style={{ color: "#124039" }}
+          >
+            Our theme this year &lsquo;Beyond Noise&rsquo; is about filtering
+            out the excess of opinions in modern discourse to amplify voices
+            that are constructive, authentic, and rooted in knowledge.
+          </p>
         </motion.div>
+
+        {/* Two-column cards: group photo (2/3) + Vision card (1/3) */}
+        <div
+          id="smwf-vision"
+          className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-5 md:gap-6 3xl:gap-9"
+        >
+          {/* Left — group photo */}
+          <motion.div {...fadeInLeft} className="min-h-[22rem] md:min-h-[26rem] lg:min-h-[30rem] 3xl:min-h-[42rem]">
+            <div className="overflow-hidden h-full w-full">
+              <img
+                src={visionPhoto}
+                alt="Sydney Muslim Writers Festival community"
+                className="block w-full h-full object-cover"
+              />
+            </div>
+          </motion.div>
+
+          {/* Right — Vision card */}
+          <motion.div
+            {...fadeInRight}
+            className="relative overflow-hidden p-8 md:p-10 lg:p-12 3xl:p-16 min-h-[22rem] md:min-h-[26rem] lg:min-h-[30rem] 3xl:min-h-[42rem]"
+            style={{ backgroundColor: "#2A9E9B" }}
+          >
+            {/* Top — Our Vision heading + body */}
+            <div className="relative z-10">
+              <h3 className="font-aeonik text-white text-2xl md:text-3xl 3xl:text-5xl font-medium tracking-tight mb-3 md:mb-4">
+                Our Vision
+              </h3>
+              <p className="font-barlow text-white/90 text-sm md:text-base 3xl:text-xl leading-relaxed max-w-md 3xl:max-w-2xl">
+                To cultivate and foster a deeper understanding and appreciation
+                of literature written by Muslims across diverse genres, for
+                local and international audiences.
+              </p>
+            </div>
+
+            {/* Tilted pink marquee — positioned ~62% down, bleeds out to the right */}
+            <div className="absolute left-[-80px] right-[-600px] top-[62%]">
+              <div
+                className="py-3 md:py-3.5 3xl:py-5 overflow-hidden"
+                style={{
+                  backgroundColor: "#F4A8A1",
+                  transform: "rotate(-3deg)",
+                  transformOrigin: "center",
+                }}
+              >
+                <div
+                  className="flex smwf-banner-top w-max"
+                  style={{ animationDuration: "60s" }}
+                >
+                  <InnerMarqueeRow />
+                  <InnerMarqueeRow />
+                </div>
+              </div>
+            </div>
+
+            {/* Bottom — GET TICKETS button, anchored bottom-left */}
+            <div className="absolute bottom-8 md:bottom-10 lg:bottom-12 3xl:bottom-16 left-8 md:left-10 lg:left-12 3xl:left-16 z-10">
+              <motion.a
+                href="https://www.miaaustralia.org/smwf"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                className="inline-flex items-center gap-2 px-6 md:px-7 3xl:px-10 py-3 md:py-3.5 3xl:py-5 font-aeonik text-xs md:text-sm 3xl:text-lg font-semibold tracking-[0.18em] uppercase rounded-md"
+                style={{ backgroundColor: "#CBCE58", color: "#124039" }}
+              >
+                Get Tickets
+                <ArrowUpRight
+                  className="w-3.5 h-3.5 md:w-4 md:h-4 3xl:w-6 3xl:h-6"
+                  strokeWidth={2.5}
+                />
+              </motion.a>
+            </div>
+          </motion.div>
+        </div>
       </div>
     </section>
   )
