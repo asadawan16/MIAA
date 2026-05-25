@@ -3,11 +3,7 @@ import { Quote, Play } from "lucide-react"
 import { fadeInUp, fadeInLeft, fadeInRight, staggerContainer, staggerItem } from "../../../lib/motion"
 import CTAButton from "../../ui/Button"
 
-<<<<<<< Updated upstream
-import smwf1 from "../../../assets/images/Homepage/SMWF/SMWF-02.jpg"
-import smwfLogo from "../../../assets/images/Homepage/SMWF/smwflogo.png"
-import bgPattern from "../../../assets/images/Homepage/SMWF/SMWF-BGPATTERN.png"
-=======
+
 import SMWFBehindTheMarkSection from "./SMWFBehindTheMarkSection"
 import partnerNswGov from "../../../assets/images/Homepage/SMWF/partners/nsw-gov.png"
 import partnerCbc from "../../../assets/images/Homepage/SMWF/partners/cbc.png"
@@ -15,7 +11,6 @@ import partnerIsra from "../../../assets/images/Homepage/SMWF/partners/isra.png"
 import partnerLogoLockup from "../../../assets/images/Homepage/SMWF/partners/logo-lockup-07.png"
 import partnerCityOfParramatta from "../../../assets/images/Homepage/SMWF/partners/city-of-parramatta.png"
 import partnerBarakahBrew from "../../../assets/images/Homepage/SMWF/partners/barakah-brew.png"
->>>>>>> Stashed changes
 
 const TESTIMONIALS = [
   {

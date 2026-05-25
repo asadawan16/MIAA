@@ -2,14 +2,9 @@ import { motion } from "framer-motion"
 import { fadeInUp, fadeInLeft, fadeInRight } from "../../../lib/motion"
 import { ArrowUpRight } from "lucide-react"
 
-<<<<<<< Updated upstream
-import smwf1 from "../../../assets/images/Homepage/SMWF/SMWF-02.jpg"
-import smwf2 from "../../../assets/images/Homepage/SMWF/SMWF-03.jpg"
-import smwf3 from "../../../assets/images/Homepage/SMWF/SMWF-04.jpg"
-=======
+
 import visionPhoto from "../../../assets/images/Homepage/SMWF/vision-photo.jpg"
 import bannerIcon from "../../../assets/images/Homepage/SMWF/banner-icon.svg"
->>>>>>> Stashed changes
 
 const INNER_MARQUEE_WORDS = ["Our Words", "Our Story"]
 

@@ -2,11 +2,6 @@ import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { fadeInUp } from "../../../lib/motion"
 
-<<<<<<< Updated upstream
-import smwf1 from "../../../assets/images/Homepage/SMWF/SMWF-02.jpg"
-import smwf2 from "../../../assets/images/Homepage/SMWF/SMWF-03.jpg"
-import smwf3 from "../../../assets/images/Homepage/SMWF/SMWF-04.jpg"
-=======
 import h1 from "../../../assets/images/Homepage/SMWF/highlights/h5.avif"
 import h2 from "../../../assets/images/Homepage/SMWF/highlights/h6.avif"
 import h3 from "../../../assets/images/Homepage/SMWF/highlights/h1.avif"
@@ -16,7 +11,6 @@ import h6 from "../../../assets/images/Homepage/SMWF/highlights/h3.avif"
 
 const SECTION_BG = "#F3EFEB"
 const INK         = "#124039"
->>>>>>> Stashed changes
 
 const HIGHLIGHTS = [
   {
