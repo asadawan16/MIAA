@@ -3,6 +3,7 @@ import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { useGSAP } from "@gsap/react"
+import { ZoomIn, ZoomOut, X } from "lucide-react"
 import { fadeInUp } from "../../../lib/motion"
 import CTAButton from "../../ui/Button"
 
@@ -70,9 +71,29 @@ const artPieces = [
 export default function IslamicArtSection() {
   const [hoveredIndex, setHoveredIndex] = useState(null)
   const [lightboxIndex, setLightboxIndex] = useState(null)
+  const [zoom, setZoom] = useState(1)
+  const [drag, setDrag] = useState({ x: 0, y: 0 })
+  const [dragging, setDragging] = useState(false)
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 })
   const containerRef = useRef(null)
   const sectionRef = useRef(null)
   const frameRefs = useRef([])
+
+  const openLightbox = (i) => {
+    setZoom(1)
+    setDrag({ x: 0, y: 0 })
+    setLightboxIndex(i)
+  }
+
+  const handleMouseDown = (e) => {
+    setDragging(true)
+    setDragStart({ x: e.clientX - drag.x, y: e.clientY - drag.y })
+  }
+  const handleMouseMove = (e) => {
+    if (!dragging) return
+    setDrag({ x: e.clientX - dragStart.x, y: e.clientY - dragStart.y })
+  }
+  const handleMouseUp = () => setDragging(false)
 
   useEffect(() => {
     if (lightboxIndex === null) return
@@ -148,7 +169,7 @@ export default function IslamicArtSection() {
               <button
                 type="button"
                 key={i}
-                onClick={() => setLightboxIndex(i)}
+                onClick={() => openLightbox(i)}
                 className={`aspect-[3/4] overflow-hidden cursor-pointer ${i % 2 === 1 ? "mt-8" : ""}`}
               >
                 <img
@@ -235,7 +256,7 @@ export default function IslamicArtSection() {
                 isHovered={hoveredIndex === i}
                 onHover={() => setHoveredIndex(i)}
                 onLeave={() => setHoveredIndex(null)}
-                onClick={() => setLightboxIndex(i)}
+                onClick={() => openLightbox(i)}
                 springX={springX}
                 springY={springY}
               />
@@ -244,53 +265,77 @@ export default function IslamicArtSection() {
         </div>
       </div>
 
-      {/* Lightbox — opens when an art image is clicked (mobile + desktop) */}
+      {/* Lightbox — same modal style as Gala Dinner venue map */}
       <AnimatePresence>
         {lightboxIndex !== null && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-[200] bg-black/85 backdrop-blur-sm flex items-center justify-center p-4 md:p-10"
-            onClick={() => setLightboxIndex(null)}
+            className="fixed inset-0 z-[200] flex flex-col bg-primary/95 backdrop-blur-sm"
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseUp}
           >
-            <button
-              type="button"
-              onClick={() => setLightboxIndex(null)}
-              aria-label="Close"
-              className="absolute top-4 right-4 md:top-6 md:right-6 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center text-2xl leading-none transition-colors"
-            >
-              ×
-            </button>
-
-            <motion.div
-              initial={{ opacity: 0, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.96 }}
-              transition={{ duration: 0.25 }}
-              onClick={(e) => e.stopPropagation()}
-              className="relative flex flex-col md:flex-row items-center md:items-stretch gap-4 md:gap-8 max-w-[95vw] md:max-w-[90vw] max-h-[90vh]"
-            >
-              <div className="flex-shrink-0 flex items-center justify-center max-h-[60vh] md:max-h-[85vh]">
-                <img
-                  src={artPieces[lightboxIndex].src}
-                  alt={artPieces[lightboxIndex].alt}
-                  className="max-h-[60vh] md:max-h-[85vh] max-w-full w-auto h-auto object-contain border-4 border-primary bg-accent-cream"
-                />
+            {/* Top bar */}
+            <div className="flex items-center justify-between px-6 md:px-10 py-5 border-b border-accent-wheat/15">
+              <div>
+                <h3 className="font-display text-lg md:text-xl 3xl:text-2xl text-accent-cream uppercase tracking-wide">
+                  {artPieces[lightboxIndex].credit}
+                </h3>
+                <p className="text-sm 3xl:text-base text-accent-wheat">
+                  {artPieces[lightboxIndex].creditAuthor}
+                </p>
+                <p className="text-xs 3xl:text-sm text-accent-cream/50 mt-1">
+                  {artPieces[lightboxIndex].alt}
+                </p>
               </div>
+              <div className="flex items-center gap-3">
+                <span className="text-xs 3xl:text-sm text-accent-cream/50 mr-2">{Math.round(zoom * 100)}%</span>
+                <button
+                  onClick={() => { setZoom((z) => Math.min(z + 0.5, 4)); setDrag({ x: 0, y: 0 }) }}
+                  className="w-9 h-9 rounded-full border border-accent-wheat/25 text-accent-cream flex items-center justify-center hover:bg-accent-cream/10 transition-colors"
+                >
+                  <ZoomIn className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => { setZoom((z) => Math.max(z - 0.5, 0.5)); setDrag({ x: 0, y: 0 }) }}
+                  className="w-9 h-9 rounded-full border border-accent-wheat/25 text-accent-cream flex items-center justify-center hover:bg-accent-cream/10 transition-colors"
+                >
+                  <ZoomOut className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => setLightboxIndex(null)}
+                  className="w-9 h-9 rounded-full border border-accent-wheat/25 text-accent-cream flex items-center justify-center hover:bg-accent-cream/10 transition-colors"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
 
-              {artPieces[lightboxIndex].credit && (
-                <div className="md:w-72 lg:w-80 md:self-end text-white text-center md:text-left">
-                  <p className="italic text-sm md:text-base leading-snug">
-                    {artPieces[lightboxIndex].credit}
-                  </p>
-                  <p className="mt-1 not-italic font-medium text-base md:text-lg">
-                    {artPieces[lightboxIndex].creditAuthor}
-                  </p>
-                </div>
-              )}
-            </motion.div>
+            {/* Image area — draggable */}
+            <div
+              className="flex-1 overflow-hidden flex items-center justify-center select-none"
+              style={{ cursor: dragging ? "grabbing" : "grab" }}
+              onMouseDown={handleMouseDown}
+            >
+              <img
+                src={artPieces[lightboxIndex].src}
+                alt={artPieces[lightboxIndex].alt}
+                className="max-h-[80vh] w-auto transition-transform duration-150"
+                draggable={false}
+                style={{
+                  transform: `scale(${zoom}) translate(${drag.x / zoom}px, ${drag.y / zoom}px)`,
+                }}
+              />
+            </div>
+
+            {/* Bottom hint */}
+            <div className="px-6 md:px-10 py-3 border-t border-accent-wheat/15 text-center">
+              <p className="text-[0.6875rem] 3xl:text-sm text-accent-cream/40 tracking-wider">
+                Drag to pan &middot; Use controls to zoom &middot; Click &times; to close
+              </p>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

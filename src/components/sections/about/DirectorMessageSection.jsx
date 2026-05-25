@@ -47,14 +47,15 @@ export default function DirectorMessageSection() {
 
       const mm = gsap.matchMedia()
 
+      const getOverflow = () =>
+        Math.max(0, track.scrollHeight - viewport.clientHeight)
+
+      if (getOverflow() <= 0) return
+
+      gsap.set(track, { y: 0 })
+
+      // Desktop: pin entire section
       mm.add("(min-width: 768px)", () => {
-        const getOverflow = () =>
-          Math.max(0, track.scrollHeight - viewport.clientHeight)
-
-        if (getOverflow() <= 0) return
-
-        gsap.set(track, { y: 0 })
-
         gsap.to(track, {
           y: () => -getOverflow(),
           ease: "none",
@@ -62,6 +63,26 @@ export default function DirectorMessageSection() {
             trigger: sectionRef.current,
             start: "top top",
             end: () => `+=${window.innerHeight * 2}`,
+            pin: true,
+            pinSpacing: true,
+            scrub: 1,
+            invalidateOnRefresh: true,
+          },
+        })
+      })
+
+      // Mobile: pin entire section but trigger when message panel is in view
+      mm.add("(max-width: 767px)", () => {
+        gsap.to(track, {
+          y: () => -getOverflow(),
+          ease: "none",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: () => {
+              const panelTop = viewport.getBoundingClientRect().top - sectionRef.current.getBoundingClientRect().top
+              return `top -${panelTop - window.innerHeight * 0.15}px`
+            },
+            end: () => `+=${window.innerHeight * 1.5}`,
             pin: true,
             pinSpacing: true,
             scrub: 1,

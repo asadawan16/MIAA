@@ -3,12 +3,12 @@ export const NAV_LINKS = [
   { label: "About Us", path: "/about" },
   { label: "Islamic Art in Australia", path: "/islamic-art" },
   { label: "MIAA Offsite Events", path: "/offsite-events" },
+  { label: "Gala Dinner", path: "/gala-dinner" },
   { label: "Sydney Muslim Writers Festival", path: "/smwf" },
   { label: "Education & Community Engagement", path: "/community-engagement" },
   { label: "Timeline & Construction", path: "/timeline" },
   // { label: "Updates & Blogs", path: "/blog" },
   { label: "Contact Us", path: "/contact" },
-  { label: "Gala Dinner", path: "/gala-dinner" },
 ]
 
 export const FOOTER_LINKS = [

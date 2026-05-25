@@ -28,7 +28,7 @@ export default function Layout() {
         {/* Logo top-left — absolute so it scrolls away with the page (only the hamburger stays sticky) */}
         <Link
           to="/"
-          className="absolute left-4 sm:left-6 md:left-10 lg:left-16 3xl:left-24 z-50 h-20 sm:h-24 md:h-32 3xl:h-44 flex items-center"
+          className="absolute left-4 sm:left-6 md:left-10 lg:left-16 3xl:left-24 z-50 h-20 md:h-24 3xl:h-28 flex items-center"
         >
           <img
             src={smallLogo}

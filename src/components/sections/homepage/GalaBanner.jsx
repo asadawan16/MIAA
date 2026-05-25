@@ -46,7 +46,7 @@ export default function GalaBanner() {
       to="/gala-dinner"
       aria-label="MIAA Gala Dinner, 25 July 2026 — book your tickets"
       style={{ backgroundColor: "#4656cd" }}
-      className="group block w-full overflow-hidden text-white transition-[filter] duration-200 hover:brightness-110"
+      className="relative z-20 group block w-full overflow-hidden text-white transition-[filter] duration-200 hover:brightness-110"
     >
       <motion.div
         className="flex w-max items-center py-3 md:py-3.5 3xl:py-4"

@@ -60,10 +60,10 @@ html {
    utilities (text, spacing, sizing, images) scale proportionally.
    Scales from 20px at 2200px → 36px at 3840px (2.25×), matching the
    visual feel of the 1440p design on 4K monitors at 100% OS scaling. */
-@media (min-width: 2000px) {
+@media (min-width: 2200px) {
   html {
-    /* 22px at 2000vw → ~32px at 2560vw → 50px at 3840vw */
-    font-size: clamp(22px, 1.406vw - 4px, 50px);
+    /* 18px at 2200vw → ~26px at 3000vw → 38px at 3840vw */
+    font-size: clamp(18px, 1.22vw - 8.84px, 38px);
   }
 }
 
