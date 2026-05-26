@@ -1,11 +1,22 @@
 @import "tailwindcss";
 
+/* SMWF — Aeonik webfont (cloned from live site) */
+@font-face {
+  font-family: "Aeonik";
+  src: url("./assets/fonts/Aeonik-Regular.woff2") format("woff2"),
+       url("./assets/fonts/Aeonik-Regular.woff")  format("woff"),
+       url("./assets/fonts/Aeonik-Regular.ttf")   format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme {
   /* Breakpoint — large screens (2K+ at 100% OS scale) */
   --breakpoint-3xl: 2200px;
 
   /* Font */
-  --font-sans: "Avenir", "Avenir Next", "Nunito Sans", system-ui, sans-serif;
+  --font-sans: "Aeonik", "Avenir", "Nunito Sans", system-ui, sans-serif;
   --font-barlow: "Barlow", system-ui, sans-serif;
   --font-display: "Cormorant Garamond", "Georgia", serif;
   --font-script: "Marck Script", "Cormorant Garamond", cursive;
@@ -35,6 +46,13 @@
   --color-bg-teal: #38717A;
   --color-bg-deep: #214952;
   --color-bg-dark: #1B1E1E;
+
+  /* SMWF — palette cloned from miaaustralia.org/smwf */
+  --color-smwf-green: #124039;
+  --color-smwf-lime:  #CBCE58;
+  --color-smwf-cream: #F3EFEB;
+  --color-smwf-terra: #C15C45;
+  --color-smwf-ink:   #1B1E1E;
 }
 
 /* Modern slim scrollbar */

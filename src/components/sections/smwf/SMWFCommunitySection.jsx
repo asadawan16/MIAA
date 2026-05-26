@@ -1,12 +1,16 @@
-import { useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { Quote, ChevronLeft, ChevronRight, Play } from "lucide-react"
+import { motion } from "framer-motion"
+import { Quote, Play } from "lucide-react"
 import { fadeInUp, fadeInLeft, fadeInRight, staggerContainer, staggerItem } from "../../../lib/motion"
 import CTAButton from "../../ui/Button"
 
-import smwf1 from "../../../assets/images/Homepage/SMWF/SMWF-02.jpg"
-import smwfLogo from "../../../assets/images/Homepage/SMWF/smwflogo.png"
-import bgPattern from "../../../assets/images/Homepage/SMWF/SMWF-BGPATTERN.png"
+
+import SMWFBehindTheMarkSection from "./SMWFBehindTheMarkSection"
+import partnerNswGov from "../../../assets/images/Homepage/SMWF/partners/nsw-gov.png"
+import partnerCbc from "../../../assets/images/Homepage/SMWF/partners/cbc.png"
+import partnerIsra from "../../../assets/images/Homepage/SMWF/partners/isra.png"
+import partnerLogoLockup from "../../../assets/images/Homepage/SMWF/partners/logo-lockup-07.png"
+import partnerCityOfParramatta from "../../../assets/images/Homepage/SMWF/partners/city-of-parramatta.png"
+import partnerBarakahBrew from "../../../assets/images/Homepage/SMWF/partners/barakah-brew.png"
 
 const TESTIMONIALS = [
   {
@@ -42,211 +46,127 @@ const TESTIMONIALS = [
 ]
 
 const PARTNER_LOGOS = [
-  "NSW Government",
-  "ISRA",
-  "CBC",
-  "MIAA",
-  "Bryan Brown Theatre",
-  "Giramondo",
-  "WestWords",
-  "Bankstown Poetry Slam",
+  { name: "NSW Government",       logo: partnerNswGov },
+  { name: "Canterbury Bankstown", logo: partnerCbc },
+  { name: "Think Studio",         logo: partnerLogoLockup },
+  { name: "ISRA",                 logo: partnerIsra },
+  { name: "City of Parramatta",   logo: partnerCityOfParramatta },
+  { name: "Barakah Brew",         logo: partnerBarakahBrew },
 ]
 
 export default function SMWFCommunitySection() {
-  const [active, setActive] = useState(0)
-
   return (
     <>
-      {/* Testimonials */}
-      <section className="bg-primary py-20 md:py-28 3xl:py-36 border-t border-accent-cream/10">
-        <div className="max-w-[1400px] 3xl:max-w-[3200px] mx-auto px-6 md:px-10 lg:px-16 3xl:px-24">
+      {/* Testimonials — moving carousel */}
+      <section
+        className="py-20 md:py-24 lg:py-28 3xl:py-40 overflow-hidden"
+        style={{ backgroundColor: "#F3EFEB" }}
+      >
+        <div className="max-w-[1500px] 3xl:max-w-[3200px] mx-auto px-6 md:px-10 lg:px-14 3xl:px-20">
           <motion.div
             {...fadeInUp}
-            className="text-center max-w-3xl mx-auto mb-14 md:mb-16"
+            className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12 md:mb-16 3xl:mb-20"
           >
-            <p className="text-[0.6875rem] 3xl:text-sm tracking-[0.3em] uppercase text-accent-wheat mb-4">
-              Testimonials
-            </p>
-            <h2 className="text-3xl md:text-5xl 3xl:text-[3.75rem] font-medium text-accent-cream tracking-tight leading-tight">
-              What Our Community Says
-            </h2>
-            <p className="mt-5 text-base 3xl:text-lg text-accent-cream/70">
-              Hear from the writers, readers, and attendees who&apos;ve been
-              part of the SMWF journey.
-            </p>
+            <div className="max-w-2xl">
+              <h2
+                className="font-aeonik text-3xl md:text-4xl lg:text-5xl 3xl:text-7xl font-medium tracking-tight leading-tight"
+                style={{ color: "#124039" }}
+              >
+                What Our Community Says
+              </h2>
+              <p
+                className="mt-3 md:mt-4 3xl:mt-6 font-barlow text-base md:text-lg 3xl:text-xl"
+                style={{ color: "rgba(18,64,57,0.7)" }}
+              >
+                Hear from the writers, readers, and attendees who&apos;ve been
+                part of the SMWF journey.
+              </p>
+            </div>
+            <CTAButton href="https://www.miaaustralia.org/smwf">
+              Get Tickets
+            </CTAButton>
           </motion.div>
+        </div>
 
-          <div className="relative max-w-4xl mx-auto">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={active}
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -12 }}
-                transition={{ duration: 0.35 }}
-                className="bg-accent-cream rounded-xl p-8 md:p-12 3xl:p-16 shadow-xl text-center"
+        <div className="overflow-hidden">
+          <motion.div
+            className="flex gap-5 md:gap-6 3xl:gap-9 w-max"
+            animate={{ x: ["0%", "-50%"] }}
+            transition={{ duration: 60, ease: "linear", repeat: Infinity }}
+          >
+            {[...TESTIMONIALS, ...TESTIMONIALS].map((t, i) => (
+              <div
+                key={i}
+                className="shrink-0 w-[320px] md:w-[420px] lg:w-[480px] 3xl:w-[640px] bg-white rounded-lg p-7 md:p-8 3xl:p-12 flex flex-col"
+                style={{ minHeight: "320px" }}
               >
                 <Quote
-                  className="w-8 h-8 3xl:w-10 3xl:h-10 mx-auto text-secondary-terra mb-6"
-                  strokeWidth={1.5}
-                />
-                <p className="text-lg md:text-xl 3xl:text-2xl font-display italic text-primary leading-relaxed">
-                  &ldquo;{TESTIMONIALS[active].quote}&rdquo;
-                </p>
-                <p className="mt-8 text-[0.6875rem] 3xl:text-sm tracking-[0.3em] uppercase text-secondary-terra font-semibold">
-                  {TESTIMONIALS[active].name}
-                </p>
-                <p className="text-sm 3xl:text-base text-primary/65 italic mt-1">
-                  {TESTIMONIALS[active].role}
-                </p>
-              </motion.div>
-            </AnimatePresence>
-
-            <div className="flex items-center justify-center gap-3 mt-8">
-              <button
-                onClick={() =>
-                  setActive((a) => (a - 1 + TESTIMONIALS.length) % TESTIMONIALS.length)
-                }
-                className="w-10 h-10 3xl:w-12 3xl:h-12 rounded-full border border-accent-cream/30 flex items-center justify-center text-accent-cream hover:bg-accent-cream hover:text-primary transition-colors"
-                aria-label="Previous testimonial"
-              >
-                <ChevronLeft className="w-4 h-4 3xl:w-5 3xl:h-5" />
-              </button>
-              <div className="flex items-center gap-2 mx-3">
-                {TESTIMONIALS.map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setActive(i)}
-                    className={`h-1.5 rounded-full transition-all ${
-                      i === active ? "w-6 bg-accent-wheat" : "w-1.5 bg-accent-cream/30"
-                    }`}
-                    aria-label={`Go to testimonial ${i + 1}`}
-                  />
-                ))}
-              </div>
-              <button
-                onClick={() => setActive((a) => (a + 1) % TESTIMONIALS.length)}
-                className="w-10 h-10 3xl:w-12 3xl:h-12 rounded-full border border-accent-cream/30 flex items-center justify-center text-accent-cream hover:bg-accent-cream hover:text-primary transition-colors"
-                aria-label="Next testimonial"
-              >
-                <ChevronRight className="w-4 h-4 3xl:w-5 3xl:h-5" />
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Behind the Mark */}
-      <section className="relative bg-primary py-20 md:py-28 3xl:py-36 overflow-hidden border-t border-accent-cream/10">
-        <div className="absolute inset-0 opacity-15 pointer-events-none">
-          <img
-            src={bgPattern}
-            alt=""
-            className="w-full h-full object-cover"
-            style={{ height: "100%" }}
-          />
-        </div>
-        <div className="relative max-w-[1400px] 3xl:max-w-[3200px] mx-auto px-6 md:px-10 lg:px-16 3xl:px-24">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-            <motion.div {...fadeInLeft}>
-              <p className="text-[0.6875rem] 3xl:text-sm tracking-[0.3em] uppercase text-accent-wheat mb-4">
-                Behind the Mark
-              </p>
-              <h2 className="text-3xl md:text-5xl 3xl:text-[3.75rem] font-medium text-accent-cream tracking-tight leading-tight">
-                The Meaning<br />Behind the Mark
-              </h2>
-              <p className="mt-7 text-base md:text-lg 3xl:text-xl text-accent-cream/80 leading-relaxed max-w-xl">
-                The SMWF logo is more than an image — it&apos;s a story of
-                voices, roots, and unity. Watch the video to see how its
-                elements come together to reflect who we are and what we stand
-                for.
-              </p>
-              <button
-                className="mt-8 inline-flex items-center gap-3 bg-secondary-terra hover:bg-secondary-rust transition-colors text-white px-6 py-3 3xl:px-8 3xl:py-4 rounded-sm"
-                aria-label="Play the meaning behind the mark video"
-              >
-                <Play
-                  className="w-4 h-4 3xl:w-5 3xl:h-5"
+                  className="w-8 h-8 3xl:w-12 3xl:h-12 mb-5 md:mb-6 3xl:mb-9 shrink-0"
+                  style={{ color: "#4656CD" }}
                   fill="currentColor"
                   strokeWidth={0}
                 />
-                <span className="text-[0.625rem] 3xl:text-xs tracking-[0.3em] uppercase font-semibold">
-                  Watch Video
-                </span>
-              </button>
-            </motion.div>
-            <motion.div
-              {...fadeInRight}
-              className="bg-accent-cream rounded-2xl p-10 md:p-16 3xl:p-20 flex items-center justify-center min-h-[20rem]"
-            >
-              <img
-                src={smwfLogo}
-                alt="SMWF logo"
-                className="w-2/3 max-w-md h-auto"
-              />
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Partners & Sponsors */}
-      <section className="bg-primary py-16 md:py-20 3xl:py-28 border-t border-accent-cream/10">
-        <div className="max-w-[1400px] 3xl:max-w-[3200px] mx-auto px-6 md:px-10 lg:px-16 3xl:px-24">
-          <motion.div {...fadeInUp} className="text-center mb-10 md:mb-12">
-            <p className="text-[0.6875rem] 3xl:text-sm tracking-[0.3em] uppercase text-accent-wheat mb-2">
-              Partners & Sponsors
-            </p>
-          </motion.div>
-          <motion.div
-            {...staggerContainer}
-            className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4"
-          >
-            {PARTNER_LOGOS.map((p) => (
-              <motion.div
-                key={p}
-                {...staggerItem}
-                className="h-20 md:h-24 3xl:h-32 bg-accent-cream/95 rounded-lg flex items-center justify-center px-4 text-center"
-              >
-                <span className="text-sm md:text-base 3xl:text-lg font-medium text-primary/75 tracking-wide">
-                  {p}
-                </span>
-              </motion.div>
+                <p
+                  className="font-barlow text-base md:text-lg 3xl:text-xl leading-relaxed flex-1"
+                  style={{ color: "rgba(18,64,57,0.85)" }}
+                >
+                  {t.quote}
+                </p>
+                <div className="mt-6 md:mt-8 3xl:mt-12">
+                  <p
+                    className="font-aeonik text-base md:text-lg 3xl:text-2xl font-semibold tracking-tight"
+                    style={{ color: "#124039" }}
+                  >
+                    {t.name}
+                  </p>
+                  <p
+                    className="font-barlow text-sm md:text-base 3xl:text-lg mt-1"
+                    style={{ color: "rgba(18,64,57,0.6)" }}
+                  >
+                    {t.role}
+                  </p>
+                </div>
+              </div>
             ))}
           </motion.div>
         </div>
       </section>
 
-      {/* Join the SMWF Community CTA */}
-      <section className="bg-accent-cream py-20 md:py-28 3xl:py-36">
-        <div className="max-w-[1400px] 3xl:max-w-[3200px] mx-auto px-6 md:px-10 lg:px-16 3xl:px-24">
-          <div className="grid grid-cols-1 lg:grid-cols-[1.05fr_1fr] gap-12 lg:gap-16 items-center">
-            <motion.div {...fadeInLeft}>
-              <p className="text-[0.6875rem] 3xl:text-sm tracking-[0.3em] uppercase text-secondary-terra mb-4">
-                Stay Connected
-              </p>
-              <h2 className="text-3xl md:text-5xl 3xl:text-[3.75rem] font-medium text-primary tracking-tight leading-tight">
-                Join the SMWF<br />Community
-              </h2>
-              <p className="mt-6 text-base md:text-lg 3xl:text-xl text-primary/75 leading-relaxed max-w-xl">
-                Be the first to hear about the programme, speakers, ticket
-                releases and the year-round events that lead up to Festival
-                Day.
-              </p>
-              <div className="mt-8">
-                <CTAButton href="https://www.miaaustralia.org/smwf">
-                  Subscribe
-                </CTAButton>
-              </div>
-            </motion.div>
-            <motion.div {...fadeInRight} className="aspect-[4/3] rounded-xl overflow-hidden">
-              <img
-                src={smwf1}
-                alt=""
-                className="w-full object-cover"
-                style={{ height: "100%" }}
-              />
-            </motion.div>
-          </div>
+      {/* Behind the Mark */}
+      <SMWFBehindTheMarkSection />
+
+      {/* Partners & Sponsors */}
+      <section
+        className="py-16 md:py-20 lg:py-24 3xl:py-32"
+        style={{ backgroundColor: "#F3EFEB" }}
+      >
+        <div className="max-w-[1300px] 3xl:max-w-[2400px] mx-auto px-6 md:px-10 lg:px-14 3xl:px-20">
+          <motion.h2
+            {...fadeInUp}
+            className="font-aeonik text-center text-3xl md:text-4xl lg:text-5xl 3xl:text-7xl font-medium tracking-tight mb-10 md:mb-12 3xl:mb-16"
+            style={{ color: "#124039" }}
+          >
+            Partners &amp; Sponsors
+          </motion.h2>
+
+          <motion.div
+            {...staggerContainer}
+            className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-5 3xl:gap-8"
+          >
+            {PARTNER_LOGOS.map((p) => (
+              <motion.div
+                key={p.name}
+                {...staggerItem}
+                className="h-40 md:h-48 lg:h-56 3xl:h-72 bg-white flex items-center justify-center p-8 md:p-10 lg:p-12 3xl:p-16"
+              >
+                <img
+                  src={p.logo}
+                  alt={p.name}
+                  className="max-h-[70%] max-w-[80%] w-auto h-auto object-contain"
+                />
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
       </section>
     </>

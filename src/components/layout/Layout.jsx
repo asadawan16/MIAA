@@ -11,6 +11,7 @@ export default function Layout() {
   const [loading, setLoading] = useState(true)
   const location = useLocation()
   const isHome = location.pathname === "/"
+  const isSmwf = location.pathname === "/smwf"
 
   return (
     <>
@@ -25,25 +26,28 @@ export default function Layout() {
 
       {/* Hide page shell while loader is playing so footer doesn't flash */}
       <div style={loading && isHome ? { visibility: "hidden" } : undefined}>
-        {/* Logo top-left — absolute so it scrolls away with the page (only the hamburger stays sticky) */}
-        <Link
-          to="/"
-          className="absolute left-4 sm:left-6 md:left-10 lg:left-16 3xl:left-24 z-50 h-20 md:h-24 3xl:h-28 flex items-center"
-        >
-          <img
-            src={smallLogo}
-            alt="MIAA"
-            className="h-auto miaa-logo"
-          />
-        </Link>
+        {/* Logo top-left — absolute so it scrolls away with the page (only the hamburger stays sticky).
+            Hidden on /smwf because the SMWF hero ships its own MINN × SMWF lockup. */}
+        {!isSmwf && (
+          <Link
+            to="/"
+            className="absolute left-4 sm:left-6 md:left-10 lg:left-16 3xl:left-24 z-50 h-20 md:h-24 3xl:h-28 flex items-center"
+          >
+            <img
+              src={smallLogo}
+              alt="MIAA"
+              className="h-auto miaa-logo"
+            />
+          </Link>
+        )}
 
-        <Navbar />
+        {!isSmwf && <Navbar />}
         <main>
           {/* Pages render directly — section-level Framer Motion handles entrance animations.
               No route-level opacity fade so the teal body bg never flashes on cream/light pages. */}
           <Outlet context={{ loaderDone: !loading || !isHome }} />
         </main>
-        <Footer />
+        {!isSmwf && <Footer />}
       </div>
     </>
   )
