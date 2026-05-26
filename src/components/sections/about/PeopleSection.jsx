@@ -182,7 +182,7 @@ export default function PeopleSection() {
               {/* Close button */}
               <button
                 onClick={() => setSelected(null)}
-                className="absolute top-5 right-5 z-10 w-11 h-11 rounded-full bg-primary text-white hover:bg-primary/80 flex items-center justify-center transition-colors cursor-pointer"
+                className="absolute top-5 right-5 z-30 w-11 h-11 rounded-full bg-primary text-white hover:bg-primary/80 flex items-center justify-center transition-colors cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>

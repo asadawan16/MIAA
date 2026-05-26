@@ -42,7 +42,7 @@ export default function GalaEventDetailsSection() {
               25 July 2026
             </h3>
             <p className="text-sm 3xl:text-base text-white/70 mb-6">
-              6:00PM — 10:30PM
+              6:00PM — 11:00PM
             </p>
 
             <div className="h-px bg-white/15 mb-6" />

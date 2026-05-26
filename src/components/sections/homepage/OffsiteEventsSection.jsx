@@ -71,12 +71,12 @@ export default function OffsiteEventsSection() {
         {/* Header */}
         <motion.div
           {...fadeInUp}
-          className="flex items-start justify-between mb-14"
+          className="flex flex-col gap-5 md:flex-row md:items-start md:justify-between mb-14"
         >
           <h2 className="text-3xl md:text-[2.625rem] 3xl:text-[3.2rem] font-medium text-white tracking-tight leading-tight">
             Offsite Programs and Events
           </h2>
-          <CTAButton to="/offsite-events" className="hidden md:inline-flex mt-1 whitespace-nowrap">View All Events</CTAButton>
+          <CTAButton to="/offsite-events" className="self-start md:mt-1 whitespace-nowrap">View All Events</CTAButton>
         </motion.div>
 
         {/* Upcoming event cards */}

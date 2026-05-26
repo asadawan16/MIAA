@@ -71,20 +71,40 @@ export default function DirectorMessageSection() {
         })
       })
 
-      // Mobile: pin entire section but trigger when message panel is in view
+      // Mobile: pin entire section but trigger when message panel is in view.
+      // Pin and scrub run as separate triggers so the pin holds for a beat
+      // after the text finishes scrolling — otherwise the bottom of the
+      // section pops up the instant the scrub completes.
       mm.add("(max-width: 767px)", () => {
+        const startFn = () => {
+          const panelTop = viewport.getBoundingClientRect().top - sectionRef.current.getBoundingClientRect().top
+          return `top -${panelTop - window.innerHeight * 0.15}px`
+        }
+
+        // Pin the entire section (panel + teal background below it) until the
+        // user has fully scrolled past the section. This keeps the green teal
+        // region beneath the panel from shifting up while the panel is in view.
+        ScrollTrigger.create({
+          trigger: sectionRef.current,
+          start: startFn,
+          end: "bottom top",
+          pin: true,
+          pinSpacing: true,
+          invalidateOnRefresh: true,
+          anticipatePin: 1,
+        })
+
+        // The text scrub runs only inside the first 1.3vh of the pin.
+        // After that, the panel stays in place with the last paragraph visible,
+        // and the green teal below the panel remains locked until the user
+        // scrolls completely past the section.
         gsap.to(track, {
           y: () => -getOverflow(),
           ease: "none",
           scrollTrigger: {
             trigger: sectionRef.current,
-            start: () => {
-              const panelTop = viewport.getBoundingClientRect().top - sectionRef.current.getBoundingClientRect().top
-              return `top -${panelTop - window.innerHeight * 0.15}px`
-            },
-            end: () => `+=${window.innerHeight * 1.5}`,
-            pin: true,
-            pinSpacing: true,
+            start: startFn,
+            end: () => `+=${window.innerHeight * 1.3}`,
             scrub: 1,
             invalidateOnRefresh: true,
           },
