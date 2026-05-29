@@ -1,26 +1,15 @@
+import bannerIcon from "../../../assets/images/Homepage/SMWF/banner-icon.svg"
 import patternKufic from "../../../assets/images/Homepage/SMWF/pattern-kufic.png"
 
 const TEXT = "Sydney Muslim Writers Festival"
 const REPEAT = 10
 const BG = "#2A9E9B"
 
-// Adjacent section colours. Top half matches the section above, bottom half
-// matches the section below — same pattern the blue marquee uses to "bleed"
-// into its neighbours, just with cream on both sides here.
-const TOP_BG    = "#F3EFEB"
+// Adjacent section colours. Top half matches the section above (Past Festivals,
+// now white), bottom half matches the section below (Community section, cream)
+// — same pattern the blue marquee uses to "bleed" into its neighbours.
+const TOP_BG    = "#FFFFFF"
 const BOTTOM_BG = "#F3EFEB"
-
-function Quatrefoil({ color = "#FFFFFF", className = "w-5 h-5" }) {
-  return (
-    <svg viewBox="0 0 100 100" className={className} aria-hidden="true">
-      <circle cx="50" cy="22" r="25" fill={color} />
-      <circle cx="50" cy="78" r="25" fill={color} />
-      <circle cx="22" cy="50" r="25" fill={color} />
-      <circle cx="78" cy="50" r="25" fill={color} />
-      <rect x="22" y="22" width="56" height="56" rx="4" fill={color} />
-    </svg>
-  )
-}
 
 function MarqueeRow() {
   return (
@@ -29,18 +18,19 @@ function MarqueeRow() {
         <div
           key={i}
           // Gap + padding bumped to match the blue marquee's spacing
-          className="flex items-center gap-16 md:gap-24 3xl:gap-32 px-8 md:px-12 3xl:px-16 shrink-0"
+          className="flex items-center gap-16 md:gap-24 desktop:gap-28 3xl:gap-32 4xl:gap-44 px-8 md:px-12 desktop:px-14 3xl:px-16 4xl:px-24 shrink-0"
         >
           <span
-            // Text scale matched to blue: 3xl / 4xl / 6xl across breakpoints
-            className="text-white font-aeonik font-bold text-3xl md:text-4xl 3xl:text-6xl whitespace-nowrap tracking-tight"
+            className="text-white font-aeonik font-bold text-3xl md:text-4xl desktop:text-5xl 3xl:text-6xl 4xl:text-8xl whitespace-nowrap tracking-tight"
           >
             {TEXT}
           </span>
-          <Quatrefoil
-            color="#FFFFFF"
-            // Icon scale matched to blue's icon: 7/8/12
-            className="w-7 h-7 md:w-8 md:h-8 3xl:w-12 3xl:h-12 shrink-0"
+          <img
+            src={bannerIcon}
+            alt=""
+            aria-hidden="true"
+            className="w-7 h-7 md:w-8 md:h-8 desktop:w-10 desktop:h-10 3xl:w-12 3xl:h-12 4xl:w-16 4xl:h-16 shrink-0"
+            style={{ filter: "brightness(0) invert(1)" }}
           />
         </div>
       ))}
@@ -51,7 +41,7 @@ function MarqueeRow() {
 export default function SMWFTurquoiseMarquee() {
   return (
     <div
-      className="relative overflow-hidden h-24 md:h-32 3xl:h-44"
+      className="relative overflow-hidden h-24 md:h-32 desktop:h-36 3xl:h-44 4xl:h-64"
       aria-label="Sydney Muslim Writers Festival"
     >
       {/* Top half — matches section above */}
@@ -61,9 +51,9 @@ export default function SMWFTurquoiseMarquee() {
 
       {/* Tilted band crossing the midline.
           Rotation flipped from -2deg to +1.5deg so it tilts the same way
-          as the blue marquee. Shadow strengthened from 0.25 → 0.35 to match. */}
+          as the blue marquee. */}
       <div
-        className="absolute top-1/2 left-[-100px] right-[-100px] py-3 md:py-4 3xl:py-6 overflow-hidden shadow-[0_10px_30px_-12px_rgba(0,0,0,0.35)]"
+        className="absolute top-1/2 left-[-100px] right-[-100px] py-3 md:py-4 desktop:py-5 3xl:py-6 4xl:py-9 overflow-hidden"
         style={{
           backgroundColor: BG,
           transform: "translateY(-50%) rotate(1.5deg)",
@@ -72,7 +62,7 @@ export default function SMWFTurquoiseMarquee() {
       >
         <div
           className="flex smwf-banner-top w-max"
-          style={{ animationDuration: "75s", animationDirection: "reverse" }}
+          style={{ animationDuration: "180s", animationDirection: "reverse" }}
         >
           <MarqueeRow />
           <MarqueeRow />

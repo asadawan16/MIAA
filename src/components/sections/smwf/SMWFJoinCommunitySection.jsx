@@ -24,23 +24,30 @@ export default function SMWFJoinCommunitySection() {
       id="smwf-join"
       className="relative overflow-hidden"
     >
-      {/* Top half — cream */}
+      {/* Top — cream (matches Partners section above) */}
       <div
-        className="absolute inset-x-0 top-0 h-1/2"
+        className="absolute inset-x-0 top-0 h-[35%]"
         style={{ backgroundColor: CREAM }}
       />
-      {/* Bottom half — dark green with kufic pattern */}
+      {/* Bottom — dark green with kufic pattern */}
       <div
-        className="absolute inset-x-0 bottom-0 h-1/2"
+        className="absolute inset-x-0 bottom-0 h-[65%]"
         style={{ backgroundColor: INK }}
       />
       <div
         aria-hidden
-        className="absolute inset-x-0 bottom-0 h-1/2 pointer-events-none opacity-40 mix-blend-screen"
+        className="absolute inset-x-0 bottom-0 h-[65%] pointer-events-none opacity-40 mix-blend-screen"
         style={{
           backgroundImage: `url(${patternKufic})`,
-          backgroundSize: "auto 720px",
-          backgroundRepeat: "repeat",
+          backgroundSize: "100% auto",
+          backgroundRepeat: "repeat-y",
+          backgroundPosition: "center top",
+          // Fade the pattern out at the top and bottom so it blends smoothly
+          // into the cream above and the solid-green footer below.
+          maskImage:
+            "linear-gradient(to bottom, transparent 0%, #000 18%, #000 72%, transparent 100%)",
+          WebkitMaskImage:
+            "linear-gradient(to bottom, transparent 0%, #000 18%, #000 72%, transparent 100%)",
         }}
       />
 

@@ -20,14 +20,20 @@ export default function SMWF() {
       <SMWFHeroSection />
       <SMWFMarqueeBanner />
       <SMWFAboutSection />
-      <SMWFFestivalDaySection />
-      <SMWFTicketsSection />
+      <div className="px-6 md:px-10 lg:px-16 2xl:px-20 3xl:px-24" style={{ backgroundColor: "#F3EFEB" }}>
+        <SMWFFestivalDaySection />
+      </div>
+      <div className="px-6 md:px-10 lg:px-16 2xl:px-20 3xl:px-24" style={{ backgroundColor: "#F3EFEB" }}>
+        <SMWFTicketsSection />
+      </div>
       <SMWFSideEventsSection />
       <SMWFPanellistsSection />
       <SMWFCountdownSection />
       <SMWFProgramHighlightsSection />
       <SMWFStoriesWeInheritSection />
-      <SMWFPastFestivalsSection />
+      <div className="px-6 md:px-10 lg:px-16 2xl:px-20 3xl:px-24" style={{ backgroundColor: "#FFFFFF" }}>
+        <SMWFPastFestivalsSection />
+      </div>
       <SMWFTurquoiseMarquee />
       <SMWFCommunitySection />
       <SMWFJoinCommunitySection />
