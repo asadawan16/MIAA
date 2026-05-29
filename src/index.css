@@ -12,8 +12,20 @@
 }
 
 @theme {
-  /* Breakpoint — large screens (2K+ at 100% OS scale) */
+  /* Device breakpoints (min-width). Base styles target mobile (320px+);
+     each named breakpoint scales up from there.
+       mobile  → 320px   (small phones — base)
+       tablet  → 768px
+       laptop  → 1024px
+       desktop → 1440px
+       3xl     → 2200px  (2K-class displays)
+       4xl     → 3200px  (true 4K displays) */
+  --breakpoint-mobile: 320px;
+  --breakpoint-tablet: 768px;
+  --breakpoint-laptop: 1024px;
+  --breakpoint-desktop: 1440px;
   --breakpoint-3xl: 2200px;
+  --breakpoint-4xl: 3200px;
 
   /* Font */
   --font-sans: "Aeonik", "Avenir", "Nunito Sans", system-ui, sans-serif;

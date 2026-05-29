@@ -25,7 +25,7 @@ function CountdownCell({ value, label, variant }) {
           className="font-aeonik text-5xl sm:text-6xl md:text-7xl lg:text-[5rem] 3xl:text-[7.5rem] font-medium tabular-nums leading-none"
           style={{ color: isLight ? INK : LIME }}
         >
-          {String(value).padStart(2, "0")}
+          {value}
         </span>
       </div>
       <p className="mt-4 md:mt-5 3xl:mt-7 font-aeonik text-white text-sm md:text-base 3xl:text-lg font-medium">
@@ -50,14 +50,15 @@ export default function SMWFCountdownSection() {
       className="relative overflow-hidden py-24 md:py-32 lg:py-36 3xl:py-52"
       style={{ backgroundColor: INK }}
     >
-      {/* Kufic pattern */}
+      {/* Kufic pattern — one tile stretched to 100% of the section width */}
       <div
         aria-hidden
         className="absolute inset-0 pointer-events-none opacity-40 mix-blend-screen"
         style={{
           backgroundImage: `url(${patternKufic})`,
-          backgroundSize: "auto 720px",
-          backgroundRepeat: "repeat",
+          backgroundSize: "100% auto",
+          backgroundRepeat: "repeat-y",
+          backgroundPosition: "center top",
         }}
       />
 
@@ -83,6 +84,19 @@ export default function SMWFCountdownSection() {
           {cells.map((cell) => (
             <CountdownCell key={cell.label} {...cell} />
           ))}
+        </motion.div>
+
+        {/* Post-countdown placeholder pill — shown beneath the cells. */}
+        <motion.div
+          {...fadeInUp}
+          className="mt-8 md:mt-10 3xl:mt-14 flex justify-center"
+        >
+          <span
+            className="inline-block rounded-full bg-white font-barlow text-sm md:text-base 3xl:text-lg px-5 md:px-6 3xl:px-9 py-2.5 md:py-3 3xl:py-4"
+            style={{ color: INK }}
+          >
+            This element will display when the countdown is finished.
+          </span>
         </motion.div>
       </div>
     </section>

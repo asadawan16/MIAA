@@ -9,7 +9,7 @@ import h4 from "../../../assets/images/Homepage/SMWF/highlights/h2.avif"
 import h5 from "../../../assets/images/Homepage/SMWF/highlights/h4.avif"
 import h6 from "../../../assets/images/Homepage/SMWF/highlights/h3.avif"
 
-const SECTION_BG = "#F3EFEB"
+const SECTION_BG = "#FFFFFF"
 const INK         = "#124039"
 
 const HIGHLIGHTS = [
@@ -52,19 +52,19 @@ export default function SMWFProgramHighlightsSection() {
   return (
     <section
       id="smwf-highlights"
-      className="py-20 md:py-24 lg:py-28 3xl:py-40"
+      className="py-20 md:py-24 lg:py-28 desktop:py-32 2xl:py-32 3xl:py-40 4xl:py-56"
       style={{ backgroundColor: SECTION_BG }}
     >
-      <div className="max-w-[1500px] 3xl:max-w-[3200px] mx-auto px-6 md:px-10 lg:px-14 3xl:px-20">
+      <div className="max-w-[1500px] desktop:max-w-[1700px] 2xl:max-w-[1800px] 3xl:max-w-[3200px] 4xl:max-w-[4000px] mx-auto px-6 md:px-10 lg:px-14 desktop:px-20 2xl:px-16 3xl:px-20 4xl:px-32">
         <motion.h2
           {...fadeInUp}
-          className="font-aeonik text-3xl md:text-4xl lg:text-5xl 3xl:text-7xl font-medium tracking-tight leading-tight mb-10 md:mb-14 3xl:mb-20"
+          className="font-aeonik text-3xl md:text-4xl lg:text-5xl desktop:text-6xl 2xl:text-6xl 3xl:text-7xl 4xl:text-[6.5rem] font-medium tracking-tight leading-tight mb-10 md:mb-14 desktop:mb-16 2xl:mb-16 3xl:mb-20 4xl:mb-28"
           style={{ color: INK }}
         >
           Programme Highlights
         </motion.h2>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-10 lg:gap-14 3xl:gap-20 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-10 lg:gap-14 desktop:gap-16 2xl:gap-16 3xl:gap-20 4xl:gap-28 items-start">
           {/* Left — photo that changes with active accordion item */}
           <div className="relative aspect-[4/3] overflow-hidden">
             <AnimatePresence mode="wait">
@@ -81,25 +81,40 @@ export default function SMWFProgramHighlightsSection() {
             </AnimatePresence>
           </div>
 
-          {/* Right — accordion list */}
-          <div className="lg:pt-2 3xl:pt-4">
+          {/* Right — accordion list. Borders are computed per item so that
+              both the line ABOVE and BELOW the currently-open item disappear
+              (an opened item visually "floats" without dividers). */}
+          <div>
             {HIGHLIGHTS.map((item, i) => {
               const isOpen = i === activeIndex
+              const prevOpen = i > 0 && i - 1 === activeIndex
+              const isLast = i === HIGHLIGHTS.length - 1
+              // top border: hidden on the first item, AND hidden when the
+              // previous item is open (since that would visually appear as
+              // the open item's bottom divider). Always shown for the open
+              // item itself.
+              const showTopBorder = i > 0 && !prevOpen
+              // bottom border: only on the last item, and only when it's closed.
+              const showBottomBorder = isLast && !isOpen
+              const borderClasses = [
+                showTopBorder ? "border-t" : "",
+                showBottomBorder ? "border-b" : "",
+              ].filter(Boolean).join(" ")
               return (
                 <div
                   key={item.title}
-                  className="border-t last:border-b"
+                  className={borderClasses}
                   style={{ borderColor: "rgba(18,64,57,0.18)" }}
                 >
                   <button
                     type="button"
                     onClick={() => setActiveIndex(i)}
-                    className="w-full text-left py-5 md:py-6 3xl:py-9 transition-opacity hover:opacity-75"
+                    className={`w-full text-left ${i === 0 ? "pt-0 pb-5 md:pb-6 desktop:pb-7 2xl:pb-7 3xl:pb-9 4xl:pb-12" : "py-5 md:py-6 desktop:py-7 2xl:py-7 3xl:py-9 4xl:py-12"} transition-opacity hover:opacity-75`}
                     aria-expanded={isOpen}
                   >
                     <h3
-                      className="font-aeonik text-lg md:text-xl 3xl:text-2xl font-semibold tracking-tight"
-                      style={{ color: INK }}
+                      className="font-aeonik text-lg md:text-xl desktop:text-2xl 2xl:text-2xl 3xl:text-3xl 4xl:text-5xl font-semibold tracking-tight transition-colors"
+                      style={{ color: isOpen ? "#2A9E9B" : INK }}
                     >
                       {item.title}
                     </h3>
@@ -115,7 +130,7 @@ export default function SMWFProgramHighlightsSection() {
                           className="overflow-hidden"
                         >
                           <p
-                            className="font-barlow text-sm md:text-base 3xl:text-lg leading-relaxed pt-3 md:pt-4 3xl:pt-6 pr-2 md:pr-6"
+                            className="font-barlow text-sm md:text-base desktop:text-lg 2xl:text-lg 3xl:text-xl 4xl:text-3xl leading-relaxed pt-3 md:pt-4 desktop:pt-5 2xl:pt-5 3xl:pt-6 4xl:pt-9 pr-2 md:pr-6 2xl:pr-8 4xl:pr-12"
                             style={{ color: "rgba(18,64,57,0.8)" }}
                           >
                             {item.body}

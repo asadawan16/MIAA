@@ -1,6 +1,5 @@
 import { motion } from "framer-motion"
-import { fadeInLeft, fadeInRight } from "../../../lib/motion"
-import { ArrowUpRight } from "lucide-react"
+import { fadeInLeft } from "../../../lib/motion"
 
 import iconCalendar from "../../../assets/images/Homepage/SMWF/icon-calendar.svg"
 import iconClock from "../../../assets/images/Homepage/SMWF/icon-clock.svg"
@@ -13,7 +12,12 @@ import g7 from "../../../assets/images/Homepage/SMWF/gallery/g7.jpg"
 const DETAILS = [
   { label: "18th April 2026",                       icon: iconCalendar },
   { label: "9:30am – 5:30pm",                       icon: iconClock },
-  { label: "Bryan Brown Theatre & Function Centre", icon: iconLocation, underline: true },
+  {
+    label: "Bryan Brown Theatre & Function\nCentre",
+    icon: iconLocation,
+    underline: true,
+    map: "Bryan Brown Theatre & Function Centre, 80 Rickard Rd, Bankstown NSW 2200",
+  },
 ]
 
 const BASE_IMAGES = [g1, g4, g7]
@@ -82,15 +86,7 @@ function DiagonalRibbon({
 
 function VerticalMarquee({ images, duration = 30 }) {
   return (
-    <div
-      className="relative overflow-hidden h-[340px] md:h-[400px] lg:h-[460px] 3xl:h-[600px]"
-      style={{
-        maskImage:
-          "linear-gradient(to bottom, transparent 0%, #000 5%, #000 95%, transparent 100%)",
-        WebkitMaskImage:
-          "linear-gradient(to bottom, transparent 0%, #000 5%, #000 95%, transparent 100%)",
-      }}
-    >
+    <div className="relative overflow-hidden h-[340px] md:h-[400px] lg:h-[460px] 3xl:h-[600px]">
       <motion.div
         className="flex flex-col gap-5 md:gap-6 3xl:gap-9"
         animate={{ y: ["-50%", "0%"] }}
@@ -118,7 +114,9 @@ export default function SMWFFestivalDaySection() {
       className="relative overflow-hidden"
       style={{ backgroundColor: "#124039" }}
     >
-      {/* Kufic pattern */}
+      {/* Kufic pattern — only behind the left info column; the carousel and
+          the ribbon banner area on the right stay plain dark green via a
+          horizontal mask that cuts off before the carousel. */}
       <div
         aria-hidden
         className="absolute inset-0 pointer-events-none opacity-40 mix-blend-screen"
@@ -126,6 +124,9 @@ export default function SMWFFestivalDaySection() {
           backgroundImage: `url(${patternKufic})`,
           backgroundSize: "auto 720px",
           backgroundRepeat: "repeat",
+          backgroundPosition: "-800px center",
+          maskImage: "linear-gradient(to right, #000 0%, #000 35%, transparent 40%)",
+          WebkitMaskImage: "linear-gradient(to right, #000 0%, #000 35%, transparent 40%)",
         }}
       />
 
@@ -160,15 +161,35 @@ export default function SMWFFestivalDaySection() {
                     alt=""
                     aria-hidden="true"
                     className="w-5 h-5 md:w-6 md:h-6 3xl:w-9 3xl:h-9 mt-1 flex-shrink-0"
-                    style={{ filter: "brightness(0) invert(1)" }}
                   />
-                  <span
-                    className={`font-barlow text-white text-base md:text-lg 3xl:text-2xl ${
-                      d.underline ? "underline underline-offset-4 decoration-1" : ""
-                    }`}
-                  >
-                    {d.label}
-                  </span>
+                  {d.map ? (
+                    <div className="relative group">
+                      <span className="font-barlow text-white text-base md:text-lg 3xl:text-2xl underline underline-offset-4 decoration-1 cursor-pointer whitespace-pre-line">
+                        {d.label}
+                      </span>
+                      {/* Google Maps preview — revealed on hover, opens upward
+                          so it isn't clipped by the section's overflow-hidden. */}
+                      <div className="absolute left-0 bottom-full mb-3 z-50 w-[300px] md:w-[360px] 3xl:w-[440px] opacity-0 invisible translate-y-1 transition-all duration-200 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0">
+                        <div className="overflow-hidden rounded-lg shadow-2xl ring-1 ring-black/10 bg-white">
+                          <iframe
+                            title={`Map — ${d.label}`}
+                            src={`https://www.google.com/maps?q=${encodeURIComponent(d.map)}&output=embed`}
+                            className="block w-full h-[220px] md:h-[260px] 3xl:h-[320px] border-0"
+                            loading="lazy"
+                            referrerPolicy="no-referrer-when-downgrade"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <span
+                      className={`font-barlow text-white text-base md:text-lg 3xl:text-2xl ${
+                        d.underline ? "underline underline-offset-4 decoration-1" : ""
+                      }`}
+                    >
+                      {d.label}
+                    </span>
+                  )}
                 </li>
               ))}
             </ul>
@@ -178,14 +199,10 @@ export default function SMWFFestivalDaySection() {
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               transition={{ type: "spring", stiffness: 400, damping: 20 }}
-              className="inline-flex items-center gap-2 px-7 md:px-8 3xl:px-12 py-3.5 md:py-4 3xl:py-6 font-aeonik text-xs md:text-sm 3xl:text-lg font-semibold tracking-[0.18em] uppercase rounded-md"
+              className="inline-flex items-center gap-2 px-7 md:px-8 3xl:px-12 py-3.5 md:py-4 3xl:py-6 font-aeonik text-xs md:text-sm 3xl:text-lg font-semibold tracking-[0.18em] uppercase rounded-none"
               style={{ backgroundColor: "#CBCE58", color: "#124039" }}
             >
               Download Full Programme
-              <ArrowUpRight
-                className="w-3.5 h-3.5 md:w-4 md:h-4 3xl:w-6 3xl:h-6"
-                strokeWidth={2.5}
-              />
             </motion.a>
           </motion.div>
 
@@ -193,12 +210,9 @@ export default function SMWFFestivalDaySection() {
               The wrapper just fills its column; the column itself enforces
               the 460/620 width above. On mobile, the column doesn't exist
               (1-col stack), so we cap and center the carousel manually. */}
-          <motion.div
-            {...fadeInRight}
-            className="w-full max-w-[440px] mx-auto lg:max-w-none lg:mx-0"
-          >
+          <div className="w-full max-w-[440px] mx-auto lg:max-w-none lg:mx-0">
             <VerticalMarquee images={MARQUEE_IMAGES} duration={30} />
-          </motion.div>
+          </div>
 
           {/* COLUMN 3 — empty spacer so the grid keeps its 3-column shape */}
           <div className="hidden lg:block" />
@@ -213,8 +227,8 @@ export default function SMWFFestivalDaySection() {
           bg="#4656CD"
           color="#FFFFFF"
           rotate={-30}
-          bottom="calc(50% - 12px)"
-          right="0px"
+          bottom="50%"
+          right="-48px"
           width="1100px"
           duration={40}
           reverse
@@ -225,8 +239,8 @@ export default function SMWFFestivalDaySection() {
           bg="#C15C45"
           color="#FFFFFF"
           rotate={30}
-          top="calc(50% - 12px)"
-          right="0px"
+          top="50%"
+          right="-48px"
           width="1100px"
           duration={40}
           reverse

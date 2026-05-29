@@ -45,8 +45,9 @@ export default function SMWFMarqueeBanner() {
         className="absolute inset-x-0 top-0 h-1/2 pointer-events-none opacity-40 mix-blend-screen"
         style={{
           backgroundImage: `url(${patternKufic})`,
-          backgroundSize: "auto 720px",
-          backgroundRepeat: "repeat",
+          backgroundSize: "100% auto",
+          backgroundRepeat: "repeat-y",
+          backgroundPosition: "center top",
         }}
       />
       {/* Bottom half — matches about section's cream */}
