@@ -39,7 +39,7 @@ export default function Navbar() {
     <>
       {/* Dotted divider at bottom of nav area */}
       <div
-        className="absolute top-20 md:top-24 3xl:top-28 left-6 md:left-10 lg:left-16 3xl:left-24 right-3 md:right-4 h-[2px] z-40 pointer-events-none"
+        className="absolute top-20 md:top-24 3xl:top-28 left-6 md:left-10 lg:left-16 3xl:left-24 right-4 sm:right-6 md:right-10 lg:right-16 3xl:right-24 h-[2px] z-40 pointer-events-none"
         style={{
           backgroundImage:
             "radial-gradient(circle, #6CA1AA50 0.09375rem, transparent 0.09375rem)",
@@ -48,7 +48,7 @@ export default function Navbar() {
       />
 
       {/* Top-of-page CTAs (Gala + Follow) — absolute so they scroll away with the page */}
-      <div className="absolute top-0 right-0 z-40 px-3 md:px-4 pointer-events-none">
+      <div className="absolute top-0 right-0 z-40 px-4 sm:px-6 md:px-10 lg:px-16 3xl:px-24 pointer-events-none">
         <div className="flex items-center justify-end h-20 md:h-24 3xl:h-28 gap-3 md:gap-5">
           {!location.pathname.startsWith("/gala-dinner") && (
             <MotionLink
@@ -75,7 +75,7 @@ export default function Navbar() {
       </div>
 
       {/* Hamburger — always sticky, sits in the same top-right corner */}
-      <div className="fixed top-0 right-0 z-50 px-3 md:px-4">
+      <div className="fixed top-0 right-0 z-50 px-4 sm:px-6 md:px-10 lg:px-16 3xl:px-24">
         <div className="flex items-center justify-end h-20 md:h-24 3xl:h-28">
           <button
             onClick={() => setMenuOpen(true)}

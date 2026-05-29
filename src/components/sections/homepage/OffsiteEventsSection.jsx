@@ -14,6 +14,17 @@ function slugify(s = "") {
     .replace(/^-+|-+$/g, "")
 }
 
+const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"]
+
+function formatDate(dateStr) {
+  if (!dateStr || dateStr === "TBA") return dateStr
+  const parts = dateStr.split(".")
+  if (parts.length !== 3) return dateStr
+  const [day, month, year] = parts
+  const monthName = MONTHS[parseInt(month, 10) - 1] || month
+  return `${parseInt(day, 10)} ${monthName} 20${year}`
+}
+
 import offsiteImg1 from "../../../assets/images/Homepage/Offsite program images/offsiteimg-01.png"
 import offsiteImg2 from "../../../assets/images/Homepage/Offsite program images/offsiteimg-02.png"
 import offsiteImg3 from "../../../assets/images/Homepage/Offsite program images/offsiteimg-03.png"
@@ -57,11 +68,11 @@ export default function OffsiteEventsSection() {
   const [hoveredPrev, setHoveredPrev] = useState(null)
 
   const { data: upcomingEvents } = useCMS(
-    () => api.events({ category: "homepage" }),
+    () => api.events({ category: "offsite" }),
     FALLBACK_EVENTS
   )
   const { data: previousEvents } = useCMS(
-    () => api.previousEvents({ surface: "homepage" }),
+    () => api.previousEvents({ surface: "offsite" }),
     FALLBACK_PREVIOUS
   )
 
@@ -82,41 +93,53 @@ export default function OffsiteEventsSection() {
         {/* Upcoming event cards */}
         <motion.div
           {...staggerContainer}
-          className="grid grid-cols-1 md:grid-cols-3 md:divide-x md:divide-white/15 gap-y-6 md:gap-y-0 mb-20"
+          className="grid grid-cols-1 md:grid-cols-3 gap-y-10 md:gap-y-12 mb-20"
         >
           {upcomingEvents.map((event, i) => {
             const slug = event.slug || event._id || slugify(event.title)
+            const showDivider = (i + 1) % 3 !== 0 && i !== upcomingEvents.length - 1
             return (
               <motion.div
                 key={event._id || i}
                 {...staggerItem}
-                className="group md:px-6"
+                className={`group md:px-6 ${showDivider ? "md:border-r md:border-white/15" : ""}`}
               >
                 <Link to={`/event/${slug}`} className="block">
-                  {/* Date & location — right-aligned */}
-                  <div className="mb-4 text-right">
-                    <p className="text-3xl md:text-[2.125rem] 3xl:text-[2.6rem] font-semibold tracking-wide text-[#D0A270]" >
-                      {event.date}
+                  {/* Date & location */}
+                  <div className="mb-4">
+                    <p className="text-2xl md:text-3xl 3xl:text-[2.4rem] tracking-wide text-[#D0A270] font-medium">
+                      {formatDate(event.date)}
                     </p>
-                    <p className="text-[0.6875rem] 3xl:text-sm text-white mt-1 tracking-wide italic">
+                    <p className="text-[0.6875rem] 3xl:text-sm text-white/70 mt-1.5 tracking-wide font-medium">
                       {event.location}
                     </p>
                   </div>
 
                   {/* Image */}
-                  <div className="aspect-[4/3] overflow-hidden rounded-lg mb-5">
-                    <img
-                      src={event.imageUrl || event.image}
-                      alt={event.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                  </div>
+                  {(event.imageUrl || event.image) ? (
+                    <div className="h-48 md:h-56 3xl:h-72 overflow-hidden rounded-xl mb-5 isolate">
+                      <img
+                        src={event.imageUrl || event.image}
+                        alt={event.title}
+                        className="w-full h-full object-cover rounded-xl group-hover:scale-105 transition-transform duration-500"
+                      />
+                    </div>
+                  ) : (
+                    <div className="aspect-[4/3] overflow-hidden rounded-xl mb-5 bg-primary/50 flex items-center justify-center">
+                      <span className="text-accent-cream/30 text-sm uppercase tracking-widest">Coming Soon</span>
+                    </div>
+                  )}
 
-                  {/* Text */}
-                  <h3 className="text-[0.9375rem] 3xl:text-lg font-semibold text-white mb-2 group-hover:text-accent-caramel transition-colors">
+                  {/* Title */}
+                  <h3 className="text-base md:text-lg 3xl:text-xl font-bold text-white mb-2 group-hover:text-accent-caramel transition-colors leading-tight">
                     {event.title}
                   </h3>
-                  <p className="text-[0.8125rem] 3xl:text-base text-white/90 leading-relaxed">
+                  {event.subtitle && (
+                    <p className="text-[0.8125rem] 3xl:text-base text-white leading-relaxed mb-2">
+                      {event.subtitle}
+                    </p>
+                  )}
+                  <p className="text-[0.8125rem] 3xl:text-base text-white/65 leading-relaxed">
                     {event.description}
                   </p>
                 </Link>

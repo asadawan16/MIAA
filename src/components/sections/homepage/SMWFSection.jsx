@@ -83,12 +83,15 @@ export default function SMWFSection() {
             {...fadeInRight}
             className="relative min-h-[480px] md:min-h-[33.75rem] 3xl:min-h-[35vw] rounded-lg overflow-hidden"
           >
-            {/* Teal base */}
-            <div className="absolute inset-0 bg-primary" />
-            {/* Pattern on top */}
-            <div className="absolute inset-0">
-              <img src={bgPattern} alt="" className="w-full h-full object-cover" />
-            </div>
+            {/* Teal base + repeating pattern */}
+            <div
+              className="absolute inset-0 bg-primary"
+              style={{
+                backgroundImage: `url(${bgPattern})`,
+                backgroundSize: "100% auto",
+                backgroundRepeat: "repeat",
+              }}
+            />
 
             {/* Vertical auto-carousel — entire column rotated diagonally */}
             <div

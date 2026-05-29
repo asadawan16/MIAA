@@ -1,10 +1,36 @@
+import { useRef } from "react"
 import { motion } from "framer-motion"
+import gsap from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { useGSAP } from "@gsap/react"
 import heroImg from "../../../assets/images/About/about-hero.png"
 import floatingOrnament from "../../../assets/images/About/float1.png"
 
+gsap.registerPlugin(ScrollTrigger)
+
 export default function AboutHeroSection() {
+  const sectionRef = useRef(null)
+  const imgRef = useRef(null)
+
+  useGSAP(() => {
+    gsap.fromTo(
+      imgRef.current,
+      { yPercent: -8 },
+      {
+        yPercent: 8,
+        ease: "none",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true,
+        },
+      }
+    )
+  }, { scope: sectionRef })
+
   return (
-    <section className="relative bg-bg-deep overflow-hidden">
+    <section ref={sectionRef} className="relative bg-bg-deep overflow-hidden">
       {/* Dotted divider under navbar — matches the nav overlay style */}
       <div
         className="absolute top-20 md:top-24 3xl:top-28 left-4 sm:left-6 md:left-10 lg:left-16 3xl:left-24 right-4 sm:right-6 md:right-10 lg:right-16 h-[2px] pointer-events-none"
@@ -39,10 +65,11 @@ export default function AboutHeroSection() {
         >
           <div className="w-full h-[70vh] sm:h-[65vh] md:h-[26.25rem] lg:h-[32.5rem] 3xl:h-[45vh] overflow-hidden">
             <img
+              ref={imgRef}
               src={heroImg}
               alt="Audience at MIAA event"
-              className="w-full object-cover object-center scale-150 md:scale-100 block"
-              style={{ height: "100%" }}
+              className="w-full object-cover object-center scale-150 md:scale-[1.2] block will-change-transform"
+              style={{ height: "120%" }}
             />
           </div>
         </motion.div>
